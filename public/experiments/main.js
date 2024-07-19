@@ -56,7 +56,7 @@ for (let token of tokens) {
     if (!validateToken(token)) {
         x += 1;
     } else {
-        console.log("Verified token: " + token);
+        console.log(token);
     }
 }
 

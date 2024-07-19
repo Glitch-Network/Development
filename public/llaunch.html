@@ -122,6 +122,7 @@
         document.getElementById("uv-search-engine").value = search_engine;
         
         // Proxy bridge logic
+        try{
         if (premium_status === "true") {
             if (proxy_bridge === "Glitch EU Proxy") {
                 bridge = "https://v6-out.onrender.com/llaunch.html?url=";
@@ -143,7 +144,7 @@
             }
             
             // Redirect to bridge URL if conditions are met
-            if (getURLParameter("bridge") !== "1" && getURLParameter("url") && !getURLParameter("url").includes(bridge)) {
+            if (getURLParameter("bridge") !== "1" && getURLParameter("url") && !getURLParameter("url").includes(bridge) && bridge != "None (Built-in only)") {
               xurl=getURLParameter("url")
               if (!xurl.includes("https://")){
                 xurl = "https://" + xurl
@@ -155,7 +156,10 @@
         } else {
             console.log("no bridge 4 u");
         }
-        
+      }
+      catch{
+        alert("Failed to connect to bridge.")
+      }
       
 
       </script>
@@ -187,7 +191,7 @@
 
    
 });
-
+try{
 if (getURLParameter("url") != "") {
   if (!localStorage.getItem("history")) {
         localStorage.setItem("history", "");
@@ -206,7 +210,7 @@ if (getURLParameter("url") != "") {
       window.location = "./llaunch.html?url=https://onion.torry.io/index.php?q=" + url.replace(".onion","").replace("http://","").replace("https://","")
     }
   }
-
+}catch{}
 
 
   </script>
