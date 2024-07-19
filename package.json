@@ -1,7 +1,7 @@
 {
   "name": "glitch",
   "version": "1.0.0",
-  "description": "Glitch || UV ",
+  "description": "Glitch || UV",
   "type": "module",
   "engines": {
     "npm": ">=7.0.0",
@@ -19,7 +19,7 @@
   "author": "",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@mercuryworkshop/bare-mux": "^1.0.5",
+    "@mercuryworkshop/bare-mux": "1.0.4",
     "@mercuryworkshop/epoxy-transport": "^1.1.0",
     "@titaniumnetwork-dev/ultraviolet": "^3.0.0",
     "@rollup/plugin-node-resolve": "^13.0.6",
