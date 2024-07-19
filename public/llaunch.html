@@ -64,10 +64,7 @@
   <div id="root" style="position: fixed; left: 5px; background-color: white; opacity: 0.5; top: 15px;">
 
   </div>
-  <div id="loading-div">
-      <iframe style="height: calc(100vh + 1px) ;width: calc(100vw + 1px );" src="loading.html"></iframe>
 
-    </div>
     
 
     <form id="uv-form" class="flex-center">
@@ -77,41 +74,90 @@
         type="hidden"
       />
       <script>
-       search_engine_prefrence = localStorage.getItem("search_engine");
-                        if (search_engine_prefrence == null) {
-                            search_engine = "https://www.google.com/search?q=";
-                        }
-                        if (search_engine_prefrence == "Google") {
-                            search_engine = "https://www.google.com/search?q=";
-                        }
-                        if (search_engine_prefrence == "DuckDuckGo") {
-                            search_engine = "https://duckduckgo.com/?q=";
-                        }
-                        if (search_engine_prefrence == "Bing") {
-                            search_engine = "https://www.bing.com/search?q=";
-                        }
-                        if (search_engine_prefrence == "Yahoo") {
-                            search_engine = "https://search.yahoo.com/search?p=";
-                        }
-                        if (search_engine_prefrence ==  "Torry"){
-                            search_engine = "https://www.torry.io/search/?type=oniontab&searchby_type=1&page=1&q="
-                        }
+        // Variable declarations
+        var search_engine_prefrence = localStorage.getItem("search_engine");
+        var search_engine = "https://www.google.com/search?q="; // Default search engine
+        var proxy_bridge = localStorage.getItem("proxy");
+        var premium_status = localStorage.getItem("premium");
+        var bridge = "";
+        
+        // Set search engine based on preference
+        if (search_engine_prefrence) {
+            if (search_engine_prefrence === "Google") {
+                search_engine = "https://www.google.com/search?q=";
+            } else if (search_engine_prefrence === "DuckDuckGo") {
+                search_engine = "https://duckduckgo.com/?q=";
+            } else if (search_engine_prefrence === "Bing") {
+                search_engine = "https://www.bing.com/search?q=";
+            } else if (search_engine_prefrence === "Yahoo") {
+                search_engine = "https://search.yahoo.com/search?p=";
+            } else if (search_engine_prefrence === "Torry") {
+                if (premium_status === "false") {
+                    search_engine = "https://www.google.com/search?q=";
+                } else {
+                    search_engine = "https://www.torry.io/search/?type=oniontab&searchby_type=1&page=1&q=";
+                }
+            } else if (search_engine_prefrence === "Startpage") {
+                if (premium_status === "false") {
+                    search_engine = "https://www.google.com/search?q=";
+                } else {
+                    search_engine = "https://www.startpage.com/do/search?query=";
+                }
+            } else if (search_engine_prefrence === "Qwant") {
+                if (premium_status === "false") {
+                    search_engine = "https://www.google.com/search?q=";
+                } else {
+                    search_engine = "https://www.qwant.com/?t=web&q=";
+                }
+            } else if (search_engine_prefrence === "Brave") {
+                if (premium_status === "false") {
+                    search_engine = "https://www.google.com/search?q=";
+                } else {
+                    search_engine = "https://search.brave.com/search?q=";
+                }
+            }
+        }
+        
+        // Update search engine input on the page
+        document.getElementById("uv-search-engine").value = search_engine;
+        
+        // Proxy bridge logic
+        if (premium_status === "true") {
+            if (proxy_bridge === "Glitch EU Proxy") {
+                bridge = "https://v6-out.onrender.com/llaunch.html?url=";
+            } else if (proxy_bridge === "12FT") {
+                bridge = "https://12ft.io/";
+            } else if (proxy_bridge === "Archive.org/Wayback Machine") {
+                bridge = "https://web.archive.org/";
+            } else if (proxy_bridge === "Google Cache") {
+                bridge = "https://webcache.googleusercontent.com/search?q=cache:";
+            }
+            
+            function getURLParameter(name) {
+                var results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
+                if (results == null) {
+                    return null;
+                } else {
+                    return decodeURIComponent(results[1]) || 0;
+                }
+            }
+            
+            // Redirect to bridge URL if conditions are met
+            if (getURLParameter("bridge") !== "1" && getURLParameter("url") && !getURLParameter("url").includes(bridge)) {
+              xurl=getURLParameter("url")
+              if (!xurl.includes("https://")){
+                xurl = "https://" + xurl
+              }
+              window.location.href = "llaunch.html?bridge=1&url=" + bridge + xurl
+            } else {
+                console.log("bridge 4 u");
+            }
+        } else {
+            console.log("no bridge 4 u");
+        }
+        
+      
 
-                        if ("search_engine_prefrence" == "Startpage"){
-                            search_engine="https://www.startpage.com/do/search?query="
-                        }
-
-                        if ("search_engine_prefrence" == "Qwant"){
-                            search_engine="www.qwant.com/?t=web&q="
-                        }
-
-                        if ("search_engine_prefrence" == "Brave"){
-                            search_engine="https://search.brave.com/search?q=test"
-                        }
-
-
-
-                        document.getElementById("uv-search-engine").value = search_engine;
       </script>
       <input style="display: none;" id="uv-address" type="text" placeholder="Search the web freely" />
     </form>
@@ -161,12 +207,6 @@ if (getURLParameter("url") != "") {
     }
   }
 
- x = setInterval(function(){
-    if (document.getElementById("uv-frame").contentDocument.body.innerHTML != "") {
-      clearInterval(x);
-      document.getElementById("loading-div").remove()
-    }
-  })
 
 
   </script>

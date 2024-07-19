@@ -298,70 +298,62 @@
         </script>
 
   
-        <script>document.addEventListener("DOMContentLoaded", function() {
-            const tabs = ["m1", "m2", "extras/chatroom", "settings", "extras/usekey"];
-            const mainFrame = document.getElementById("main_frame");
-            const arrow = document.getElementById("arrow");
-            const arrow1 = document.getElementById("arrow1");
-            let current_tab = 0;
-        
-            function updateTab() {
-                mainFrame.src = "./" + tabs[current_tab] + ".html";
-            }
-        
-            function updateArrows() {
-                arrow.style.display = current_tab > 0 ? "block" : "none";
-                arrow1.style.display = current_tab < tabs.length - 1 ? "block" : "none";
-            }
-        
-            arrow.addEventListener("click", function() {
-                if (current_tab > 0) {
-                    current_tab -= 1;
-                    updateTab();
-                }
-                updateArrows();
-            });
-        
-            arrow1.addEventListener("click", function() {
-                if (current_tab < tabs.length - 1) {
-                    current_tab += 1;
-                    updateTab();
-                }
-                updateArrows();
-            });
-        
-            // Initialize the tab and arrows on page load
-            updateTab();
-            updateArrows();
-        
-            setInterval(() => {
-                // hide arrows if in_bounds is false
-                if (localStorage.getItem("in_bounds") == "0") {
-                    arrow.style.display = "none";
-                    arrow1.style.display = "none";
-        
-                    // hide tools 
-                    // document.getElementById("chatbot_button").style.display = "none";
-                    document.getElementById("icons").style.display = "none";
-                }
-                if (localStorage.getItem("in_bounds") == "1" || window.top == window.self) {
-                    // show tools
-                    // document.getElementById("chatbot_button").style.display = "block";
-                    document.getElementById("icons").style.display = "block";
-                    if (current_tab != tabs.length - 1) {
-                        arrow1.style.display = "block";
-                    } else {
-                        arrow1.style.display = "none";
-                        arrow.style.display = "block";
-                    }
-                }
-        
-                if (localStorage.getItem("main_pending_reset") == "1") {
-                    localStorage.setItem("main_pending_reset", "0");
-                    window.location.reload();
-                }
-            }, 100);
-        });
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+    const tabs = ["m1", "m2", "extras/chatroom", "settings", "extras/usekey"];
+    const mainFrame = document.getElementById("main_frame");
+    const arrow = document.getElementById("arrow");
+    const arrow1 = document.getElementById("arrow1");
+    let current_tab = 0;
+
+    function updateTab() {
+        mainFrame.src = "./" + tabs[current_tab] + ".html";
+    }
+
+    function updateArrows() {
+        arrow.style.display = "block";  // Always show arrows for looping
+        arrow1.style.display = "block";
+    }
+
+    arrow.addEventListener("click", function() {
+        current_tab = (current_tab - 1 + tabs.length) % tabs.length;  // Loop backwards
+        updateTab();
+        updateArrows();
+    });
+
+    arrow1.addEventListener("click", function() {
+        current_tab = (current_tab + 1) % tabs.length;  // Loop forwards
+        updateTab();
+        updateArrows();
+    });
+
+    // Initialize the tab and arrows on page load
+    updateTab();
+    updateArrows();
+
+    setInterval(() => {
+        // hide arrows if in_bounds is false
+        if (localStorage.getItem("in_bounds") == "0") {
+            arrow.style.display = "none";
+            arrow1.style.display = "none";
+
+            // hide tools 
+            document.getElementById("icons").style.display = "none";
+        }
+        if (localStorage.getItem("in_bounds") == "1" || window.top == window.self) {
+            // show tools
+            document.getElementById("icons").style.display = "block";
+            arrow.style.display = "block";
+            arrow1.style.display = "block";
+        }
+
+        if (localStorage.getItem("main_pending_reset") == "1") {
+            localStorage.setItem("main_pending_reset", "0");
+            window.location.reload();
+        }
+    }, 100);
+});
+
         
 
             function showChatbot() {
