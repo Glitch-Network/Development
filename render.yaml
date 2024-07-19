@@ -2,9 +2,11 @@ services:
 - type: web
   name: v6
   runtime: node
-  region: oregon
+  repo: https://github.com/Glitch-Network/v6
+  branch: main
   plan: free
+  region: oregon
   buildCommand: yarn
-  startCommand: npm start
+  startCommand: npm run start
   rootDir: ./
-version: "6"
+version: "1"
