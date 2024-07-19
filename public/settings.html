@@ -75,14 +75,16 @@
         
         <h4>Search engine</h4>
         <select id="engine">
-            <option value="Google">Google (default)</option>
+            <option value="Google" selected>Google (default)</option>
             <option value="DuckDuckGo">DuckDuckGo</option>
             <option value="Bing">Bing</option>
             <option value="Yahoo">Yahoo</option>
+            <div id="premium_search"></div>
+            
         </select>
         <h4>Themes</h4>
         <select id="theme">
-            <option value="void">Dark (default)</option>
+            <option value="void" selected>Dark (default)</option>
             <option value="dark">Space</option>
             <option value="light">Light</option>
             <option value="forest">Forest</option>
@@ -97,11 +99,30 @@
         <input type="file" id="fileinput" style="display: none;">
         <button style="display: none;" id="filebtn">Load Image</button>
         <hr id="theme_div" style="display: none;">
-        <center><button id="ai" style="display: none;">Toggle Anti-Url Steal/Anti Teacher A.I</button></center>
+        <center>
+            <div id="second_proxy" style="display: none;">
+                <h4>Second Proxy</h4>
+                <p>Go through two proxies to be even more secure. <br>It's reccomended to use a Glitch proxy, if you can't connect to them try using a non-glitch proxy. Non-Glitch proxy's may not have sites working as well. <br> <p style="display:inline;color: red;">The options in red are NOT proxys, though they act simular.</p></p>
+                <select id="proxy">
+                    <option value="none" selected>None (Built-in only)</option>
+                    <option value="12ft">12FT</option>
+                    <option value="geu">Glitch EU Proxy</option>
+                    <option value="archive" style="color: red;">Archive.org/Wayback Machine</option>
+                    
+                    <option value="google" style="color: red;">Google Cache</option>
+
+                </select>
+            <hr>
+            </div>
         <hr id="ai_div" style="display: none;">
         <button id="ads">Toggle ADs</button>
+
         <script>
             document.addEventListener("DOMContentLoaded", function() {
+                if (localStorage.getItem("premium") == "true"){
+                    document.getElementById("engine").innerHTML = document.getElementById("engine").innerHTML + `<option value="torry">Torry</option>\n<option value="Torry">Startpage</option>\n<option value="Qwant">Qwant</option>\n<option value="Brave">Brave Search</option>`
+                    document.getElementById("second_proxy").style.display = "block"
+                }
                 if (localStorage.getItem("hide_ad") == "1") {
                     document.getElementById("ads").innerHTML = "Show ADs"
                 }

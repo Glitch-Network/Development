@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+    <link rel="stylesheet" href="stars.css">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-278K4F012J"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-278K4F012J');
+    </script>
+    <style>
+        body {
+            /* background-color: #202020; */
+            background-color: transparent;
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: auto;
+        }
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin: 10px 0;
+        }
+        button, select {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover, button:focus {
+            background-color: #555;
+        }
+        select {
+            width: 100%;
+            background-color: #444;
+            color: white;
+        }
+        hr {
+            border-color: #555;
+            margin: 20px 0;
+        }
+        input[type="file"] {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Use Key</h1>
+
+        
+        <hr>
+        <br>
+
+        <div id="keyDiv">
+        
+        <input id="key" style="width: 70%; height: 25px; border-radius: 15px; padding: 10px;" type="text" placeholder="Input your key">
+        <br> 
+
+        <button id="useKey" onclick="useKey()">Use Key</button>
+
+        </div>
+
+        <div id="options" style="display: none;">
+            <h2 style="display: inline;">You have <h2 style="display: inline; color: rgb(141, 7, 141);">Premium</h2></h2>
+            <br>
+            <button onclick="toggle('forced_cloak')">Force Cloak</button>
+            <br>
+            <br>
+            
+            <br>
+           <!-- <button onclick="toggle('tor')">Toggle TOR access</button> -->
+           
+        </div>
+       
+
+       
+        <script>
+
+            /*
+                localStorage.setItem("auto-host", config["auto-host"]);
+                localStorage.setItem("ai_teacher_detection", config["ai_teacher_detection"]);
+                localStorage.setItem("themes", config["themes"]);
+                localStorage.setItem("resolver_default", config["resolver_default"]);
+                localStorage.setItem("change_discord_inv_url", config["change_discord_inv_url"]);
+
+                */
+
+                function toggle(target){
+                    // toggle the local storage key
+                    if (localStorage.getItem(target) == "true"){
+                        localStorage.setItem(target, "false");
+                    } else {
+                        localStorage.setItem(target, "true");
+                    }
+                }
+
+            
+                function validateToken(token) {
+    const invalidNumbers = ["1", "3", "5", "7", "9", "0"];
+    console.log("num");
+
+    for (let number of invalidNumbers) {
+        if (token.split("tkn_exp")[0].includes(number)) {
+            return false;
+        }
+    }
+
+    console.log("length");
+
+    const validLengths = [25, 28, 35];
+    if (!validLengths.includes(token.split("tkn_exp")[0].length)) {
+        return false;
+    }
+
+    console.log("doyouknowwhatiknow");
+
+    if (token.includes("cyn") && token.includes("tkn")) {
+        if (token.includes("tkn_exp")) {
+            const currentYear = new Date().getFullYear();
+            const decadePrefix = currentYear.toString().substring(0, 3);
+
+            let tokenDatePart = token.split("tkn_exp")[1];
+            let day, month, year;
+
+            if (tokenDatePart.startsWith("d2")) {
+                day = tokenDatePart.substring(2, 4); // Corrected to 2, 4 to get the correct day
+                month = tokenDatePart.substring(4, 6); // Corrected to 4, 6 to get the correct month
+                year = tokenDatePart.substring(6, 7); // Corrected to 6, 7 to get the correct year
+            } else {
+                day = tokenDatePart.substring(0, 2); // Corrected to 0, 2 to get the correct day
+                month = tokenDatePart.substring(2, 4); // Corrected to 2, 4 to get the correct month
+                year = tokenDatePart.substring(4, 5); // Corrected to 4, 5 to get the correct year
+            }
+
+            const fullYear = decadePrefix + year;
+            console.log(`Parsed Date: Year: ${fullYear}, Month: ${month}, Day: ${day}`);
+
+            const date = new Date(`${fullYear}-${month}-${day}`);
+            const currentDate = new Date();
+
+            console.log(`Parsed Date Object: ${date}`);
+            console.log(`Current Date Object: ${currentDate}`);
+
+            if (currentDate > date) {
+                console.log(currentDate + " 2: " + date);
+                console.log("false date");
+                return false;
+            }
+
+
+            return true;
+        }
+        alert("It appears this deployment of Glitch is using a V1 token! Refer to the Discord to get a new key!");
+        return false;
+    } else {
+        return false;
+    }
+}
+
+
+function verify_dat_sheet(){
+            token = document.getElementById("key").value
+            // Check the token
+            if (validateToken(token)) {
+
+                localStorage.setItem("key", token) // for future reference/checking
+                localStorage.setItem("premium", "true");
+                
+                document.getElementById("keyDiv").style.display = "none";
+                    document.getElementById("useKey").style.display = "none";
+                    document.getElementById("options").style.display = "block";
+            } else {
+              if (token != ""){
+                alert("Invalid premium key");
+              }
+              localStorage.setItem("premium", "false");
+            }
+        }
+
+
+        function useKey() {
+            token = document.getElementById("key").value
+
+            verify_dat_sheet();
+
+            if (localStorage.getItem("premium") == "true") {
+
+
+
+            }
+            
+        }
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+                if (localStorage.getItem("key") != null) {
+                    token = localStorage.getItem("key")
+
+                    if (!validateToken(token)) {
+                        localStorage.setItem("key", "")
+                        localStorage.setItem("premium", "false")
+                        alert("Your key is expired! Please use a new key!")
+
+                }
+            }
+                if (localStorage.getItem("premium") == "true") {
+                    document.getElementById("keyDiv").style.display = "none";
+                    document.getElementById("useKey").style.display = "none";
+                    document.getElementById("options").style.display = "block";
+                }
+
+            }
+        )
+
+
+
+        </script>
+
+    </div>
+
+</body>
+</html>

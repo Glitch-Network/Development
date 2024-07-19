@@ -6,7 +6,7 @@
             if (localStorage.getItem("in_bounds") == "0" && localStorage.getItem("new_instance") == "0") {
                 localStorage.setItem("new_instance","0")
                 // if in iframe
-                if (window.top !== window.self) {
+                if (window.top == window.self) {
                     
                 window.location.href = "./m1.html";
                 
@@ -15,6 +15,9 @@
             if (localStorage.getItem("new_instance") == null) {
                 window.location.href = "./";
             }
+
+            localStorage.setItem("new_instance","0")
+            localStorage.setItem("in_bounds", "1")
 
         </script>
         <meta charset="utf-8" />
@@ -212,24 +215,79 @@
 
 
         </script>
+       
+
         <div class="icons" id="icons">
-            <img id="discord" onclick="window.location='https://discord.gg/VkSpVuGyY6'" style="width: 50px; position: fixed; bottom: 15px; left: 15px;" src="./assets/images/discord.png">
-            <img onclick="miniplayer()" style="bottom: 0px; width: 60px; position: fixed; bottom: 15px; right: 135px;"  src="./assets/images/miniplayer.png">
-            <img onclick="window.location='./download.html'"   style="bottom: 0px; width: 60px; position: fixed; bottom: 15px; right: 70px;" src="./assets/images/download.png">
-            <h3 onclick="window.location='./contributors.html'" style="position: fixed; bottom: 2px; right: 200px;">Contributers!</h3>
+
+                 <div style="font-size: 55px; position: fixed; cursor: pointer; bottom: 15px; right: 15px; user-select: none;" onclick="if (document.getElementById('iconMenu').style.display === 'none') {document.getElementById('iconMenu').style.display = 'block';} else {document.getElementById('iconMenu').style.display = 'none';}">
+                =
+             </div>
+   
+              <style>
+        #iconMenu {
+            display: none;
+            position: fixed;
+            bottom: 70px;
+            z-index: 15;
+            right: 15px; 
+            background-color: white;
+            color: black;
+            border-radius: 15px;
+            cursor: pointer;
+            width: 200px;
+            height: 120px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-wrap: wrap;
+            padding: 5px;
+        }
+
+        #iconMenu table {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap:wrap-reverse;
+            justify-content: center;
+        }
+
+        #iconMenu td {
+            width: 50%;
+            height: 50%;
+            text-align: center;
+            vertical-align: middle;
+            user-select: none;
+            font-size: 15px;
+            padding: 10px;
+            color: black;
+            box-sizing: border-box;
+            background-color: azure;
+            
+        }
+    </style>
+            <div id="iconMenu" style="display: none;">
+        <table >
+            <tr>
+                <td onclick="window.location='https://discord.gg/VkSpVuGyY6'" id="discord">Discord!</td>
+                <td onclick="window.location='./download.html'" id="download">Download!</td>
+            </tr>
+            <tr>
+                <td onclick="showChatbot()" id="chatbot">Our Chatbot!</td>
+                <td onclick="miniplayer()" id="miniplayer">Miniplayer!</td>
+            </tr>
+        </table>
+    </div>
+
+    
         </div>
 
         <div id="chatbot_frame" class="chatbot-frame" onclick="window.location='./extras/chatbot.html'">
             <iframe id="frame1" src="./proxii_ai_chatbot"></iframe>
         </div>
-        <div id="chatbot_button" class="chatbot-button" onclick="showChatbot()">
-            <div style="font-size: 25px;">✨</div>
-        </div>
+
 
         <script src="scripts/theme.js"></script>
         <script src="scripts/cursor.js"></script>
         <script src="scripts/autohost.js"></script>
-        <script src="scripts/bgmusic.js"></script>
         <script src="ai.js"></script>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-278K4F012J"></script>
         <script>
@@ -240,75 +298,71 @@
         </script>
 
   
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const tabs = ["m1", "m2","extras/chatroom","settings"];
-                const mainFrame = document.getElementById("main_frame");
-                const arrow = document.getElementById("arrow");
-                const arrow1 = document.getElementById("arrow1");
-                let current_tab = 0;
-
-                function updateTab() {
-                    document.getElementById("main_frame").src = "./" + tabs[current_tab] + ".html";
+        <script>document.addEventListener("DOMContentLoaded", function() {
+            const tabs = ["m1", "m2", "extras/chatroom", "settings", "extras/usekey"];
+            const mainFrame = document.getElementById("main_frame");
+            const arrow = document.getElementById("arrow");
+            const arrow1 = document.getElementById("arrow1");
+            let current_tab = 0;
+        
+            function updateTab() {
+                mainFrame.src = "./" + tabs[current_tab] + ".html";
+            }
+        
+            function updateArrows() {
+                arrow.style.display = current_tab > 0 ? "block" : "none";
+                arrow1.style.display = current_tab < tabs.length - 1 ? "block" : "none";
+            }
+        
+            arrow.addEventListener("click", function() {
+                if (current_tab > 0) {
+                    current_tab -= 1;
+                    updateTab();
                 }
-
-                function updateArrows() {
-                    document.getElementById("arrow").style.display = current_tab > 0 ? "block" : "none";
-                    document.getElementById("arrow1").style.display = current_tab < tabs.length - 1 ? "block" : "none";
-                }
-
-                document.getElementById("arrow").addEventListener("click", function() {
-                    if (current_tab > 0) {
-                        current_tab -= 1;
-                        updateTab();
-                    }
-                    updateArrows();
-                });
-
-                document.getElementById("arrow1").addEventListener("click", function() {
-                    if (current_tab < tabs.length - 1) {
-                        current_tab += 1;
-                        updateTab();
-                    }
-                    updateArrows();
-                });
-
-                // Initialize the tab and arrows on page load
-                updateTab();
                 updateArrows();
-                setInterval(() => {
-
-                    // hide arrows if in_bounds is false
-                    if (localStorage.getItem("in_bounds") == "0") {
-                        document.getElementById("arrow").style.display = "none";
-                        document.getElementById("arrow1").style.display = "none";
-
-                        // hide tools 
-                        document.getElementById("chatbot_button").style.display = "none";
-                        document.getElementById("icons").style.display = "none";
-                    }
-                    else {
-                        // show tools
-                        document.getElementById("chatbot_button").style.display = "block";
-                        document.getElementById("icons").style.display = "block";
-                        if (current_tab != tabs.length - 1) {
-                            
-                        
-                        document.getElementById("arrow1").style.display = "block";
-                    }
-                    else{
-                        document.getElementById("arrow1").style.display = "none";
-                        document.getElementById("arrow").style.display = "block";
-                    }
-                    }
-
-                    if (localStorage.getItem("main_pending_reset") == "1") {
-                        localStorage.setItem("main_pending_reset", "0");
-                        window.location.reload();
-                    }
-                }, 100);
-
             });
+        
+            arrow1.addEventListener("click", function() {
+                if (current_tab < tabs.length - 1) {
+                    current_tab += 1;
+                    updateTab();
+                }
+                updateArrows();
+            });
+        
+            // Initialize the tab and arrows on page load
+            updateTab();
+            updateArrows();
+        
+            setInterval(() => {
+                // hide arrows if in_bounds is false
+                if (localStorage.getItem("in_bounds") == "0") {
+                    arrow.style.display = "none";
+                    arrow1.style.display = "none";
+        
+                    // hide tools 
+                    // document.getElementById("chatbot_button").style.display = "none";
+                    document.getElementById("icons").style.display = "none";
+                }
+                if (localStorage.getItem("in_bounds") == "1" || window.top == window.self) {
+                    // show tools
+                    // document.getElementById("chatbot_button").style.display = "block";
+                    document.getElementById("icons").style.display = "block";
+                    if (current_tab != tabs.length - 1) {
+                        arrow1.style.display = "block";
+                    } else {
+                        arrow1.style.display = "none";
+                        arrow.style.display = "block";
+                    }
+                }
+        
+                if (localStorage.getItem("main_pending_reset") == "1") {
+                    localStorage.setItem("main_pending_reset", "0");
+                    window.location.reload();
+                }
+            }, 100);
+        });
+        
 
             function showChatbot() {
                 var chatbotFrame = document.getElementById('chatbot_frame');

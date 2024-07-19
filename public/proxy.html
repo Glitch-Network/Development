@@ -2,9 +2,6 @@
 <html>
     <head>
         <script>
-            if (localStorage.getItem("in_bounds") == 0 && localStorage.getItem("new_instance") == 0) {
-                window.location.href = "./m1";
-            }
         </script>
         <meta charset="utf-8" />
         <title>Glitch</title>
@@ -26,13 +23,15 @@
             .content {
                 display: flex;
                 flex-direction: column;
+                width: 70%;
                 align-items: center;
                 justify-content: center;
                 text-align: center;
+                margin-top: 50%;
             }
             
             .input {
-                width: 300px;
+                width: 70%;
                 height: 50px;
                 font-size: 20px;
                 background-color: #131313;
@@ -92,11 +91,14 @@
             <iframe id="frame"></iframe>
         </div>
         <div class="main"></div> <!-- Stars effect -->
+        <center>
         <div class="content">
-            <input class="input" placeholder="https://google.com" id="input">
-            <button id="fallback" class="button" onclick="window.location.href = './main.html'">Go back to home</button>
+            <input class="input" placeholder="Type something :D" id="input">
+            <button id="fallback" class="button" onclick="window.location.href = './m1.html'">Go back to home</button>
             
         </div>
+        <center>
+
 
         <script>
 
@@ -105,7 +107,7 @@
             document.addEventListener("DOMContentLoaded", function() {
 
                 document.getElementById("fallback").addEventListener("click",function(){
-                    window.location.href = './main.html'
+                    window.location.href = './m1.html'
                 })
                 search_engine_prefrence = localStorage.getItem("search_engine");
                         if (search_engine_prefrence == null) {
@@ -123,20 +125,55 @@
                         if (search_engine_prefrence == "Yahoo") {
                             search_engine = "https://search.yahoo.com/search?p=";
                         }
+                        if (search_engine_prefrence ==  "Torry"){
+                            search_engine = "https://www.torry.io/search/?type=oniontab&searchby_type=1&page=1&q="
+                        }
 
-                document.getElementById("input").placeholder = search_engine;
+                        if ("search_engine_prefrence" == "Startpage"){
+                            search_engine="https://www.startpage.com/do/search?query="
+                        }
+setInterval(function() {
+    var strings = [
+        "Type something :D",
+        "Hey Google, show me who ligma is",
+        "And i'm kanye west",
+        "i ran out of ideas",
+        "join the discord",
+        "longitude: 0.00000000, latitude: 0.00000000",
+        "can you type something already?",
+        "you can change default engine in settings",
+        ":3"
+    ];
+    
+    var elm = document.getElementById("input");
+    if (elm.value === "") {
+        // Clearing the placeholder before typing a new message
+        elm.placeholder = '';
+        
+        var string = strings[Math.floor(Math.random() * strings.length)];
+        let i = 0;
+
+        // Function to add one character at a time
+        function typeCharacter() {
+            if (i < string.length) {
+                elm.placeholder += string[i];
+                i++;
+                setTimeout(typeCharacter, 100); // Delay of 100 ms between each character
+            }
+        }
+
+        typeCharacter(); // Start typing characters
+    }
+}, 5000); // Interval set to 2000 ms (2 seconds)
+
             })
             document.getElementById("input").addEventListener("keyup", function(event) {
                 if (event.keyCode === 13) { // Enter key
                     var url = document.getElementById("input").value;
                     // patch url
                     
-                    extensions = [".dev", ".org",".com",".net",".io",".me",".io",".in"];
-                    website=0
-                    for (var i = 0; i < extensions.length; i++) {
-                        if (url.endsWith(extensions[i])) {
-                            website=1
-                        }
+                    if (url.includes(".")){
+                        website=1
                     }
 
                     if (website==0) {

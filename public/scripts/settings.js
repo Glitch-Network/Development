@@ -73,11 +73,12 @@ str = ""
 document.addEventListener("DOMContentLoaded", function() {
 const themeSelect = document.getElementById("theme");
 const engineSelect = document.getElementById("engine");
+const proxySelect  = document.getElementById("proxy");
 const debug = document.getElementById("debug");
 const aiToggle = document.getElementById("ai");
 
 // Update debug information
-debug.innerHTML = "Host:" + location.host + "<br>Protocol:" + location.protocol + " Version: " + "v5 Beta" + "<br>Connecting from: " + navigator.connection.effectiveType + " internet" + "<br> Platform: " + navigator.platform;
+debug.innerHTML = "Host:" + location.host + "<br>Protocol:" + location.protocol + " Version: " + "v6" + "<br>Connecting from: " + navigator.connection.effectiveType + " internet" + "<br> Platform: " + navigator.platform;
 
 // Load initial theme
 updateTheme();
@@ -87,11 +88,19 @@ if (localStorage.getItem("search_engine")) {
 engineSelect.value = localStorage.getItem("search_engine");
 }
 
+if (localStorage.getItem("proxy")) {
+    proxySelect.value = localStorage.getItem("proxy");
+}
 // Set search engine on change
 engineSelect.addEventListener("change", function() {
 localStorage.setItem("search_engine", this.value);
 });
 
+proxySelect.addEventListener("change", function() {
+    localStorage.setItem("proxy", this.value);
+});
+
+    
 // Theme change handling
 themeSelect.addEventListener("change", function() {
 localStorage.setItem("theme", this.value);
@@ -159,6 +168,15 @@ if (mainDiv) {
 
 }
 
+function updateProxy() {
+    const currentProxy = localStorage.getItem("proxy");
+    if (currentProxy) {
+        document.getElementById("proxy").value = currentProxy;
+    }
+
+    
+    }
+
 // Conditional display of elements based on local storage
 aiToggle.style.display = localStorage.getItem("ai_teacher_detection") ? "block" : "none";
 
@@ -169,6 +187,7 @@ aiToggle.style.display = localStorage.getItem("ai_teacher_detection") ? "block" 
 
 // Initial theme setup
 document.addEventListener("DOMContentLoaded", function() {
+updateProxy();
 const savedThemeId = localStorage.getItem("theme");
 const savedTheme = themes.find(t => t.id === savedThemeId) || themes[0];
 //document.body.style.backgroundColor = savedTheme.backgroundColor;

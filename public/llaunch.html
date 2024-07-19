@@ -28,7 +28,8 @@
     </style>
     
     <script src="options.js"></script>
-  
+
+  <script src="scripts/nowgg.js"></script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-278K4F012J"></script>
 <script>
@@ -54,6 +55,10 @@
     left: -1px;
   }
 
+  * {
+    border: none;
+  }
+
   </style>
 
   <div id="root" style="position: fixed; left: 5px; background-color: white; opacity: 0.5; top: 15px;">
@@ -71,6 +76,43 @@
         value="https://www.google.com/search?q=%s"
         type="hidden"
       />
+      <script>
+       search_engine_prefrence = localStorage.getItem("search_engine");
+                        if (search_engine_prefrence == null) {
+                            search_engine = "https://www.google.com/search?q=";
+                        }
+                        if (search_engine_prefrence == "Google") {
+                            search_engine = "https://www.google.com/search?q=";
+                        }
+                        if (search_engine_prefrence == "DuckDuckGo") {
+                            search_engine = "https://duckduckgo.com/?q=";
+                        }
+                        if (search_engine_prefrence == "Bing") {
+                            search_engine = "https://www.bing.com/search?q=";
+                        }
+                        if (search_engine_prefrence == "Yahoo") {
+                            search_engine = "https://search.yahoo.com/search?p=";
+                        }
+                        if (search_engine_prefrence ==  "Torry"){
+                            search_engine = "https://www.torry.io/search/?type=oniontab&searchby_type=1&page=1&q="
+                        }
+
+                        if ("search_engine_prefrence" == "Startpage"){
+                            search_engine="https://www.startpage.com/do/search?query="
+                        }
+
+                        if ("search_engine_prefrence" == "Qwant"){
+                            search_engine="www.qwant.com/?t=web&q="
+                        }
+
+                        if ("search_engine_prefrence" == "Brave"){
+                            search_engine="https://search.brave.com/search?q=test"
+                        }
+
+
+
+                        document.getElementById("uv-search-engine").value = search_engine;
+      </script>
       <input style="display: none;" id="uv-address" type="text" placeholder="Search the web freely" />
     </form>
     
@@ -108,8 +150,14 @@ if (getURLParameter("url") != "") {
     // Add to history if the last entry isn't the same as the current input
     var historyArray = localStorage.getItem("history").split(",");
     var currentInput = getURLParameter("url");
+    if (!url.includes("torry.io")){
     if (historyArray[historyArray.length - 1] !== currentInput) {
         localStorage.setItem("history", localStorage.getItem("history") + "," +(historyArray.length > 1 ? "," : "") + currentInput);
+    }}
+
+    if (url.includes(".onion")){
+      if (localStorage.getItem("premium") == "true" && localStorage.getItem("tor") == "true")
+      window.location = "./llaunch.html?url=https://onion.torry.io/index.php?q=" + url.replace(".onion","").replace("http://","").replace("https://","")
     }
   }
 

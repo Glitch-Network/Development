@@ -47,32 +47,68 @@ if (!localStorage.getItem("theme")) {
         // Cynex token system
 
 
-
-function validateToken(token) {
+        function validateToken(token) {
     const invalidNumbers = ["1", "3", "5", "7", "9", "0"];
+    console.log("num");
+
     for (let number of invalidNumbers) {
-        if (token.includes(number)) {
+        if (token.split("tkn_exp")[0].includes(number)) {
             return false;
         }
     }
 
+    console.log("length");
+
     const validLengths = [25, 28, 35];
-    if (!validLengths.includes(token.length)) {
+    if (!validLengths.includes(token.split("tkn_exp")[0].length)) {
         return false;
     }
 
+    console.log("doyouknowwhatiknow");
+
     if (token.includes("cyn") && token.includes("tkn")) {
         if (token.includes("tkn_exp")) {
-            return false; // How do you even get here?
+            const currentYear = new Date().getFullYear();
+            const decadePrefix = currentYear.toString().substring(0, 3);
+
+            let tokenDatePart = token.split("tkn_exp")[1];
+            let day, month, year;
+
+            if (tokenDatePart.startsWith("d2")) {
+                day = tokenDatePart.substring(2, 4); // Corrected to 2, 4 to get the correct day
+                month = tokenDatePart.substring(4, 6); // Corrected to 4, 6 to get the correct month
+                year = tokenDatePart.substring(6, 7); // Corrected to 6, 7 to get the correct year
+            } else {
+                day = tokenDatePart.substring(0, 2); // Corrected to 0, 2 to get the correct day
+                month = tokenDatePart.substring(2, 4); // Corrected to 2, 4 to get the correct month
+                year = tokenDatePart.substring(4, 5); // Corrected to 4, 5 to get the correct year
+            }
+
+            const fullYear = decadePrefix + year;
+            console.log(`Parsed Date: Year: ${fullYear}, Month: ${month}, Day: ${day}`);
+
+            const date = new Date(`${fullYear}-${month}-${day}`);
+            const currentDate = new Date();
+
+            console.log(`Parsed Date Object: ${date}`);
+            console.log(`Current Date Object: ${currentDate}`);
+
+            if (currentDate > date) {
+                console.log(currentDate + " 2: " + date);
+                console.log("false date");
+                return false;
+            }
+
+
+            return true;
         }
-        return true;
+        alert("It appears this deployment of Glitch is using a V1 token! Refer to the Discord to get a new key!");
+        return false;
     } else {
         return false;
     }
 }
-
-
-
+           
 
             token = config["premium-key"];
             // Check the token
@@ -83,6 +119,17 @@ function validateToken(token) {
                 alert("Invalid premium key");
               }
               localStorage.setItem("premium", "false");
+            }
+
+
+            if (localStorage.getItem("key") != null) {
+                    token = localStorage.getItem("key")
+
+                    if (!validateToken(token)) {
+                        localStorage.setItem("key", "")
+                        localStorage.setItem("premium", "false")
+                        alert("Your key is expired! Please use a new key!")
+                }
             }
 
 
@@ -101,7 +148,7 @@ function validateToken(token) {
                     localStorage.setItem("new_discord_inv_url", config["new_discord_inv_url"]);
                 }
 
-                if (config["force_cloak"] === "True") {
+                if (config["force_cloak"] === "True" || localStorage.getItem("force_cloak") === "True") {
                     window.location.href = "cloak.html";
                 } else {
                     window.location.href = "main.html";

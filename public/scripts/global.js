@@ -23,3 +23,4 @@ window.addEventListener("beforeunload", function (e) {
     (e || window.event).returnValue = confirmationMessage; // For Internet Explorer
     return confirmationMessage; // For Chrome, Firefox, and Safari
 });
+

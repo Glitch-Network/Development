@@ -1,6 +1,8 @@
 // Fix to NOW.GG Roblox to work with Glitch
 
+if (localStorage.getItem("url").includes("now.gg")) {
 // Retrieve the current value and convert it to a number
+    
 var reloadCount = parseInt(localStorage.getItem("reload_gg"), 10);
 
 // If there is no value set yet, initialize it to 0 and refresh
@@ -21,4 +23,5 @@ if (reloadCount < 5) {
     localStorage.setItem("reload_gg", "true");
 }
 
+}
 }

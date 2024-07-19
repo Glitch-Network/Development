@@ -206,12 +206,12 @@
 <center>
 <div id="header" style="position: fixed;">
 
-<div class="glow" id="fallback" onclick="window.location.href = './main.html'" style="font-size: 30px; top: 10px; left: 10px;">Back</div>
+<div class="glow" id="fallback" onclick="window.location.href = './m1.html'" style="font-size: 30px; top: 10px; left: 10px;">Back</div>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
 
 document.getElementById("fallback").addEventListener("click",function(){
-    window.location.href = './main.html'
+    window.location.href = './m1.html'
 })
 
   });
@@ -245,8 +245,32 @@ document.getElementById("fallback").addEventListener("click",function(){
         return;
       }
 
+      search_engine_prefrence = localStorage.getItem("search_engine");
+                        if (search_engine_prefrence == null) {
+                            search_engine = "https://www.google.com/search?q=";
+                        }
+                        if (search_engine_prefrence == "Google") {
+                            search_engine = "https://www.google.com/search?q=";
+                        }
+                        if (search_engine_prefrence == "DuckDuckGo") {
+                            search_engine = "https://duckduckgo.com/?q=";
+                        }
+                        if (search_engine_prefrence == "Bing") {
+                            search_engine = "https://www.bing.com/search?q=";
+                        }
+                        if (search_engine_prefrence == "Yahoo") {
+                            search_engine = "https://search.yahoo.com/search?p=";
+                        }
+                        if (search_engine_prefrence ==  "Torry"){
+                            search_engine = "https://www.torry.io/search/?type=oniontab&searchby_type=1&page=1&q="
+                        }
+
+                        if ("search_engine_prefrence" == "Startpage"){
+                            search_engine="https://www.startpage.com/do/search?query="
+                        }
+
       if (!url.includes(".")){
-        url = "https://google.com/search?q=" + url
+        url = search_engine + url.replace(" ", "+");
       }
 
       if (!url.startsWith("https://") && !url.startsWith("http://")) {
@@ -275,6 +299,9 @@ document.getElementById("fallback").addEventListener("click",function(){
           url = localStorage.getItem(key);
           base = "https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url="
           img = base + url + "&size=64" // Big image
+          if (url.includes(".onion")){
+            img = "assets/images/tor.png"
+          }
           code = `
           <div id="app"  onclick="window.location.href = './launch.html?url=${url}' ">
 <img src="${img}"/>

@@ -3,6 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <title>Glitch</title>
+    <script>
+        if (window.top == window.self){
+            localStorage.setItem("in_bounds","1")
+            window.location = "main.html"
+        }
+    </script>
 
     <script src="scripts/cursor.js"></script>
     <link rel="icon" type="image/png" href="assets/favicon.png" />
@@ -67,7 +73,12 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-278K4F012J"></script>
 <script>
-    // if not in iframe
+    // if= not in iframe
+    if (window.top == window.self) {
+        // send this bitch back to the ancient tim- i mean m1.html
+        window.location = "m1.html"
+    
+    }
 
 </script>
 <script>
@@ -160,7 +171,7 @@
                </div>
                
                <br>
-               <img id="rr" style="position: fixed; opacity: .9; border-radius: 5px; border: #131313 2px solid; width: 350px; height: 150px; margin-top: 230px" onclick="window.open('https://discord.gg/2n3NHNBzda')" src="assets/ads/youradhere.png">
+               <img id="rr" style="position: fixed; opacity: .9; border-radius: 15px; border: #131313 2px solid; width: 350px; height: 150px; margin-top: 230px" onclick="window.open('https://discord.gg/2n3NHNBzda')" src="assets/ads/youradhere.png">
            
                 </center>
         </div>
