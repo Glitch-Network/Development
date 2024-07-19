@@ -4,8 +4,8 @@ services:
   runtime: node
   branch: main
   plan: free
-  region: oregon
+  repo: https://github.com/Glitch-Network/v6
   buildCommand: yarn
-  startCommand: npm run start
+  startCommand: npm start
   rootDir: ./
-version: "1"
+version: "6"
