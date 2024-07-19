@@ -3,7 +3,7 @@ services:
   name: v6
   runtime: node
   branch: main
-  region: oregon,
+  region: oregon
   plan: free
   repo: https://github.com/Glitch-Network/v6
   buildCommand: yarn
