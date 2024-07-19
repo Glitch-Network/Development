@@ -27,6 +27,18 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 })
 
+document.addEventListener("DOMContentLoaded", function () {
+    const code = `
+        <img id="arrow" src="./assets/images/arrow1.png"  onclick="window.location.href='extras/chatroom.html'" style="z-index: 15; position: fixed; width: 90px; bottom: calc(50% - 10px); left: 15px; cursor: pointer; filter: invert(1); transform: scaleX(-1);">
+        <img id="arrow1" src="./assets/images/arrow1.png" onclick="window.location.href='extras/usekey.html'" style="z-index: 15; position: fixed; width: 90px; bottom: calc(50% - 10px); right: 15px; cursor: pointer; filter: invert(1);">
+    `;
+
+    const x = document.createElement("div");
+    x.innerHTML = code;
+    document.body.appendChild(x);
+
+});
+    
 
 
 // Define the themes

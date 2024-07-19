@@ -114,9 +114,8 @@
                 <script src="scripts/miniplayer.js"></script>
     </head>
     <body>
-        <img id="arrow" src="./assets/images/arrow1.png" style="z-index: 15; position: fixed; width: 90px; bottom: calc(50% - 10px); left: 15px; display: none; cursor: pointer; filter: invert(1); transform: scaleX(-1);">
         <iframe id="main_frame" src="./m1.html" style="height: 100%; width: 100%; border: none;"></iframe>
-        <img id="arrow1" src="./assets/images/arrow1.png" style="z-index: 15; position: fixed; width: 90px; bottom: calc(50% - 10px); right: 15px; cursor: pointer; filter: invert(1);">
+
         <script>
             console.log("Miniplayer loaded");
     const style = document.createElement('style');
@@ -222,6 +221,7 @@
                  <div style="font-size: 55px; position: fixed; cursor: pointer; bottom: 15px; right: 15px; user-select: none;" onclick="if (document.getElementById('iconMenu').style.display === 'none') {document.getElementById('iconMenu').style.display = 'block';} else {document.getElementById('iconMenu').style.display = 'none';}">
                 =
              </div>
+              
    
               <style>
         #iconMenu {
@@ -299,60 +299,7 @@
 
   
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
-    const tabs = ["m1", "m2", "extras/chatroom", "settings", "extras/usekey"];
-    const mainFrame = document.getElementById("main_frame");
-    const arrow = document.getElementById("arrow");
-    const arrow1 = document.getElementById("arrow1");
-    let current_tab = 0;
-
-    function updateTab() {
-        mainFrame.src = "./" + tabs[current_tab] + ".html";
-    }
-
-    function updateArrows() {
-        arrow.style.display = "block";  // Always show arrows for looping
-        arrow1.style.display = "block";
-    }
-
-    arrow.addEventListener("click", function() {
-        current_tab = (current_tab - 1 + tabs.length) % tabs.length;  // Loop backwards
-        updateTab();
-        updateArrows();
-    });
-
-    arrow1.addEventListener("click", function() {
-        current_tab = (current_tab + 1) % tabs.length;  // Loop forwards
-        updateTab();
-        updateArrows();
-    });
-
-    // Initialize the tab and arrows on page load
-    updateTab();
-    updateArrows();
-
-    setInterval(() => {
-        // hide arrows if in_bounds is false
-        if (localStorage.getItem("in_bounds") == "0") {
-            arrow.style.display = "none";
-            arrow1.style.display = "none";
-
-            // hide tools 
-            document.getElementById("icons").style.display = "none";
-        }
-        if (localStorage.getItem("in_bounds") == "1" || window.top == window.self) {
-            // show tools
-            document.getElementById("icons").style.display = "block";
-            arrow.style.display = "block";
-            arrow1.style.display = "block";
-        }
-
-        if (localStorage.getItem("main_pending_reset") == "1") {
-            localStorage.setItem("main_pending_reset", "0");
-            window.location.reload();
-        }
-    }, 100);
-});
+           
 
         
 
