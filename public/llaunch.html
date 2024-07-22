@@ -56,6 +56,10 @@
     </form>
     <iframe id="uv-frame" style="border: none; height: 100vh; width: 100vw;"></iframe>
     <script>
+          function getURLParameter(name) {
+                    var results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
+                    return results ? decodeURIComponent(results[1]) : null;
+                }
         document.addEventListener('DOMContentLoaded', function() {
           var refreshParam = getURLParameter('refresh');
             var urlParam = getURLParameter("url");
@@ -94,11 +98,7 @@
                 };
                 bridge = proxy_bridges[proxy_bridge] || "";
 
-                function getURLParameter(name) {
-                    var results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
-                    return results ? decodeURIComponent(results[1]) : null;
-                }
-
+        
                 var urlParam = getURLParameter("url");
                 if (urlParam && !urlParam.includes(bridge) && bridge !== "None (Built-in only)") {
                     var xurl = urlParam.includes("https://") ? urlParam : "https://" + urlParam;
