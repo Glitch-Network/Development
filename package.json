@@ -20,16 +20,15 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@mercuryworkshop/bare-mux": "1.0.4",
-    "@mercuryworkshop/epoxy-transport": "^1.1.0",
-    "@titaniumnetwork-dev/ultraviolet": "^3.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.6",
-    "express": "^4.18.2",
-    "ultraviolet-static": "github:titaniumnetwork-dev/Ultraviolet-Static",
-    "wisp-server-node": "^1.0.0",
-    "ws": "^8.16.0"
+    "@mercuryworkshop/epoxy-transport": "1.1.0",
+    "@titaniumnetwork-dev/ultraviolet": "3.0.0",
+    "@rollup/plugin-node-resolve": "13.0.6",
+    "express": "4.18.2",
+    "wisp-server-node": "1.0.0",
+    "ws": "8.16.0"
   },
   "devDependencies": {
-    "eslint": "^8.36.0",
-    "prettier": "^2.8.4"
+    "eslint": "8.36.0",
+    "prettier": "2.8.4"
   }
 }

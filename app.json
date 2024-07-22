@@ -1,7 +1,7 @@
 {
-  "name": "MiniViolet App",
-  "description": "Node.js Modded Ultraviolet instance",
+  "name": "Glitch V6",
+  "description": "Glitch V6",
   "repository": "https://github.com/titaniumnetwork-dev/Ultraviolet-App",
   "logo": "https://raw.githubusercontent.com/titaniumnetwork-dev/Ultraviolet-Static/main/public/uv.png",
-  "keywords": ["MiniViolet", "ultraviolet"]
+  "keywords": ["Glitch", "ultraviolet"]
 }
