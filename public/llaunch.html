@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-    />
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Glitch</title>
+    
+    <meta name="googlebot" content="index, follow, snippet">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="stylesheet" href="gbl.css">
 
-    <meta name="googlebot" content="index, follow, snippet" />
-    <link rel="shortcut icon" content="favicon.ico" />
-    <link rel="stylesheet" href="index.css" />
-    <link rel="icon" type="image/png" href="assets/favicon.png" />
     <script src="baremux/bare.cjs" defer></script>
     <script src="epoxy/index.js" defer></script>
     <script src="uv/uv.bundle.js" defer></script>
@@ -19,199 +18,114 @@
     <script src="register-sw.js" defer></script>
     <script src="search.js" defer></script>
     <script src="index.js" defer></script>
-    <link rel="stylesheet" href="gbl.css"/>
+    <script src="options.js" defer></script>
+    <script src="scripts/nowgg.js" defer></script>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-278K4F012J"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-278K4F012J');
+    </script>
+    
     <style>
-      body {
-        overflow: hidden
-
-      }
+        body {
+            overflow: hidden;
+            background-color: black;
+        }
+        #loading-div {
+            position: fixed;
+            top: -1px;
+            left: -1px;
+        }
+        * {
+            border: none;
+        }
     </style>
-    
-    <script src="options.js"></script>
-
-  <script src="scripts/nowgg.js"></script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-278K4F012J"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-278K4F012J');
-</script>
-
 </head>
-
-  <body>
-    <style>
-      body {
-          background-color: black;
-      }
-      /* HTML: <div class="loader"></div> */
-
-  #loading-div {
-    position: fixed;
-    top: -1px;
-    left: -1px;
-  }
-
-  * {
-    border: none;
-  }
-
-  </style>
-
-  <div id="root" style="position: fixed; left: 5px; background-color: white; opacity: 0.5; top: 15px;">
-
-  </div>
-
+<body>
+    <div id="root" style="position: fixed; left: 5px; background-color: white; opacity: 0.5; top: 15px;"></div>
     
-
     <form id="uv-form" class="flex-center">
-      <input
-        id="uv-search-engine"
-        value="https://www.google.com/search?q=%s"
-        type="hidden"
-      />
-      <script>
-        // Variable declarations
-        var search_engine_prefrence = localStorage.getItem("search_engine");
-        var search_engine = "https://www.google.com/search?q="; // Default search engine
-        var proxy_bridge = localStorage.getItem("proxy");
-        var premium_status = localStorage.getItem("premium");
-        var bridge = "";
-        
-        // Set search engine based on preference
-        if (search_engine_prefrence) {
-            if (search_engine_prefrence === "Google") {
-                search_engine = "https://www.google.com/search?q=";
-            } else if (search_engine_prefrence === "DuckDuckGo") {
-                search_engine = "https://duckduckgo.com/?q=";
-            } else if (search_engine_prefrence === "Bing") {
-                search_engine = "https://www.bing.com/search?q=";
-            } else if (search_engine_prefrence === "Yahoo") {
-                search_engine = "https://search.yahoo.com/search?p=";
-            } else if (search_engine_prefrence === "Torry") {
-                if (premium_status === "false") {
-                    search_engine = "https://www.google.com/search?q=";
-                } else {
-                    search_engine = "https://www.torry.io/search/?type=oniontab&searchby_type=1&page=1&q=";
-                }
-            } else if (search_engine_prefrence === "Startpage") {
-                if (premium_status === "false") {
-                    search_engine = "https://www.google.com/search?q=";
-                } else {
-                    search_engine = "https://www.startpage.com/do/search?query=";
-                }
-            } else if (search_engine_prefrence === "Qwant") {
-                if (premium_status === "false") {
-                    search_engine = "https://www.google.com/search?q=";
-                } else {
-                    search_engine = "https://www.qwant.com/?t=web&q=";
-                }
-            } else if (search_engine_prefrence === "Brave") {
-                if (premium_status === "false") {
-                    search_engine = "https://www.google.com/search?q=";
-                } else {
-                    search_engine = "https://search.brave.com/search?q=";
-                }
-            }
-        }
-        
-        // Update search engine input on the page
-        document.getElementById("uv-search-engine").value = search_engine;
-        
-        // Proxy bridge logic
-        try{
-        if (premium_status === "true") {
-            if (proxy_bridge === "Glitch EU Proxy") {
-                bridge = "https://v6-out.onrender.com/llaunch.html?url=";
-            } else if (proxy_bridge === "12FT") {
-                bridge = "https://12ft.io/";
-            } else if (proxy_bridge === "Archive.org/Wayback Machine") {
-                bridge = "https://web.archive.org/";
-            } else if (proxy_bridge === "Google Cache") {
-                bridge = "https://webcache.googleusercontent.com/search?q=cache:";
-            }
-            
-            function getURLParameter(name) {
-                var results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
-                if (results == null) {
-                    return null;
-                } else {
-                    return decodeURIComponent(results[1]) || 0;
-                }
-            }
-            
-            // Redirect to bridge URL if conditions are met
-            if (getURLParameter("bridge") !== "1" && getURLParameter("url") && !getURLParameter("url").includes(bridge) && bridge != "None (Built-in only)") {
-              xurl=getURLParameter("url")
-              if (!xurl.includes("https://")){
-                xurl = "https://" + xurl
-              }
-              window.location.href = "llaunch.html?bridge=1&url=" + bridge + xurl
-            } else {
-                console.log("bridge 4 u");
-            }
-        } else {
-            console.log("no bridge 4 u");
-        }
-      }
-      catch{
-        alert("Failed to connect to bridge.")
-      }
-      
-
-      </script>
-      <input style="display: none;" id="uv-address" type="text" placeholder="Search the web freely" />
+        <input id="uv-search-engine" value="https://www.google.com/search?q=%s" type="hidden">
+        <input style="display: none;" id="uv-address" type="text" placeholder="Search the web freely">
     </form>
     
     <iframe style="border: none; height: 100vh; width: 100vw" id="uv-frame"></iframe>
-  </body>
+
     <script>
-  // Function to parse URL parameters
-  function getURLParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-  }
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchEnginePreference = localStorage.getItem("search_engine");
+            const premiumStatus = localStorage.getItem("premium");
+            const proxyBridge = localStorage.getItem("proxy");
+            let searchEngine = "https://www.google.com/search?q=";
+            let bridge = "";
 
-  // Automatically load the URL parameter into the input field
-  document.addEventListener('DOMContentLoaded', function() {
-   // check url parameter
-   var url = getURLParameter('refresh');
-   if (url) {
-     // do nothing
-   }
-   else {
-    // Wait, we dont need to do this. I already fixed it from the source 
-    // window.location.href = window.location.href + '&refresh=1'; // Fix that damn url getting the ?refresh instead of the launch bug
-   }
+            const searchEngines = {
+                Google: "https://www.google.com/search?q=",
+                DuckDuckGo: "https://duckduckgo.com/?q=",
+                Bing: "https://www.bing.com/search?q=",
+                Yahoo: "https://search.yahoo.com/search?p=",
+                Torry: premiumStatus === "true" ? "https://www.torry.io/search/?type=oniontab&searchby_type=1&page=1&q=" : "https://www.google.com/search?q=",
+                Startpage: premiumStatus === "true" ? "https://www.startpage.com/do/search?query=" : "https://www.google.com/search?q=",
+                Qwant: premiumStatus === "true" ? "https://www.qwant.com/?t=web&q=" : "https://www.google.com/search?q=",
+                Brave: premiumStatus === "true" ? "https://search.brave.com/search?q=" : "https://www.google.com/search?q="
+            };
 
-   
-});
-try{
-if (getURLParameter("url") != "") {
-  if (!localStorage.getItem("history")) {
-        localStorage.setItem("history", "");
-    }
+            if (searchEnginePreference && searchEngines[searchEnginePreference=]) {
+                searchEngine = searchEngines[searchEnginePreference];
+            }
+            
+            if (!getURLParameter("url").includes(".")){
+              window.location = "llaunch.html?url=" + searchEngine +getURLParameter("url").replace(" ","+") 
+            }
 
-    // Add to history if the last entry isn't the same as the current input
-    var historyArray = localStorage.getItem("history").split(",");
-    var currentInput = getURLParameter("url");
-    if (!url.includes("torry.io")){
-    if (historyArray[historyArray.length - 1] !== currentInput) {
-        localStorage.setItem("history", localStorage.getItem("history") + "," +(historyArray.length > 1 ? "," : "") + currentInput);
-    }}
+            const proxyBridges = {
+                "Glitch EU Proxy": "https://v6-out.onrender.com/llaunch.html?url=",
+                "12FT": "https://12ft.io/",
+                "Archive.org/Wayback Machine": "https://web.archive.org/",
+                "Google Cache": "https://webcache.googleusercontent.com/search?q=cache:"
+            };
 
-    if (url.includes(".onion")){
-      if (localStorage.getItem("premium") == "true" && localStorage.getItem("tor") == "true")
-      window.location = "./llaunch.html?url=https://onion.torry.io/index.php?q=" + url.replace(".onion","").replace("http://","").replace("https://","")
-    }
-  }
-}catch{}
+            if (premiumStatus === "true" && proxyBridge && proxyBridges[proxyBridge]) {
+                bridge = proxyBridges[proxyBridge];
 
+                const getURLParameter = (name) => {
+                    const results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
+                    return results ? decodeURIComponent(results[1]) : null;
+                };
 
-  </script>
+                if (getURLParameter("bridge") !== "1" && getURLParameter("url") && !getURLParameter("url").includes(bridge) && bridge !== "None (Built-in only)") {
+                    let xurl = getURLParameter("url");
+                    if (!xurl.includes("https://")) {
+                        xurl = "https://" + xurl;
+                    }
+                    window.location.href = `llaunch.html?bridge=1&url=${bridge}${xurl}`;
+                } else {
+                    console.log("bridge 4 u");
+                }
+            } else {
+                console.log("no bridge 4 u");
+            }
+
+            if (getURLParameter("url")) {
+                const url = getURLParameter("url");
+                if (!localStorage.getItem("history")) {
+                    localStorage.setItem("history", "");
+                }
+
+                const historyArray = localStorage.getItem("history").split(",");
+                if (historyArray[historyArray.length - 1] !== url && !url.includes("torry.io")) {
+                    localStorage.setItem("history", localStorage.getItem("history") + "," + (historyArray.length > 1 ? "," : "") + url);
+                }
+
+                if (url.includes(".onion") && localStorage.getItem("premium") === "true" && localStorage.getItem("tor") === "true") {
+                    window.location = `./llaunch.html?url=https://onion.torry.io/index.php?q=${url.replace(".onion", "").replace("http://", "").replace("https://", "")}`;
+                }
+            }
+        });
+    </script>
+</body>
 </html>
