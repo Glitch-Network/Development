@@ -1,35 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+  <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
     <title>Glitch</title>
+
     <meta name="googlebot" content="index, follow, snippet" />
-    <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="shortcut icon" content="favicon.ico" />
     <link rel="stylesheet" href="index.css" />
-    <link rel="stylesheet" href="gbl.css" />
-    <style>
-        body {
-            overflow: hidden;
-            background-color: black;
-        }
-        #loading-div {
-            position: fixed;
-            top: -1px;
-            left: -1px;
-        }
-        * {
-            border: none;
-        }
-        #root {
-            position: fixed;
-            left: 5px;
-            background-color: white;
-            opacity: 0.5;
-            top: 15px;
-        }
-    </style>
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
     <script src="baremux/bare.cjs" defer></script>
     <script src="epoxy/index.js" defer></script>
     <script src="uv/uv.bundle.js" defer></script>
@@ -37,92 +19,222 @@
     <script src="register-sw.js" defer></script>
     <script src="search.js" defer></script>
     <script src="index.js" defer></script>
-    <script src="options.js" defer></script>
     <script src="scripts/nowgg.js" defer></script>
+    <link rel="stylesheet" href="gbl.css"/>
+    <style>
+      body {
+        overflow: hidden;
+      }
+    </style>
+    
+    <script src="options.js"></script>
+  
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-278K4F012J"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-278K4F012J');
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-278K4F012J');
     </script>
-</head>
-<body>
-    <div id="root"></div>
+
+  </head>
+
+  <body>
+    <style>
+      body {
+        background-color: black;
+      }
+      /* HTML: <div class="loader"></div> */
+      .loader {
+        width: 40px;
+        aspect-ratio: 1;
+        position: relative;
+      }
+      .loader:before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        --c:#0000, #f03355 1deg 120deg,#0000 121deg;
+        background:
+          conic-gradient(from 0deg,  var(--c)) top right,
+          conic-gradient(from 120deg,var(--c)) bottom,
+          conic-gradient(from 240deg,var(--c)) top left;
+        background-size: 40px 40px;
+        background-repeat: no-repeat;
+        animation: l25 2s infinite cubic-bezier(0.3,1,0,1);
+      }
+      @keyframes l25 {
+         33%  {inset:-8px;transform: rotate(0deg)}
+         66%  {inset:-8px;transform: rotate(180deg)}
+         100% {inset:0   ;transform: rotate(180deg)}
+      }
+      #loading-div {
+        position: fixed;
+        top: -1px;
+        left: -1px;
+      }
+      * {
+        border: none;
+      }
+    </style>
+
+    <div id="root" style="position: fixed; left: 5px; background-color: white; opacity: 0.5; top: 15px;">
+    </div>
+    <div id="loading-div">
+      <iframe style="height: calc(100vh + 1px); width: calc(100vw + 1px);" src="loading.html"></iframe>
+      <h2 style="z-index: 15; color: white; position: fixed; left: calc(50% - 10px); background-color: black; padding: 20px; top: 50%; font-family: Arial, Helvetica, sans-serif; font-size: 30px;">Loading...</h2>
+    </div>
+
     <form id="uv-form" class="flex-center">
-        <input id="uv-search-engine" value="https://www.google.com/search?q=%s" type="hidden" />
-        <input id="uv-address" type="text" placeholder="Search the web freely" style="display: none;" />
-    </form>
-    <iframe id="uv-frame" style="border: none; height: 100vh; width: 100vw;"></iframe>
-    <script>
-          function getURLParameter(name) {
-                    var results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
-                    return results ? decodeURIComponent(results[1]) : null;
-                }
-        document.addEventListener('DOMContentLoaded', function() {
-          var refreshParam = getURLParameter('refresh');
-            var urlParam = getURLParameter("url");
-            if (!refreshParam) {
-                window.location = 'llaunch.html?refresh=1&url=' + urlParam;
-            }
-
-            var search_engine_preference = localStorage.getItem("search_engine");
-            var search_engine = "https://www.google.com/search?q=";
-            var premium_status = localStorage.getItem("premium");
-
-            if (search_engine_preference) {
-                var search_engines = {
-                    "Google": "https://www.google.com/search?q=",
-                    "DuckDuckGo": "https://duckduckgo.com/?q=",
-                    "Bing": "https://www.bing.com/search?q=",
-                    "Yahoo": "https://search.yahoo.com/search?p=",
-                    "Torry": premium_status === "false" ? "https://www.google.com/search?q=" : "https://www.torry.io/search/?type=oniontab&searchby_type=1&page=1&q=",
-                    "Startpage": premium_status === "false" ? "https://www.google.com/search?q=" : "https://www.startpage.com/do/search?query=",
-                    "Qwant": premium_status === "false" ? "https://www.google.com/search?q=" : "https://www.qwant.com/?t=web&q=",
-                    "Brave": premium_status === "false" ? "https://www.google.com/search?q=" : "https://search.brave.com/search?q="
-                };
-                search_engine = search_engines[search_engine_preference] || search_engine;
-            }
-
-            document.getElementById("uv-search-engine").value = search_engine;
-
-            var proxy_bridge = localStorage.getItem("proxy");
-            var bridge = "";
-            if (premium_status === "true") {
-                var proxy_bridges = {
-                    "Glitch EU Proxy": "https://v6-out.onrender.com/llaunch.html?url=",
-                    "12FT": "https://12ft.io/",
-                    "Archive.org/Wayback Machine": "https://web.archive.org/",
-                    "Google Cache": "https://webcache.googleusercontent.com/search?q=cache:"
-                };
-                bridge = proxy_bridges[proxy_bridge] || "";
-
+      <input
+        id="uv-search-engine"
+        value="https://www.google.com/search?q=%s"
+        type="hidden"
+      />
+      <script>
+        // Variable declarations
+        var search_engine_prefrence = localStorage.getItem("search_engine");
+        var search_engine = "https://www.google.com/search?q="; // Default search engine
+        var proxy_bridge = localStorage.getItem("proxy");
+        var premium_status = localStorage.getItem("premium");
+        var bridge = "";
         
-                var urlParam = getURLParameter("url");
-                if (urlParam && !urlParam.includes(bridge) && bridge !== "None (Built-in only)") {
-                    var xurl = urlParam.includes("https://") ? urlParam : "https://" + urlParam;
-                    if (window.location.href.includes("?refresh")){
-                      window.location.href = "llaunch.html?refresh=1&bridge=1&url=" + bridge + xurl;
-                    }
+        // Set search engine based on preference
+        if (search_engine_prefrence) {
+            if (search_engine_prefrence === "Google") {
+                search_engine = "https://www.google.com/search?q=";
+            } else if (search_engine_prefrence === "DuckDuckGo") {
+                search_engine = "https://duckduckgo.com/?q=";
+            } else if (search_engine_prefrence === "Bing") {
+                search_engine = "https://www.bing.com/search?q=";
+            } else if (search_engine_prefrence === "Yahoo") {
+                search_engine = "https://search.yahoo.com/search?p=";
+            } else if (search_engine_prefrence === "Torry") {
+                if (premium_status === "false") {
+                    search_engine = "https://www.google.com/search?q=";
+                } else {
+                    search_engine = "https://www.torry.io/search/?type=oniontab&searchby_type=1&page=1&q=";
+                }
+            } else if (search_engine_prefrence === "Startpage") {
+                if (premium_status === "false") {
+                    search_engine = "https://www.google.com/search?q=";
+                } else {
+                    search_engine = "https://www.startpage.com/do/search?query=";
+                }
+            } else if (search_engine_prefrence === "Qwant") {
+                if (premium_status === "false") {
+                    search_engine = "https://www.google.com/search?q=";
+                } else {
+                    search_engine = "https://www.qwant.com/?t=web&q=";
+                }
+            } else if (search_engine_prefrence === "Brave") {
+                if (premium_status === "false") {
+                    search_engine = "https://www.google.com/search?q=";
+                } else {
+                    search_engine = "https://search.brave.com/search?q=";
                 }
             }
-
-
-            if (urlParam) {
-                if (!localStorage.getItem("history")) {
-                    localStorage.setItem("history", "");
+        }
+        
+        // Update search engine input on the page
+        document.getElementById("uv-search-engine").value = search_engine;
+        
+        // Proxy bridge logic
+        try {
+          if (premium_status === "true") {
+              if (proxy_bridge === "Glitch EU Proxy") {
+                  bridge = "https://v6-out.onrender.com/llaunch.html?url=";
+              } else if (proxy_bridge === "12FT") {
+                  bridge = "https://12ft.io/";
+              } else if (proxy_bridge === "Archive.org/Wayback Machine") {
+                  bridge = "https://web.archive.org/";
+              } else if (proxy_bridge === "Google Cache") {
+                  bridge = "https://webcache.googleusercontent.com/search?q=cache:";
+              }
+              
+              function getURLParameter(name) {
+                  var results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
+                  if (results == null) {
+                      return null;
+                  } else {
+                      return decodeURIComponent(results[1]) || 0;
+                  }
+              }
+              
+              // Redirect to bridge URL if conditions are met
+              if (getURLParameter("bridge") !== "1" && getURLParameter("url") && !getURLParameter("url").includes(bridge) && bridge != "None (Built-in only)") {
+                xurl = getURLParameter("url");
+                if (!xurl.includes("https://")) {
+                  xurl = "https://" + xurl;
                 }
-                var historyArray = localStorage.getItem("history").split(",");
-                if (!urlParam.includes("torry.io") && historyArray[historyArray.length - 1] !== urlParam) {
-                    localStorage.setItem("history", localStorage.getItem("history") + "," + (historyArray.length > 1 ? "," : "") + urlParam);
-                }
+                window.location.href = "llaunch.html?bridge=1&url=" + bridge + xurl;
+              } else {
+                  console.log("bridge 4 u");
+              }
+          } else {
+              console.log("no bridge 4 u");
+          }
+        } catch {
+          alert("Failed to connect to bridge.");
+        }
+      </script>
+      <input style="display: none;" id="uv-address" type="text" placeholder="Search the web freely" />
+    </form>
+    
+    <iframe style="border: none; height: 100vh; width: 100vw" id="uv-frame"></iframe>
+  </body>
+    <script>
+      // Function to parse URL parameters
+      function getURLParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+      }
 
-                if (urlParam.includes(".onion") && premium_status === "true" && localStorage.getItem("tor") === "true") {
-                    window.location = "./llaunch.html?url=https://onion.torry.io/index.php?q=" + urlParam.replace(".onion", "").replace("http://", "").replace("https://", "");
-                }
+      // Automatically load the URL parameter into the input field
+      document.addEventListener('DOMContentLoaded', function() {
+        // check url parameter
+        var url = getURLParameter('refresh');
+        if (url) {
+          // do nothing
+        }
+        else {
+          // Wait, we dont need to do this. I already fixed it from the source 
+          // window.location.href = window.location.href + '&refresh=1'; // Fix that damn url getting the ?refresh instead of the launch bug
+        }
+      });
+
+      try {
+        if (getURLParameter("url") != "") {
+          if (!localStorage.getItem("history")) {
+            localStorage.setItem("history", "");
+          }
+
+          // Add to history if the last entry isn't the same as the current input
+          var historyArray = localStorage.getItem("history").split(",");
+          var currentInput = getURLParameter("url");
+          if (!url.includes("torry.io")) {
+            if (historyArray[historyArray.length - 1] !== currentInput) {
+              localStorage.setItem("history", localStorage.getItem("history") + "," + (historyArray.length > 1 ? "," : "") + currentInput);
             }
-        });
+          }
+
+          if (url.includes(".onion")) {
+            if (localStorage.getItem("premium") == "true" && localStorage.getItem("tor") == "true")
+              window.location = "./llaunch.html?url=https://onion.torry.io/index.php?q=" + url.replace(".onion", "").replace("http://", "").replace("https://", "");
+          }
+        }
+      } catch {}
+      
+      var x = setInterval(function() {
+        if (document.getElementById("uv-frame").contentDocument.body.innerHTML != "") {
+          clearInterval(x);
+          document.getElementById("loading-div").remove();
+        }
+      });
     </script>
-</body>
 </html>
