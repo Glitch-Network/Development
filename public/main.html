@@ -1,3 +1,22 @@
+<style>
+body {
+  align-items: flex-start !important;
+}
+#file-list {
+  flex: 1 1 auto !important;
+  width: 100vw !important;
+  height: calc(100vh - 70px) !important; /* 70px: toolbar + extra padding fudge */
+  margin: 0 !important;
+  padding: 14px 14px 0 14px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  align-content: flex-start !important;
+}
+</style>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +24,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Glitch</title>
     <link rel="icon" href="/assets/favicon.png" type="image/png" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="scripts/css/apps.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
@@ -1771,3 +1790,35 @@
 </script>
 </body>
 </html>
+
+<!-- Enforce top-left alignment for desktop items -->
+<style>
+#file-list {
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  align-content: flex-start !important;
+}
+</style>
+
+<!-- Roo the rabbit was here: fix desktop alignment! -->
+<style>
+#file-list {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  align-content: flex-start !important;
+  gap: 12px !important; /* optional: spacing between icons */
+  margin: 0 !important;
+  padding: 14px 14px 0 14px !important;
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+}
+.desktop-item {
+  margin: 0 !important;
+  align-self: flex-start !important;
+  text-align: left !important;
+}
+</style>
