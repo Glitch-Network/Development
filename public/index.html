@@ -46,11 +46,13 @@
         }
         if (event.key === "k" || event.key === "K") {
             window.location.href = "gallary.html";
-        }
+        } // so can we wonder for a spell
+        // and live in parallel
+        // i want it to be true to be like you
         if (event.key === 'c' || event.key === 'C' || event.key === 'g' || event.key === '') {
             let newWindow = window.open('about:blank');
             if (newWindow) { // Check if window was opened successfully (popup blockers)
-                newWindow.document.write('<iframe src="choose.html" style="border:0; position: fixed; top: 0; left: 0; width: 100%; height: 100%;"></iframe>');
+                newWindow.document.write('<iframe src="main.html" style="border:0; position: fixed; top: 0; left: 0; width: 100%; height: 100%;"></iframe>');
                 queries = ["Google Classroom", "Google Slides", "Google", "I-Ready", "Clever", "FBI", "Github", "Wikipedia"];
 
                 let randomQuery = queries[Math.floor(Math.random() * queries.length)];

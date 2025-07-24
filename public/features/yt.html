@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>Axiom Player Mobile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@250" rel="stylesheet">
+  <style>
+/* ✨ MOBILE-OPTIMIZED YOUTUBE PLAYER ✨ */
+
+:root {
+  /* Modern Color Palette */
+  --color-primary: #6366f1;
+  --color-secondary: #8b5cf6;
+  --color-accent: #06b6d4;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  
+  /* Background & Surfaces */
+  --color-background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  --color-surface: rgba(255, 255, 255, 0.08);
+  --color-surface-hover: rgba(255, 255, 255, 0.12);
+  --color-surface-active: rgba(255, 255, 255, 0.16);
+  
+  /* Text Colors */
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+  
+  /* Glassmorphism Effects */
+  --glass-background: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --glass-blur: blur(8px);
+  
+  /* Mobile-optimized spacing */
+  --toolbar-height: 50px;
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --spacing-xs: 3px;
+  --spacing-sm: 4px;
+  --spacing-md: 8px;
+  --spacing-lg: 12px;
+  --spacing-xl: 16px;
+  
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
+  max-width: 399px;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+/* Animated Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.2) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.2) 0%, transparent 40%);
+  z-index: -1;
+  animation: backgroundShift 15s ease-in-out infinite;
+}
+
+@keyframes backgroundShift {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Header - Compact mobile version */
+.header {
+  background: var(--glass-background);
+  backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+  width: 100%;
+  height: var(--toolbar-height);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-md);
+  box-shadow: var(--glass-shadow);
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+}
+
+.search-input-container {
+  position: relative;
+  flex: 1;
+}
+
+#searchInput {
+  background: var(--glass-background);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  color: var(--color-text-primary);
+  font-size: 14px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  width: 100%;
+  outline: none;
+  backdrop-filter: var(--glass-blur);
+  transition: all var(--transition-normal);
+  font-weight: 400;
+}
+
+#searchInput::placeholder {
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+#searchInput:focus {
+  border-color: var(--color-danger);
+  background: var(--color-surface-hover);
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1);
+}
+
+.search-btn {
+  background: var(--color-danger);
+  border: none;
+  border-radius: var(--border-radius);
+  color: white;
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.search-btn:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+.search-btn:active {
+  transform: scale(0.95);
+}
+
+/* Main Content - Single column mobile layout */
+.main-content {
+  margin-top: var(--toolbar-height);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  min-height: calc(100vh - var(--toolbar-height));
+}
+
+/* Video Player Section - Optimized for mobile */
+.video-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* Miniplayer Button */
+.miniplayer-btn {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius);
+  color: white;
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  z-index: 10;
+  opacity: 0.8;
+}
+
+.miniplayer-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.miniplayer-btn:active {
+  transform: scale(0.95);
+}
+
+.video-player {
+  background: var(--glass-background);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--glass-shadow);
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 16/9;
+  width: 100%;
+}
+
+.video-player iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.video-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  color: var(--color-text-muted);
+  gap: var(--spacing-sm);
+  text-align: center;
+  padding: var(--spacing-md);
+}
+
+.video-placeholder .material-symbols-outlined {
+  font-size: 36px;
+  opacity: 0.5;
+}
+
+.video-placeholder p {
+  font-size: 13px;
+}
+
+.video-info {
+  background: var(--glass-background);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--glass-shadow);
+  padding: var(--spacing-md);
+}
+
+.video-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.3;
+}
+
+.video-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.video-description {
+  margin-top: var(--spacing-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  max-height: 80px;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+/* Search Results Section - Mobile optimized */
+.results-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.results-header {
+  background: var(--glass-background);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.results-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.video-item {
+  background: var(--glass-background);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  gap: var(--spacing-sm);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.video-item:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-danger);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.video-thumbnail {
+  width: 80px;
+  height: 60px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.video-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-thumbnail::after {
+  content: '▶';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
+  background: rgba(0, 0, 0, 0.7);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.video-item:hover .video-thumbnail::after {
+  background: var(--color-danger);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.video-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 0;
+}
+
+.video-item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.video-item-channel {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.video-item-stats {
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+/* Loading States */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  color: var(--color-text-muted);
+  gap: var(--spacing-sm);
+  font-size: 13px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid var(--color-danger);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Custom Scrollbar - Thinner for mobile */
+.results-container::-webkit-scrollbar,
+.video-description::-webkit-scrollbar {
+  width: 4px;
+}
+
+.results-container::-webkit-scrollbar-track,
+.video-description::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+}
+
+.results-container::-webkit-scrollbar-thumb,
+.video-description::-webkit-scrollbar-thumb {
+  background: var(--color-danger);
+  border-radius: 2px;
+}
+
+.results-container::-webkit-scrollbar-thumb:hover,
+.video-description::-webkit-scrollbar-thumb:hover {
+  background: #dc2626;
+}
+
+/* Error States */
+.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  color: var(--color-danger);
+  text-align: center;
+  font-size: 12px;
+}
+
+/* Empty States */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  color: var(--color-text-muted);
+  text-align: center;
+  gap: var(--spacing-sm);
+}
+
+.empty-state .material-symbols-outlined {
+  font-size: 32px;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-size: 12px;
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  .video-item:hover {
+    background: var(--glass-background);
+    border-color: var(--glass-border);
+    transform: none;
+  }
+  
+  .video-item:active {
+    background: var(--color-surface-hover);
+    border-color: var(--color-danger);
+    transform: scale(0.98);
+  }
+  
+  .search-btn:hover {
+    background: var(--color-danger);
+    transform: none;
+  }
+}
+
+/* Ensure content doesn't exceed 399px */
+html, body {
+  max-width: 399px;
+  overflow-x: hidden;
+}
+
+.header, .main-content {
+  max-width: 399px;
+}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="search-container">
+      <div class="search-input-container">
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Search music videos..."
+          autocomplete="off"
+        >
+      </div>
+      
+      <button class="search-btn" onclick="performSearch()">
+        <span class="material-symbols-outlined">search</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="video-section">
+      <div class="video-player" id="videoPlayer">
+        <div class="video-placeholder">
+          <span class="material-symbols-outlined">music_video</span>
+          <p>Search for a video to start playing</p>
+        </div>
+      </div>
+      
+      <div class="video-info" id="videoInfo" style="display: none;">
+        <div class="video-title" id="videoTitle"></div>
+        <div class="video-details" id="videoDetails"></div>
+        <div class="video-description" id="videoDescription"></div>
+      </div>
+    </section>
+
+    <section class="results-section">
+      <div class="results-header" id="resultsHeader">
+        Search for music videos above
+      </div>
+      
+      <div class="results-container" id="resultsContainer">
+        <div class="empty-state">
+          <span class="material-symbols-outlined">search</span>
+          <p>Enter a search term to find videos</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const API_KEY = 'AIzaSyBAnLAEwYssI3Oe3uaYfdEOPpzs-TVqHoM';
+    const API_BASE_URL = 'https://www.googleapis.com/youtube/v3';
+    
+    let currentVideoId = null;
+    let searchResults = [];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('searchInput');
+      
+      searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          performSearch();
+        }
+      });
+    });
+
+    async function performSearch() {
+      const query = document.getElementById('searchInput').value.trim();
+      if (!query) return;
+
+      const resultsContainer = document.getElementById('resultsContainer');
+      const resultsHeader = document.getElementById('resultsHeader');
+  
+      resultsContainer.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <span>Searching...</span>
+        </div>
+      `;
+      resultsHeader.textContent = `Searching...`;
+
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/search?part=snippet&type=video&q=${encodeURIComponent(query)}&key=${API_KEY}&videoCategoryId=10&maxResults=25`
+        );
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        searchResults = data.items || [];
+        
+        displaySearchResults(searchResults, query);
+        
+      } catch (error) {
+        console.error('Search error:', error);
+        resultsContainer.innerHTML = `
+          <div class="error-message">
+            Failed to search videos. Please try again.
+          </div>
+        `;
+        resultsHeader.textContent = 'Search failed';
+      }
+    }
+
+    function displaySearchResults(results, query) {
+      const resultsContainer = document.getElementById('resultsContainer');
+      const resultsHeader = document.getElementById('resultsHeader');
+      
+      resultsHeader.textContent = `${results.length} results for "${query}"`;
+      
+      if (results.length === 0) {
+        resultsContainer.innerHTML = `
+          <div class="empty-state">
+            <span class="material-symbols-outlined">search_off</span>
+            <p>No videos found</p>
+            <p>Try a different search term</p>
+          </div>
+        `;
+        return;
+      }
+
+      resultsContainer.innerHTML = results.map(video => {
+        const publishDate = new Date(video.snippet.publishedAt).toLocaleDateString();
+        
+        return `
+          <div class="video-item" onclick="playVideo('${video.id.videoId}', ${JSON.stringify(video.snippet).replace(/"/g, '&quot;')})">
+            <div class="video-thumbnail">
+              <img src="${video.snippet.thumbnails.medium.url}" alt="${video.snippet.title}" loading="lazy">
+            </div>
+            <div class="video-item-info">
+              <div class="video-item-title">${video.snippet.title}</div>
+              <div class="video-item-channel">${video.snippet.channelTitle}</div>
+              <div class="video-item-stats">${publishDate}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function playVideo(videoId, snippet) {
+      currentVideoId = videoId;
+      
+      const videoPlayer = document.getElementById('videoPlayer');
+      const videoInfo = document.getElementById('videoInfo');
+      const videoTitle = document.getElementById('videoTitle');
+      const videoDetails = document.getElementById('videoDetails');
+      const videoDescription = document.getElementById('videoDescription');
+      
+      const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+      
+      videoPlayer.innerHTML = `
+        <iframe 
+          src="${embedUrl}"
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+        <button class="miniplayer-btn" onclick="enableMiniplayer('${embedUrl}')" title="Open in miniplayer">
+          <span class="material-symbols-outlined">picture_in_picture_alt</span>
+        </button>
+      `;
+
+      const publishDate = new Date(snippet.publishedAt).toLocaleDateString();
+      
+      videoTitle.textContent = snippet.title;
+      videoDetails.innerHTML = `
+        <div><strong>Channel:</strong> ${snippet.channelTitle}</div>
+        <div><strong>Published:</strong> ${publishDate}</div>
+      `;
+      videoDescription.textContent = snippet.description || 'No description available.';
+      
+      videoInfo.style.display = 'block';
+      
+      // Scroll to video on mobile
+      videoPlayer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function enableMiniplayer(embedUrl) {
+      // Store the embed URL in sessionStorage
+      sessionStorage.setItem('miniplayer', embedUrl);
+      
+      // Optional: Show confirmation or feedback
+      const btn = event.target.closest('.miniplayer-btn');
+      const originalContent = btn.innerHTML;
+      btn.innerHTML = '<span class="material-symbols-outlined">check</span>';
+      btn.style.background = 'rgba(16, 185, 129, 0.8)';
+      
+      setTimeout(() => {
+        btn.innerHTML = originalContent;
+        btn.style.background = 'rgba(0, 0, 0, 0.8)';
+      }, 1000);
+    }
+
+    // Mobile-friendly keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.getElementById('searchInput').focus();
+      }
+    });
+  </script>
+  <script src="../theme.js"></script>
+</body>
+</html>

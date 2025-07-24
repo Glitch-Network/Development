@@ -323,7 +323,6 @@ body {
             <span class="material-symbols-outlined" onclick="openApp('terminal')">terminal</span>
             <span class="material-symbols-outlined" onclick="openApp('web')">public</span>
             <span class="material-symbols-outlined" onclick="openApp('game')">sports_esports</span>
-            <span class="material-symbols-outlined" onclick="openApp('gpt')">robot</span>
             <span class="material-symbols-outlined" onclick="openApp('chat')">chat</span>
             <span class="material-symbols-outlined" onclick="openApp('miniplayer')">play_circle</span>
 <span class="material-symbols-outlined" onclick="openApp('settings')" title="Settings">settings</span>
@@ -436,7 +435,7 @@ body {
       document.getElementById('searchInput').addEventListener('keypress', function(event) {
           if (event.key === 'Enter') {
               const searchQuery = this.value;
-              const url = 'launch.html?url=' + encodeURIComponent(searchQuery);
+              const url = 'launch_page.html?url=' + encodeURIComponent(searchQuery);
               createWindow(Math.random().toString(36).substring(2, 15), 'Tabs', `<iframe src="${url}" style="border:0; flex-grow:1; width:100%; height:100%;"></iframe>`);
           }
       });
@@ -612,7 +611,7 @@ body {
           if (app == "game") {
               createWindow(Math.random().toString(36).substring(2, 15), "Games", `<iframe src="${appendVMParam('apps.html')}" style="border:0; flex-grow:1; width:100%; height:100%;"></iframe>`, true);
           } else if (app == "web") {
-              createWindow(Math.random().toString(36).substring(2, 15), "Tabs", `<iframe src="${appendVMParam('launch.html')}" style="border:0; flex-grow:1; width:100%; height:100%;"></iframe>`, true);
+              createWindow(Math.random().toString(36).substring(2, 15), "Axiom Browser", `<iframe src="${appendVMParam('launch.html')}" style="border:0; flex-grow:1; width:100%; height:100%;"></iframe>`, true);
           } else if (app == "discord") {
             createWindow(Math.random().toString(36).substring(2, 15), 'Chat', '<iframe src="chat.html" style="border:0; flex-grow:1; width:100%; height:100%;"></iframe>');
               
@@ -623,7 +622,7 @@ body {
           } else if (app == "settings") {
               createWindow(Math.random().toString(36).substring(2, 15), "Settings", `<iframe src="${appendVMParam('/settings.html')}" style="border:0; flex-grow:1; width:100%; height:100%;"></iframe>`, true);
           } else if (app == "gpt") {
-              createWindow(Math.random().toString(36).substring(2, 15), "AI Chat", `<iframe src="${appendVMParam('/launch_page.html?url=https://r1web.com/')}" style="border:0; flex-grow:1; width:100%; height:100%;"></iframe>`, true);
+              createWindow(Math.random().toString(36).substring(2, 15), "AI Chat", `<iframe src="${appendVMParam('axiom/launch_page.html?url=https://r1web.com/')}" style="border:0; flex-grow:1; width:100%; height:100%;"></iframe>`, true);
           } else if (app == "tv") {
           } else if (app == "miniplayer") {
               let url = prompt('Enter YouTube URL:');
@@ -1800,7 +1799,6 @@ body {
 }
 </style>
 
-<!-- Roo the rabbit was here: fix desktop alignment! -->
 <style>
 #file-list {
   display: flex !important;

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <title>Glitch</title>
+  <title>Axiom New Tab</title>
    <script>
       document.addEventListener("DOMContentLoaded",async function(){
         await navigator.serviceWorker.register('sw.js');
@@ -22,205 +22,541 @@
      
     </script>
   <style>
-/* ✨ SLEEK & MODERN DARK THEME FOR IFRAME VIEWER ✨ */
 
-/* -------------------------------------------------- */
-/* ✨ Root Variables - THEME CUSTOMIZATION ✨ */
-/* -------------------------------------------------- */
 :root {
-  /* Primary Dark Theme Palette */
-  --color-background: #121212;         /* Deeper Dark Background */
-  --color-surface: #1e1e1e;            /* Slightly Lighter Surface for Searchbar, etc. */
-  --color-primary: #bb86fc;            /* Purple -  Primary Accent Color */
-  --color-secondary: #03dac5;          /* Teal - Secondary Accent Color */
-  --color-text-primary: #ffffff;       /* White - Primary Text Color */
-  --color-text-secondary: #aaaaaa;     /* Light Grey - Secondary Text/Hints */
-  --color-accent: var(--color-primary); /* Default Accent is Primary */
-
-  /* UI Elements & Spacing */
-  --spacing-unit: 10px;               /* Base Spacing Unit */
-  --padding-base: calc(var(--spacing-unit) * 0.8); /* Standard Padding */
-  --margin-base: var(--spacing-unit);  /* Standard Margin */
-  --border-radius-base: 8px;          /* Rounded Corners for UI elements */
-  --toolbar-height: 50px;              /* Height of the search bar/toolbar */
-
-  /* Shadows & Effects */
-  --box-shadow-normal: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle Shadow */
-  --box-shadow-hover: 0 4px 10px rgba(0, 0, 0, 0.3);/* Stronger Shadow on Hover */
-  --transition-duration: 0.3s;        /* Standard Transition Duration */
-  --transition-easing: ease-in-out;   /* Standard Transition Easing */
+  /* Modern Color Palette */
+  --color-primary: #6366f1;
+  --color-secondary: #8b5cf6;
+  --color-accent: #06b6d4;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  
+  /* Background & Surfaces */
+  --color-background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  --color-surface: rgba(255, 255, 255, 0.08);
+  --color-surface-hover: rgba(255, 255, 255, 0.12);
+  --color-surface-active: rgba(255, 255, 255, 0.16);
+  
+  /* Text Colors */
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+  
+  /* Glassmorphism Effects */
+  --glass-background: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --glass-blur: blur(16px);
+  
+  /* Spacing & Dimensions */
+  --toolbar-height: 48px;
+  --border-radius: 12px;
+  --border-radius-lg: 16px;
+  --spacing-xs: 4px;
+  --spacing-sm: 6px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-
-/* -------------------------------------------------- */
-/* ✨ Base Styles - Body and Font ✨ */
-/* -------------------------------------------------- */
-body {
-  background-color: var(--color-background);
-  color: var(--color-text-primary);
+* {
   margin: 0;
-  overflow: hidden; /* Hide scrollbars for cleaner look */
-  font-family: sans-serif; /* System font or preferred font */
-  -webkit-font-smoothing: antialiased; /* Improve font rendering on macOS */
-  -moz-osx-font-smoothing: grayscale;   /* Improve font rendering on Firefox macOS */
-}
-
-
-/* -------------------------------------------------- */
-/* ✨ Search Bar - Fixed at Top ✨ */
-/* -------------------------------------------------- */
-#searchbar {
-  background-color: var(--color-surface); /* Darker surface for search bar */
-  width: 100%;
-  display: flex;
-  justify-content: center; /* Center content horizontally */
-  align-items: center;     /* Center content vertically */
-  height: var(--toolbar-height);
-  position: fixed; /* Fixed position at the top */
-  top: 0;
-  z-index: 15; /* Ensure it's above iframe */
+  padding: 0;
   box-sizing: border-box;
-  padding: 0 var(--padding-base);
-  box-shadow: var(--box-shadow-normal); /* Add subtle shadow */
 }
 
-
-/* Search Input Field */
-#searchbar input {
-  background-color: #2a2a2a; /* Slightly lighter than surface, input background */
+body {
+  background: var(--color-background);
   color: var(--color-text-primary);
-  border: none;
-  border-radius: var(--border-radius-base);
-  padding: var(--padding-base) calc(var(--padding-base) * 2); /* More horizontal padding */
-  width: 60%; /* Wider search bar */
-  min-width: 250px; /* Minimum width for responsiveness */
-  box-sizing: border-box;
-  font-size: 1rem;
-  transition: background-color var(--transition-duration) var(--transition-easing),
-              box-shadow var(--transition-duration) var(--transition-easing);
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden;
+  position: relative;
+  min-height: 100vh;
 }
 
-#searchbar input::placeholder {
-  color: var(--color-text-secondary); /* Grey placeholder text */
-  opacity: 0.7;
-}
-
-#searchbar input:focus {
-  outline: none; /* Remove default focus outline */
-  background-color: #333; /* Slightly lighter on focus */
-  box-shadow: var(--box-shadow-hover); /* Stronger shadow on focus */
-}
-
-
-/* -------------------------------------------------- */
-/* ✨ Iframe Container - Below Search Bar ✨ */
-/* -------------------------------------------------- */
-#uv-frame {
-  width: 100%;
-  height: calc(100vh - var(--toolbar-height)); /* Adjust height to fill viewport below toolbar */
-  border: none; /* Remove default iframe border */
-  position: fixed; /* Fixed to viewport */
-  top: var(--toolbar-height); /* Position below search bar */
+/* Animated Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+  z-index: -1;
+  animation: backgroundShift 20s ease-in-out infinite;
 }
 
-iframe {
-  background-color: var(--color-surface); /* Match iframe background to surface for seamless look, or can be 'transparent' */
-}
-
-
-/* -------------------------------------------------- */
-/* ✨ Toolbar Icons - Home, Refresh, etc. ✨ */
-/* -------------------------------------------------- */
-#home, #refresh {
-  margin-right: calc(var(--margin-base) * 1.5); /* Spacing between icons and input */
-  filter: invert(90%) sepia(10%) saturate(200%) hue-rotate(250deg) brightness(100%) contrast(90%); /* Soft purple tint, adjust filter for desired color */
-  opacity: 0.7; /* Slightly faded icons */
-  cursor: pointer;
-  transition: opacity var(--transition-duration) var(--transition-easing),
-              filter var(--transition-duration) var(--transition-easing); /* Smooth transition */
-}
-
-#home:hover, #refresh:hover {
-  opacity: 1; /* Fully visible on hover */
-  filter: invert(95%) sepia(20%) saturate(300%) hue-rotate(260deg) brightness(110%) contrast(100%); /* Slightly brighter purple on hover */
+@keyframes backgroundShift {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
 }
 
 
-/* Generic Image Styling (Consider using more specific classes if other images are present) */
-img {
-  width: 24px; /* Slightly larger icons */
-  margin-left: calc(var(--margin-base) * 1.5); /* Spacing for icons on the left if any */
-  cursor: pointer;
-}
-
-
-/* -------------------------------------------------- */
-/* ✨ Loader Animation - Centered and Modern ✨ */
-/* -------------------------------------------------- */
-.loader {
-  width: 36px; /* Slightly smaller loader */
-  height: 36px; /* Slightly smaller loader */
-  border: 4px solid; /* Thinner border */
-  border-color: var(--color-primary) transparent; /* Brand color for loader */
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1.2s linear infinite; /* Slightly slower animation */
-  margin-left: calc(var(--margin-base) * 1.5); /* Spacing if loader is next to other elements */
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-
-/* -------------------------------------------------- */
-/* ✨ Country Flag Element - Right Aligned & Stylish ✨ */
-/* -------------------------------------------------- */
-.country-flag {
-  position: absolute; /* Positioned to the right of search bar */
-  right: var(--padding-base); /* Spacing from right edge */
+/* Modern Toolbar - Made Thinner */
+#searchbar {
+  background: var(--glass-background);
+  backdrop-filter: var(--glass-blur);
+  width: 100%;
+  height: var(--toolbar-height);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: rgba(255, 255, 255, 0.05); /* Very subtle white overlay */
-  padding: var(--padding-base) calc(var(--padding-base) * 1.5); /* Adjusted padding */
-  border-radius: calc(var(--border-radius-base) * 2); /* More rounded corners */
-  border: 1px solid rgba(255, 255, 255, 0.1); /* Very subtle white border */
-  box-shadow: var(--box-shadow-normal); /* Subtle shadow */
-  backdrop-filter: blur(10px); /* Stronger blur effect for glassmorphism */
-  transition: background-color var(--transition-duration) var(--transition-easing),
-              border-color var(--transition-duration) var(--transition-easing);
+  justify-content: center;
+  padding: 0 var(--spacing-md);
+  box-shadow: var(--glass-shadow);
+  transition: all var(--transition-normal);
+  gap: var(--spacing-sm);
 }
 
-.country-flag:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Slightly more visible on hover */
-  border-color: rgba(255, 255, 255, 0.2); /* Slightly more visible border on hover */
+#searchbar:hover {
+  background: var(--color-surface-hover);
 }
 
-
-/* Country Flag Image */
-.country-flag img {
-  height: 24px; /* Slightly larger flag image */
-  width: auto;
-  margin-right: calc(var(--margin-base) * 0.8); /* Adjusted spacing between flag and text */
-  border-radius: 3px; /* Slightly rounded flag image corners */
+/* Navigation Controls */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
 }
 
+.toolbar-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
 
-/* Country Flag Text (Country Code) */
-.country-flag span {
+/* Search Input Container */
+.search-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 600px;
+  position: relative;
+}
+
+#search {
+  background: var(--glass-background);
+  border: 2px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
   color: var(--color-text-primary);
-  font-weight: 500; /* Slightly bolder text */
-  letter-spacing: 0.5px; /* Slightly tighter letter spacing */
-  font-size: 0.9rem;
-  opacity: 0.9; /* Slightly less opaque text */
+  font-size: 14px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  width: 100%;
+  outline: none;
+  backdrop-filter: var(--glass-blur);
+  transition: all var(--transition-normal);
+  font-weight: 400;
+}
+
+#search::placeholder {
+  color: var(--color-text-muted);
+}
+
+#search:focus {
+  border-color: var(--color-primary);
+  background: var(--color-surface-hover);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  transform: scale(1.01);
+}
+
+/* Action Buttons - Made Smaller */
+.action-btn {
+  background: var(--glass-background);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  margin: 0 var(--spacing-xs);
+  transition: all var(--transition-fast);
+  backdrop-filter: var(--glass-blur);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+}
+
+.action-btn:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary);
+  color: var(--color-text-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.action-btn:active {
+  transform: translateY(0);
+  background: var(--color-surface-active);
+}
+
+.action-btn.refresh:hover {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.action-btn.search:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.action-btn.terminal:hover {
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
+
+.action-btn.nav:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.action-btn.fullscreen:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.action-btn.settings:hover {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+/* Search Engine Indicator */
+.search-engine-indicator {
+  position: absolute;
+  display: none;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: var(--color-text-muted);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  transition: all var(--transition-fast);
+  pointer-events: none;
+}
+
+#search:focus + .search-engine-indicator {
+  opacity: 0.7;
+  transform: translateY(-50%) scale(0.9);
+}
+
+/* Shared Selector Styles */
+.selector-base {
+  background: var(--glass-background);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  backdrop-filter: var(--glass-blur);
+  transition: all var(--transition-normal);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.selector-base::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left var(--transition-slow);
+}
+
+.selector-base:hover::before {
+  left: 100%;
+}
+
+.selector-base:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.selector-icon {
+  font-size: 16px;
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.selector-base:hover .selector-icon {
+  color: var(--color-primary);
+}
+
+.custom-select {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.custom-select select {
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  font-size: 12px;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  padding: var(--spacing-xs) 0;
+  min-width: 80px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.custom-select select option {
+  background: #1e293b;
+  color: var(--color-text-primary);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+}
+
+.select-arrow {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+  pointer-events: none;
+}
+
+
+.proxy-selector.active {
+  border-color: var(--color-accent);
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+}
+
+.proxy-selector.active .proxy-icon,
+.proxy-selector.active .select-arrow {
+  color: var(--color-accent);
+}
+
+.proxy-selector.active::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--color-accent), transparent, var(--color-accent));
+  border-radius: var(--border-radius);
+  z-index: -1;
+  opacity: 0.3;
+  animation: activeGlow 2s ease-in-out infinite alternate;
+}
+
+
+
+.bridge-selector.active {
+  border-color: var(--color-success);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.bridge-selector.active .bridge-icon,
+.bridge-selector.active .select-arrow {
+  color: var(--color-success);
+}
+
+.bridge-selector.active::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  height: 100%;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--color-success), transparent, var(--color-success));
+  border-radius: var(--border-radius);
+  z-index: -1;
+  opacity: 0.3;
+  animation: activeGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes activeGlow {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 0.4;
+  }
+}
+
+/* Iframe Container */
+#frames {
+  width: 100%;
+  height: calc(100vh - var(--toolbar-height));
+  position: fixed;
+  border: none;
+  top: var(--toolbar-height);
+  left: 0;
+  box-sizing: border-box;
+}
+
+#uv-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: var(--color-surface);
+  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--glass-border);
+}
+
+/* Search Suggestions */
+.resultBox {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--glass-background);
+  border: 1px solid var(--glass-border);
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1001;
+  list-style: none;
+  margin-top: var(--spacing-xs);
+}
+
+.resultBox li {
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 13px;
+}
+
+.resultBox li:last-child {
+  border-bottom: none;
+}
+
+.resultBox li:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+  transform: translateX(4px);
+}
+
+/* Loader Animation */
+.loader {
+  width: 24px;
+  height: 24px;
+  border: 2px solid transparent;
+  border-top: 2px solid var(--color-primary);
+  border-radius: 50%;
+  animation: loaderSpin 1s linear infinite;
+  margin: 0 var(--spacing-sm);
+}
+
+@keyframes loaderSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #searchbar {
+    flex-direction: column;
+    height: auto;
+    min-height: 56px;
+    padding: var(--spacing-sm);
+    gap: var(--spacing-xs);
+  }
+  
+  .nav-controls,
+  .toolbar-controls {
+    order: 2;
+  }
+  
+  .search-container {
+    order: 1;
+    width: 100%;
+    max-width: none;
+  }
+  
+  #frames {
+    height: calc(100vh - 56px);
+    top: 56px;
+    padding: var(--spacing-sm);
+  }
+}
+
+@media (max-width: 640px) {
+  .bridge-selector,
+  .proxy-selector {
+    display: none;
+  }
+  
+  .nav-controls {
+    gap: var(--spacing-xs);
+  }
+  
+  .action-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+}
+
+/* Custom Scrollbar */
+.resultBox::-webkit-scrollbar {
+  width: 6px;
+}
+
+.resultBox::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.resultBox::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 3px;
+}
+
+.resultBox::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* Focus States for Accessibility */
+.action-btn:focus,
+#search:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Micro Animations */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.loading {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Hidden Elements */
+#uv-form {
+  display: none;
 }
   </style>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-278K4F012J"></script>
@@ -246,14 +582,48 @@ img {
     });
 </script>
   <div id="searchbar">
-    <span id="refresh" onclick="location.reload()" class="material-symbols-outlined" style="margin-right: 25px; color: black;">refresh</span>
-    <span id="proxy-toggle" onclick="toggleProxyMode()" class="material-symbols-outlined" style="margin-right: 25px; color: black; cursor: pointer;" title="Toggle Proxy for this URL">shield</span>
-    <input id="search" oninput="search()" placeholder="Input a URL or search..." type="search"/>
-    <span onclick="navigateToPage()" class="material-symbols-outlined" style="margin-left: 25px;">search</span>
-    <span onclick="handle_eruda()" class="material-symbols-outlined" style="margin-left: 25px;">terminal</span>
-    <span onclick="handle_fullscreen()" class="material-symbols-outlined" style="margin-left: 25px;">fullscreen</span>
+    <div class="nav-controls">
+      <span onclick="goBack()" class="material-symbols-outlined action-btn nav" title="Go Back">arrow_back</span>
+      <span onclick="goForward()" class="material-symbols-outlined action-btn nav" title="Go Forward">arrow_forward</span>
+      <span id="refresh" onclick="location.reload()" class="material-symbols-outlined action-btn refresh" title="Refresh Page">refresh</span>
+      <span onclick="bookmark()" class="material-symbols-outlined action-btn nav" title="Bookmark">bookmark</span>
+      
+    </div>
+    
+    <div class="search-container">
+      <input id="search" oninput="search()" placeholder="Search or enter a URL..." type="search"/>
+      <span class="search-engine-indicator" id="search-indicator">Brave</span>
+    </div>
+    
+    <div class="toolbar-controls">
+      <span onclick="navigateToPage()" class="material-symbols-outlined action-btn search" title="Navigate">search</span>
+      <span onclick="handle_eruda()" class="material-symbols-outlined action-btn terminal" title="Developer Tools">terminal</span>
+      <span onclick="handle_fullscreen()" class="material-symbols-outlined action-btn fullscreen" title="Fullscreen Mode">fullscreen</span>
+      <span onclick="openSettings()" class="material-symbols-outlined action-btn settings" title="Settings">settings</span>
 
-            
+      <div class="proxy-selector selector-base" title="Select proxy service" style="display: none;">
+        <span class="material-symbols-outlined selector-icon proxy-icon">security</span>
+        <div class="custom-select">
+          <select id="proxy-select" onchange="handleProxyChange()" >
+            <option value="ultraviolet">Ultraviolet</option>
+            <option value="astral">Astral</option>
+          </select>
+          <span class="material-symbols-outlined select-arrow">keyboard_arrow_down</span>
+        </div>
+      </div>
+
+      <div class="bridge-selector selector-base" title="Select proxy bridge">
+        <span class="material-symbols-outlined selector-icon bridge-icon">vpn_key</span>
+        <div class="custom-select">
+          <select id="bridge-select" onchange="handleBridgeChange()">
+            <option value="None">Direct</option>
+            <option value="12FT">12ft.io</option>
+            <option value="Archive.org/Wayback Machine">Archive.org</option>
+            <option value="Google Cache">Google Cache</option>
+          </select>
+          <span class="material-symbols-outlined select-arrow">keyboard_arrow_down</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -262,7 +632,7 @@ img {
       <input id="uv-search-engine" value="https://www.google.com/search?q=%s" type="hidden">
       <input id="uv-address" type="hidden">
     </form>
-    <iframe id="uv-frame"><script>document.addEventListener("DOMContentLoaded", async () => {
+    <iframe id="uv-frame" style="border: none; background-color: transparent;"><script>document.addEventListener("DOMContentLoaded", async () => {
     
       try {
         await navigator.serviceWorker.register('sw.js');
@@ -277,93 +647,310 @@ img {
 
   <script>
 
-const search_engine_preference = localStorage.getItem("search_engine") || "Google";
-const proxy_bridge = localStorage.getItem("proxy");
-const premium_status = localStorage.getItem("premium") === "true";
+    function bookmark() {
+      url = document.getElementById("uv-address").value;
+      tab_name = document.title.split("|")[0];
+      if (localStorage.getItem("bookmarks")) {
+        ls = localStorage.getItem("bookmarks") + ";" + tab_name + "," + url;
+      } else {
+        ls = tab_name + "," + url;
+      }
+      localStorage.setItem("bookmarks", ls);
+    }
+
+    current_url = "dummy shit lolll"
+
+    setInterval(() => {
+      if (document.getElementById("uv-address").value != current_url) {
+        current_url = document.getElementById("uv-address").value;
+        localStorage.setItem("history", localStorage.getItem("history") + "," + current_url);    
+      }
+    }, 500);
+
+
+
+// Enhanced Search Engine Management
+const SEARCH_ENGINES = {
+  brave: {
+    name: "Brave",
+    url: "https://search.brave.com/search?q=",
+    color: "#fb542b"
+  },
+  duckduckgo: {
+    name: "DuckDuckGo", 
+    url: "https://duckduckgo.com/?q=",
+    color: "#de5833"
+  },
+  google: {
+    name: "Google",
+    url: "https://www.google.com/search?q=",
+    color: "#4285f4"
+  },
+  bing: {
+    name: "Bing",
+    url: "https://www.bing.com/search?q=",
+    color: "#008ad7"
+  },
+  startpage: {
+    name: "Startpage",
+    url: "https://www.startpage.com/sp/search?q=",
+    color: "#1a73e8"
+  },
+  yandex: {
+    name: "Yandex",
+    url: "https://yandex.com/search/?text=",
+    color: "#fc3f1d"
+  },
+  searx: {
+    name: "SearX",
+    url: "https://searx.org/?q=",
+    color: "#3050ff"
+  }
+};
+
+let currentSearchEngine = localStorage.getItem("searchEnginePreference") || "brave";
+let search_engine = SEARCH_ENGINES[currentSearchEngine]?.url || SEARCH_ENGINES.brave.url;
+const proxy_bridge = localStorage.getItem("proxy") || "None";
+let proxy_choice = localStorage.getItem("proxy_choice") || null;
 let suggestions = [];
 
-// Update proxy toggle icon color on input change and page load
-function updateProxyToggleIcon() {
-  const url = document.getElementById('search').value;
-  const btn = document.getElementById('proxy-toggle');
-  if (!btn) return;
-  if (shouldProxyUrl(url)) {
-    btn.style.color = '#2196f3'; // Blue when ON
-    btn.title = "Proxy ENABLED for this URL (click to disable)";
+// Initialize search engine and update UI
+function initializeSearchEngine() {
+  updateSearchEngineIndicator();
+  updateSearchPlaceholder();
+}
+
+// Update the search engine indicator
+function updateSearchEngineIndicator() {
+  const indicator = document.getElementById("search-indicator");
+  const engine = SEARCH_ENGINES[currentSearchEngine];
+  
+  if (indicator && engine) {
+    indicator.textContent = engine.name;
+    indicator.style.color = engine.color;
+  }
+}
+
+// Update search placeholder text
+function updateSearchPlaceholder() {
+  const searchInput = document.getElementById("search");
+  const engine = SEARCH_ENGINES[currentSearchEngine];
+  
+  if (searchInput && engine) {
+    searchInput.placeholder = `Search with ${engine.name} or enter a URL...`;
+  }
+}
+
+// Listen for storage changes (when settings are updated)
+window.addEventListener('storage', function(e) {
+  if (e.key === 'searchEnginePreference' && e.newValue) {
+    currentSearchEngine = e.newValue;
+    search_engine = SEARCH_ENGINES[currentSearchEngine]?.url || SEARCH_ENGINES.brave.url;
+    initializeSearchEngine();
+    console.log(`Search engine changed to: ${SEARCH_ENGINES[currentSearchEngine]?.name}`);
+  }
+  if (e.key === 'proxy_choice' && e.newValue !== proxy_choice) {
+    proxy_choice = e.newValue;
+    initializeProxySelector();
+    console.log(`Proxy choice changed to: ${proxy_choice || 'ultraviolet'}`);
+  }
+});
+
+// Function to open settings page
+function openSettings() {
+  // You can either open in a new tab or navigate to settings page
+  window.open('settings.html', '_blank');
+  // Or navigate in the current frame:
+  // navigateToPage('settings.html');
+}
+
+// Proxy choice management functions
+function initializeProxySelector() {
+  const proxySelect = document.getElementById("proxy-select");
+  const proxySelector = document.querySelector(".proxy-selector");
+  
+  if (proxySelect && proxySelector) {
+    proxySelect.value = proxy_choice || "";
+    updateProxyStatus();
+  }
+}
+
+function updateProxyStatus() {
+  const proxySelect = document.getElementById("proxy-select");
+  const proxySelector = document.querySelector(".proxy-selector");
+  const selectedProxy = proxySelect.value;
+  
+  // Add or remove active class based on proxy selection
+  if (selectedProxy && selectedProxy !== "") {
+    proxySelector.classList.add("active");
   } else {
-    btn.style.color = 'white'; // White when OFF
-    btn.title = "Proxy DISABLED for this URL (click to enable)";
+    proxySelector.classList.remove("active");
   }
 }
 
+function handleProxyChange() {
+  const proxySelect = document.getElementById("proxy-select");
+  const proxySelector = document.querySelector(".proxy-selector");
+  const selectedProxy = proxySelect.value;
+  
+  // Save to localStorage
+  proxy_choice = selectedProxy || null;
+  localStorage.setItem("proxy_choice", proxy_choice || "");
+  
+  // Update visual status
+  updateProxyStatus();
+  
+  // Show brief feedback flash
+  proxySelector.style.transform = "scale(1.05)";
+  setTimeout(() => {
+    proxySelector.style.transform = "";
+  }, 200);
 
-      search_engine = "https://search.brave.com/search?q="    
+  // Reload the frame with the new proxy
+  reloadFrameWithProxy();
+}
 
+function reloadFrameWithProxy() {
+  const address = document.getElementById("uv-address");
+  const currentUrl = address.value;
+  
+  if (currentUrl) {
 
-async function set_flags() {
-  if (premium_status && proxy_bridge && !proxy_bridge.includes("None")) {
-    document.getElementById("second_flag_div").style.display = "block";
-  }
-
-  try {
-    const response = await fetch('/region');
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    let data = await response.json();
-    document.getElementById("main_flag").src = `https://flagsapi.com/${data.country}/shiny/64.png`;
-    document.getElementById("main_flag").title = `Server in ${data.region}, ${data.full_name}`;
-
-    if (premium_status && proxy_bridge && !proxy_bridge.includes("None")) {
-      function check() {
-        switch (proxy_bridge) {
-          case "Glitch EU Proxy":
-            return "https://eu.glitchnetwork.xyz";
-          case "12FT":
-            return "https://12ft.io/";
-          case "Archive.org/Wayback Machine":
-            return "https://web.archive.org/";
-          case "Google Cache":
-            return "https://webcache.googleusercontent.com/search?q=cache:";
-          default:
-            return "";
-        }
-      }
-
-      let proxy_url = check();
-      if (proxy_url.includes("Glitch")) {
-        proxy_url += "/region";
-        const proxyResponse = await fetch(proxy_url);
-        if (!proxyResponse.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        data = await proxyResponse.json();
-        document.getElementById("second_flag").src = `https://flagsapi.com/${data.country}/shiny/64.png`;
-        document.getElementById("second_flag").title = `Server in ${data.region}, ${data.full_name}`;
+      let url = buildSearchUrl(currentUrl, search_engine, [domains]);
+      url = applyBridge(url);
+      
+      console.log("Reloading with new proxy:", url);
+      
+      const frame = document.getElementById("uv-frame");
+      
+      // Apply the selected proxy choice
+      if (proxy_choice === "astral") {
+        const base64Url = btoa(url);
+        frame.src = `/astral/${base64Url}`;
       } else {
-        document.getElementById("second_flag").src = `https://flagsapi.com/US/shiny/64.png`;
-        document.getElementById("second_flag").title = `Cannot find location of Non-Glitch server.`;
+        // Default to ultraviolet (null or "ultraviolet")
+        frame.src = `${__uv$config.prefix}${__uv$config.encodeUrl(url)}`;
       }
-    }
-  } catch (error) {
-    console.error('Failed to fetch region data:', error);
   }
 }
 
-set_flags()
+// Set initial bridge selection
+function initializeBridgeSelector() {
+  const bridgeSelect = document.getElementById("bridge-select");
+  const bridgeSelector = document.querySelector(".bridge-selector");
+  
+  if (bridgeSelect && bridgeSelector) {
+    bridgeSelect.value = proxy_bridge;
+    updateBridgeStatus();
+  }
+}
+
+function updateBridgeStatus() {
+  const bridgeSelect = document.getElementById("bridge-select");
+  const bridgeSelector = document.querySelector(".bridge-selector");
+  const selectedBridge = bridgeSelect.value;
+  
+  // Add or remove active class based on bridge selection
+  if (selectedBridge && selectedBridge !== "None") {
+    bridgeSelector.classList.add("active");
+  } else {
+    bridgeSelector.classList.remove("active");
+  }
+}
+
+function handleBridgeChange() {
+  const bridgeSelect = document.getElementById("bridge-select");
+  const bridgeSelector = document.querySelector(".bridge-selector");
+  const selectedBridge = bridgeSelect.value;
+  
+  // Save to localStorage
+  localStorage.setItem("proxy", selectedBridge);
+  
+  // Update visual status
+  updateBridgeStatus();
+  
+  // Show brief feedback flash
+  bridgeSelector.style.transform = "scale(1.05)";
+  setTimeout(() => {
+    bridgeSelector.style.transform = "";
+  }, 200);
+
+  // Reload the frame with the new bridge
+  reloadFrameWithBridge();
+}
+
+function reloadFrameWithBridge() {
+  const address = document.getElementById("uv-address");
+  const currentUrl = address.value;
+  
+  if (currentUrl) {
+      let url = buildSearchUrl(currentUrl, search_engine, []);
+      url = applyBridge(url);
+      
+      console.log("Reloading with new bridge:", url);
+      
+      const frame = document.getElementById("uv-frame");
+      
+      // Apply the selected proxy choice
+      if (proxy_choice === "astral") {
+        const base64Url = btoa(url);
+        frame.src = `/astral/${base64Url}`;
+      } else {
+        // Default to ultraviolet (null or "ultraviolet")
+        frame.src = `${__uv$config.prefix}${__uv$config.encodeUrl(url)}`;
+      }
+   
+  }
+}    
+
+// Initialize everything on page load
+function initializePage() {
+  // Load search engine preference
+  const savedEngine = localStorage.getItem("searchEnginePreference");
+  if (savedEngine && SEARCH_ENGINES[savedEngine]) {
+    currentSearchEngine = savedEngine;
+    search_engine = SEARCH_ENGINES[currentSearchEngine].url;
+  }
+  
+  // Load proxy choice preference
+  proxy_choice = localStorage.getItem("proxy_choice") || null;
+  
+  initializeSearchEngine();
+  initializeProxySelector();
+  initializeBridgeSelector();
+}
+
+// Initialize on page load
+initializePage();
+
+// Navigation functions
+function goBack() {
+  const frame = document.getElementById("uv-frame");
+  if (frame && frame.contentWindow) {
+    try {
+      frame.contentWindow.history.back();
+    } catch (e) {
+      console.log("Cannot navigate back:", e);
+    }
+  }
+}
+
+function goForward() {
+  const frame = document.getElementById("uv-frame");
+  if (frame && frame.contentWindow) {
+    try {
+      frame.contentWindow.history.forward();
+    } catch (e) {
+      console.log("Cannot navigate forward:", e);
+    }
+  }
+}
 
 
     let typing = 0;
 
     document.getElementById("search").addEventListener("focusin", () => typing = 1);
     document.getElementById("search").addEventListener("focusout", () => typing = 0);
-    
-    // Update proxy icon on input
-    document.getElementById("search").addEventListener("input", updateProxyToggleIcon);
-    // Also update on page load
-    document.addEventListener("DOMContentLoaded", updateProxyToggleIcon);
 
     function getURLParameter(name) {
       const regex = new RegExp(`[\\?&]${name}=([^&#]*)`);
@@ -388,7 +975,21 @@ set_flags()
 
     function updateDocumentTitle() {
       const frame = document.getElementById("uv-frame");
-      const frameTitle = frame.contentDocument ? frame.contentDocument.title : '';
+      let frameTitle = '';
+      
+      try {
+        if (proxy_choice === "astral") {
+          // For Astral proxy, try to get title differently or use a default approach
+          frameTitle = frame.contentDocument ? frame.contentDocument.title : '';
+        } else {
+          // For Ultraviolet proxy
+          frameTitle = frame.contentDocument ? frame.contentDocument.title : '';
+        }
+      } catch (e) {
+        // Handle cross-origin issues
+        console.log("Cannot access frame title:", e);
+      }
+      
       if (document.title !== frameTitle && frameTitle) {
         document.title = frameTitle + "|G|" + document.getElementById('search').value;
       }
@@ -399,8 +1000,16 @@ set_flags()
         if (!typing) {
           try {
             const frame = document.getElementById("uv-frame");
-          
-            const decodedUrl = __uv$config.decodeUrl(frame.contentWindow.location.href.split("/assets-images/backgrounds/")[1]);
+            let decodedUrl = '';
+            
+            if (proxy_choice === "astral") {
+              // For Astral proxy, we might not be able to decode the URL the same way
+              // You might need to implement a different approach here
+              decodedUrl = document.getElementById("search").value; // Keep current value
+            } else {
+              // For Ultraviolet proxy
+              decodedUrl = __uv$config.decodeUrl(frame.contentWindow.location.href.split("/assets-images/")[1]);
+            }
            
             if (decodedUrl && decodedUrl !== document.getElementById("search").value) {
               document.getElementById("search").value = decodedUrl;
@@ -426,6 +1035,11 @@ set_flags()
           .then(jsonData => {
             suggestions = jsonData[1] || [];
             showSuggestions(suggestions);
+          })
+          .catch(err => {
+            console.log("Search suggestions error:", err);
+            suggestions = [];
+            showSuggestions([]);
           });
       } else {
         resultBox.innerHTML = "";
@@ -433,78 +1047,60 @@ set_flags()
     };
 
     function showSuggestions(list) {
+      const engineName = SEARCH_ENGINES[currentSearchEngine]?.name || "Search";
       resultBox.innerHTML = list.map(data => 
-        `<li onclick="window.location='launch.html?url=${encodeURIComponent(search_engine_preference + data)}'">${data} - <span style='filter: opacity(0.4);'>${search_engine_preference} Search</span></li>`
+        `<li onclick="window.location='launch.html?url=${encodeURIComponent(search_engine + data)}'">${data} - <span style='filter: opacity(0.4);'>${engineName}</span></li>`
       ).join('');
     }
 
-    function handle_fullscreen() {
-    const presets = {
-        "Google Slides": "/assets/favicons/slides_favicon.png",
-        "Google": "/assets/favicons/google_favicon.png",
-        "I-Ready": "/assets/favicons/iready_favicon.png",
-        "Clever": "/assets/favicons/clever_favicon.png",
-        "FBI": "https://www.fbi.gov/++theme++fbigov.theme/images/fbi_seal_new.png",
-        "Google Classroom": "/assets/favicons/classroom_favicon.png",
-        "Github": "/assets/favicons/github_favicon.jpg",
-        "Wikipedia": "/assets/favicons/wiki_favicon.png"
-    };
-
-    let preset = localStorage.getItem("autohide_preset") || "Google Classroom";
-
-    let x = "/assets-images/backgrounds/" + __uv$config.encodeUrl(document.getElementById("search").value);
+    function buildSearchUrl(input, searchEngine, domains) {
+  // First, check if it's a search query or URL
+  let url;
+  
+  // Clean the input - remove extra whitespace
+  input = input.trim();
+  
+  try {
+    // Check if it looks like a URL (has dots and no spaces)
+    if (!input.startsWith("http://") && !input.startsWith("https://") && input.includes(".") && !input.includes(" ")) {
+      // Add protocol but don't create URL object yet
+      input = "https://" + input;
+    }
     
-    let code = `
-        <head>
-          <title>${preset}</title>
-          <link rel="icon" type="image/x-icon" href="${presets[preset]}">
-        </head>
-        <body style="background-color: black">
-          <iframe src="${x}" frameborder="0" style="position: fixed; inset: 0; outline: none; border: none; height: 100%; width: 100%;"></iframe>
-        </body>
-    `;
+    // Now try to create URL object to validate
+    const testUrl = new URL(input);
+    
+    // If successful, use the original input (with protocol added if needed)
+    url = input;
+    
+  } catch (err) {
+    // Not a valid URL, treat as search query
+    return `${searchEngine}${encodeURIComponent(input)}`;
+  }
 
-    let newWindow = window.open("about:blank", "_blank");
-    newWindow.document.write(code);
-    newWindow.document.close(); // Ensure the document is complete and can be rendered
-    newWindow.document.body.style.backgroundColor = "black";
+  // Check for domain replacements
+  for (const domain of domains) {
+    if (url.includes(domain.split("|")[0])) {
+      url = domain.split("|")[1];
+      break;
+    }
+  }
+  return url;
 }
 
-    function buildSearchUrl(input, searchEngine, domains) {
-      let url;
-      try {
-        if (!input.startsWith("http://") && !input.startsWith("https://") && input.includes(".")) {
-          input = "https://" + input;
-        }
-        url = new URL(input).toString();
-      } catch (err) {
-        return `${searchEngine}${encodeURIComponent(input)}`;
-      }
-
-      if (url.includes("reddit.com")) {
-        url = url.replace("reddit.com", "l.opnxng.com");
-      }
-
-      for (const domain of domains) {
-        if (url.includes(domain.split("|")[0])) {
-          url = domain.split("|")[1];
-          break;
+    function applyBridge(url) {
+      const currentBridge = localStorage.getItem("proxy") || "None";
+      if (currentBridge && currentBridge !== "None") {
+        const bridgeUrl = getProxyBridge(currentBridge);
+        if (bridgeUrl) {
+          return `${bridgeUrl}${encodeURIComponent(url)}`;
         }
       }
-
-      if (premium_status && proxy_bridge) {
-        if (!proxy_bridge.includes("None")){
-        url = `${getProxyBridge(proxy_bridge)}${encodeURIComponent(url)}`;
-        }
-      }
-
       return url;
     }
 
     function getProxyBridge(proxyBridge) {
       switch (proxyBridge) {
-        case "Glitch EU Proxy":
-          return "https://eu.glitchnetwork.xyz";
         case "12FT":
           return "https://12ft.io/";
         case "Archive.org/Wayback Machine":
@@ -526,26 +1122,52 @@ set_flags()
       else{
         if (eruda_status == 0){
            window.eruda.show()
-           eruda_status = 1
+           eruda_status = 0
         }
-        else{
-        window.eruda.hide()
-        eruda_status = 0
+      }
+    }
+
+    function handle_fullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
         }
       }
     }
 
     document.addEventListener("DOMContentLoaded", async () => {
+      // Initialize search engine, proxy choice, and bridge selector
+      initializePage();
+      
       const address = document.getElementById("uv-address");
       address.value = getURLParameter("url");
       
-      const domains = await fetchGlitchDomains();
+      const domains = []
 
-      const url = buildSearchUrl(address.value, search_engine, domains);
-      console.log(url)
+      let url = buildSearchUrl(address.value, search_engine, domains);
+      
+      // Apply bridge after building the URL but before proxy encoding
+      url = applyBridge(url);
+      
+      console.log("Final URL:", url)
+      console.log("Using proxy:", proxy_choice || "ultraviolet")
       
       const frame = document.getElementById("uv-frame");
-      frame.src = `${__uv$config.prefix}${__uv$config.encodeUrl(url)}`;
+      
+      // Apply the selected proxy choice
+      if (proxy_choice === "astral") {
+        const base64Url = btoa(url);
+        frame.src = `/astral/${base64Url}`;
+        console.log("Using Astral proxy with base64 URL:", base64Url);
+      } else {
+        // Default to ultraviolet (null or "ultraviolet")
+        frame.src = (`${__uv$config.prefix}${__uv$config.encodeUrl(url)}`);
+        console.log((`${__uv$config.prefix}${__uv$config.encodeUrl(url)}`))
+        console.log("Using Ultraviolet proxy");
+      }
+      
       frame.style.display = "block";
 
       try {
@@ -554,75 +1176,16 @@ set_flags()
       } catch (err) {
         console.warn("Failed to register service worker:", err);
       }
-
-
+      
+      // Update proxy and bridge status after initialization
+      setTimeout(() => {
+        updateProxyStatus();
+        updateBridgeStatus();
+      }, 100);
     });
 
 
-
-    async function fetchGlitchDomains() {
-      try {
-        const response = await fetch("https://raw.githubusercontent.com/Glitch-Network/glitch_net_domains/main/db.txt");
-        const data = await response.text();
-        return data.split("\n").map(line => line.trim()).filter(Boolean);
-      } catch (error) {
-        console.log("Glitch domains unavailable.");
-        return [];
-      }
-    }
-
-    // Function to toggle proxy mode for current URL
-    function toggleProxyMode() {
-        const currentUrl = document.getElementById('search').value;
-        if (!currentUrl) return;
-    
-        let nonProxiedUrls = JSON.parse(localStorage.getItem('nonProxiedUrls') || '[]');
-        const index = nonProxiedUrls.indexOf(currentUrl);
-        if (index === -1) {
-            // Add to non-proxied list (turn proxy OFF)
-            nonProxiedUrls.push(currentUrl);
-            document.getElementById('proxy-toggle').style.color = 'white';
-            localStorage.setItem('nonProxiedUrls', JSON.stringify(nonProxiedUrls));
-            loadUrl(currentUrl); // Load directly in iframe (proxy OFF)
-        } else {
-            // Remove from non-proxied list (turn proxy ON)
-            nonProxiedUrls.splice(index, 1);
-            document.getElementById('proxy-toggle').style.color = '#2196f3';
-            localStorage.setItem('nonProxiedUrls', JSON.stringify(nonProxiedUrls));
-            // Load proxied URL into iframe (proxy ON)
-            const iframe = document.getElementById('uv-frame');
-            iframe.src = `${__uv$config.prefix}${__uv$config.encodeUrl(currentUrl)}`;
-        }
-        updateProxyToggleIcon();
-    }
-
-    // Function to check if a URL should be proxied
-    function shouldProxyUrl(url) {
-        const nonProxiedUrls = JSON.parse(localStorage.getItem('nonProxiedUrls') || '[]');
-        return !nonProxiedUrls.includes(url);
-    }
-
-    // Modify the existing loadUrl function to handle non-proxied URLs
-    function loadUrl(url) {
-        const iframe = document.getElementById('uv-frame');
-        if (shouldProxyUrl(url)) {
-            // Use UV proxy
-            iframe.src = __uv$config.prefix + __uv$config.encodeUrl(url);
-        } else {
-            // Load directly in iframe
-            iframe.src = url;
-        }
-    }
-
-    // Update the search input handler to check proxy status
-    document.getElementById('search').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            const url = this.value;
-            updateProxyToggleIcon();
-            loadUrl(url);
-        }
-    });
   </script>
-    
+  <script src="global.js"></script>
 </body>
 </html>

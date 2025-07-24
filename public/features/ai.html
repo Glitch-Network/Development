@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>Axiom AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@250" rel="stylesheet">
+  <style>
+/* ✨ ULTRA MODERN AI CHAT INTERFACE ✨ */
+
+:root {
+  /* Modern Color Palette */
+  --color-primary: #6366f1;
+  --color-secondary: #8b5cf6;
+  --color-accent: #06b6d4;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  
+  /* Background & Surfaces */
+  --color-background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  --color-surface: rgba(255, 255, 255, 0.08);
+  --color-surface-hover: rgba(255, 255, 255, 0.12);
+  --color-surface-active: rgba(255, 255, 255, 0.16);
+  
+  /* Text Colors */
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+  
+  /* Glassmorphism Effects */
+  --glass-background: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --glass-blur: blur(16px);
+  
+  /* Chat Specific Colors */
+  --user-message-bg: rgba(99, 102, 241, 0.2);
+  --user-message-border: rgba(99, 102, 241, 0.4);
+  --ai-message-bg: rgba(16, 185, 129, 0.2);
+  --ai-message-border: rgba(16, 185, 129, 0.4);
+  
+  /* Spacing & Dimensions */
+  --header-height: 60px;
+  --input-height: 70px;
+  --border-radius: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 20px;
+  --spacing-xs: 4px;
+  --spacing-sm: 6px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Animated Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+  z-index: -1;
+  animation: backgroundShift 20s ease-in-out infinite;
+}
+
+@keyframes backgroundShift {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Header */
+.header {
+  background: var(--glass-background);
+  backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+  width: 100%;
+  height: var(--header-height);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-xl);
+  box-shadow: var(--glass-shadow);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--color-primary);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.action-btn {
+  background: var(--glass-background);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  transition: all var(--transition-fast);
+  backdrop-filter: var(--glass-blur);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+}
+
+.action-btn:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary);
+  color: var(--color-text-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.action-btn.clear:hover {
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
+
+.action-btn.settings:hover {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+/* Chat Container */
+.chat-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--header-height);
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  scroll-behavior: smooth;
+}
+
+/* Welcome Message */
+.welcome-message {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  margin: auto 0;
+}
+
+.welcome-message .ai-icon {
+  font-size: 64px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.welcome-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.welcome-subtitle {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 500px;
+}
+
+.suggested-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+
+.prompt-suggestion {
+  background: var(--glass-background);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 14px;
+  backdrop-filter: var(--glass-blur);
+}
+
+.prompt-suggestion:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary);
+  color: var(--color-text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Message Bubbles */
+.message {
+  display: flex;
+  gap: var(--spacing-md);
+  max-width: 85%;
+  animation: messageSlideIn 0.3s ease-out;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message.ai {
+  align-self: flex-start;
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  backdrop-filter: var(--glass-blur);
+}
+
+.message.user .message-avatar {
+  background: var(--user-message-bg);
+  border: 1px solid var(--user-message-border);
+  color: var(--color-primary);
+}
+
+.message.ai .message-avatar {
+  background: var(--ai-message-bg);
+  border: 1px solid var(--ai-message-border);
+  color: var(--color-success);
+}
+
+.message-bubble {
+  background: var(--glass-background);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  box-shadow: var(--glass-shadow);
+  position: relative;
+  max-width: 100%;
+  word-wrap: break-word;
+  line-height: 1.6;
+}
+
+.message.user .message-bubble {
+  background: var(--user-message-bg);
+  border: 1px solid var(--user-message-border);
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) var(--spacing-xs) var(--border-radius-lg);
+}
+
+.message.ai .message-bubble {
+  background: var(--ai-message-bg);
+  border: 1px solid var(--ai-message-border);
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) var(--border-radius-lg) var(--spacing-xs);
+}
+
+.message-time {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: var(--spacing-xs);
+  opacity: 0.7;
+}
+
+.message.user .message-time {
+  text-align: right;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.typing-dots {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-success);
+  border-radius: 50%;
+  animation: typingDot 1.5s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingDot {
+  0%, 60%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Input Section */
+.input-section {
+  background: var(--glass-background);
+  backdrop-filter: var(--glass-blur);
+  border-top: 1px solid var(--glass-border);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.input-container {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-end;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#messageInput {
+  flex: 1;
+  background: var(--glass-background);
+  border: 2px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  color: var(--color-text-primary);
+  font-size: 16px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  outline: none;
+  backdrop-filter: var(--glass-blur);
+  transition: all var(--transition-normal);
+  font-family: inherit;
+  resize: none;
+  min-height: 50px;
+  max-height: 120px;
+  line-height: 1.5;
+}
+
+#messageInput::placeholder {
+  color: var(--color-text-muted);
+}
+
+#messageInput:focus {
+  border-color: var(--color-primary);
+  background: var(--color-surface-hover);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  transform: scale(1.01);
+}
+
+.send-btn {
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--border-radius-lg);
+  color: white;
+  cursor: pointer;
+  padding: var(--spacing-md);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.send-btn:hover:not(:disabled) {
+  background: #5856eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.send-btn:active {
+  transform: translateY(0);
+}
+
+.send-btn:disabled {
+  background: var(--color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Custom Scrollbar */
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* Error States */
+.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  color: var(--color-danger);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Loading Animation */
+.loading-pulse {
+  animation: loadingPulse 2s ease-in-out infinite;
+}
+
+@keyframes loadingPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 var(--spacing-md);
+  }
+  
+  .logo {
+    font-size: 20px;
+  }
+  
+  .chat-messages {
+    padding: var(--spacing-md);
+  }
+  
+  .input-section {
+    padding: var(--spacing-md);
+  }
+  
+  .message {
+    max-width: 95%;
+  }
+  
+  .welcome-title {
+    font-size: 24px;
+  }
+  
+  .suggested-prompts {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  #messageInput {
+    font-size: 14px;
+  }
+  
+  .send-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+  
+  .message-avatar {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+}
+
+/* Focus States for Accessibility */
+.action-btn:focus,
+.send-btn:focus,
+#messageInput:focus,
+.prompt-suggestion:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Selection Styles */
+::selection {
+  background: rgba(99, 102, 241, 0.3);
+  color: var(--color-text-primary);
+}
+
+/* Smooth Animations */
+.message-bubble {
+  transform-origin: bottom left; 
+}
+
+.message.user .message-bubble {
+  transform-origin: bottom right;
+}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <span class="material-symbols-outlined">auto_awesome</span>
+      <span>Axiom AI</span>
+    </div>
+    
+    <div class="header-actions">
+      <button class="action-btn clear" onclick="clearChat()" title="Clear Chat">
+        <span class="material-symbols-outlined">delete_sweep</span>
+      </button>
+
+    </div>
+  </header>
+
+  <div class="chat-container">
+    <div class="chat-messages" id="chatMessages">
+      <div class="welcome-message" id="welcomeMessage">
+        <div class="material-symbols-outlined ai-icon">auto_awesome</div>
+        <div class="welcome-title">Welcome to Axiom AI</div>
+        <div class="welcome-subtitle">
+          Your (not very) intelligent conversation partner powered by advanced AI ( Actually Indians ).
+        </div>
+        <div class="suggested-prompts">
+          <div class="prompt-suggestion" onclick="sendSuggestedPrompt('Explain quantum computing in simple terms')">
+            Explain quantum computing
+          </div>
+          <div class="prompt-suggestion" onclick="sendSuggestedPrompt('Write a creative story about time travel')">
+            Write a creative story
+          </div>
+          <div class="prompt-suggestion" onclick="sendSuggestedPrompt('Help me plan a healthy meal prep routine')">
+            Plan meal prep routine
+          </div>
+          <div class="prompt-suggestion" onclick="sendSuggestedPrompt('What are the latest trends in web development?')">
+            Web development trends
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-section">
+      <div class="input-container">
+
+        <textarea 
+          id="messageInput" 
+          placeholder="Type your message here... (Press Enter to send, Shift+Enter for new line)"
+          rows="1"
+        ></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+          <span class="material-symbols-outlined">send</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE_URL = 'https://text.pollinations.ai';
+    let chatHistory = [];
+    let isTyping = false;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      const messageInput = document.getElementById('messageInput');
+      const sendBtn = document.getElementById('sendBtn');
+      
+      // Auto-resize textarea
+      messageInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        
+        // Enable/disable send button
+        sendBtn.disabled = !this.value.trim();
+      });
+      
+      // Handle Enter key
+      messageInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          if (!isTyping && this.value.trim()) {
+            sendMessage();
+          }
+        }
+      });
+      
+      // Initial button state
+      sendBtn.disabled = true;
+      
+      // Load chat history from localStorage
+      loadChatHistory();
+    });
+function sendSuggestedPrompt(prompt) {
+  document.getElementById('messageInput').value = prompt;
+  sendMessage();
+}
+
+let deepthink = false;
+async function sendMessage() {
+  const messageInput = document.getElementById('messageInput');
+  let message = messageInput.value.trim();
+  if (!message || isTyping) return;
+  
+  const deepthink_prompt = `\n<system>Special instructions:For this response, you should provide self-monologue reasoning encapsulated within <think></think> XML tags, prefixed to your response, in this you will reason out a solution to the prompt.</system>`;
+ 
+  if (deepthink) {
+    message = message + deepthink_prompt;
+  }
+  
+  // Clear input and hide welcome message
+  messageInput.value = '';
+  messageInput.style.height = 'auto';
+  document.getElementById('sendBtn').disabled = true;
+  hideWelcomeMessage();
+  
+  // Add user message
+  addMessage(message.replace(deepthink_prompt, ""), 'user');
+  
+  // Show typing indicator
+  showTypingIndicator();
+
+  const time = new Date().getTime();
+  
+  try {
+    // Call API
+    let response;
+    try {
+      response = await fetch(`${API_BASE_URL}/${encodeURIComponent(message)}`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'text/plain'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      // Use a fallback API (from AmberAI)
+      console.log('Primary API failed, using fallback API');
+      response = await fetch(`https://charbot.ape3d.com/${encodeURIComponent(message)}`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'text/plain'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    }
+    
+    let aiResponse = await response.text();
+
+    if (deepthink) {
+      const time2 = new Date().getTime();
+      const thinking_time = (time2 - time) / 1000;
+      
+      // Better parsing of think tags
+      const thinkMatch = aiResponse.match(/<think>([\s\S]*?)<\/think>/i);
+      if (thinkMatch) {
+        aiResponse = `Thought for ${thinking_time} seconds\n<think>${thinkMatch[1]}</think>\n` + 
+                     aiResponse.replace(/<think>[\s\S]*?<\/think>/i, '');
+      }
+    }
+    
+    addMessage(aiResponse, 'ai');
+    
+    // Hide typing indicator
+    hideTypingIndicator();
+    
+  } catch (error) {
+    console.error('API Error:', error);
+    hideTypingIndicator();
+    addMessage(
+      "I apologize, but I'm having trouble connecting to my AI service right now. Please try again in a moment.", 
+      'ai', 
+      true
+    );
+  }
+  
+  // Save chat history
+  // saveChatHistory();
+}
+
+function sendMessage_deepthink() {
+  deepthink = !deepthink;
+  console.log('Deepthink mode:', deepthink);
+}
+    function addMessage(content, sender, isError = false) {
+      const chatMessages = document.getElementById('chatMessages');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${sender}`;
+      
+      const now = new Date();
+      const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      const avatarIcon = sender === 'user' ? 'person' : 'auto_awesome';
+      const bubbleClass = isError ? 'error-message' : 'message-bubble';
+      
+      messageDiv.innerHTML = `
+        <div class="message-avatar">
+          <span class="material-symbols-outlined">${avatarIcon}</span>
+        </div>
+        <div class="${bubbleClass}">
+          ${formatMessage(content)}
+          <div class="message-time">${timeString}</div>
+        </div>
+      `;
+      
+      chatMessages.appendChild(messageDiv);
+      scrollToBottom();
+      
+      // Add to chat history
+      chatHistory.push({
+        content: content,
+        sender: sender,
+        timestamp: now.toISOString(),
+        isError: isError
+      });
+    }
+
+    function formatMessage(content) {
+      // Basic text formatting
+      return content
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`(.*?)`/g, '<code style="background: rgba(255,255,255,0.1); padding: 2px 4px; border-radius: 4px; font-family: monospace;">$1</code>');
+    }
+
+    function showTypingIndicator() {
+      isTyping = true;
+      const chatMessages = document.getElementById('chatMessages');
+      const typingDiv = document.createElement('div');
+      typingDiv.id = 'typingIndicator';
+      typingDiv.className = 'message ai';
+      
+      typingDiv.innerHTML = `
+        <div class="message-avatar">
+          <span class="material-symbols-outlined">psychology</span>
+        </div>
+        <div class="typing-indicator">
+          <span>AI is thinking</span>
+          <div class="typing-dots">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+      `;
+      
+      chatMessages.appendChild(typingDiv);
+      scrollToBottom();
+    }
+
+    function hideTypingIndicator() {
+      isTyping = false;
+      const typingIndicator = document.getElementById('typingIndicator');
+      if (typingIndicator) {
+        typingIndicator.remove();
+      }
+    }
+
+    function hideWelcomeMessage() {
+      const welcomeMessage = document.getElementById('welcomeMessage');
+      if (welcomeMessage) {
+        welcomeMessage.style.display = 'none';
+      }
+    }
+
+    function scrollToBottom() {
+      const chatMessages = document.getElementById('chatMessages');
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function clearChat() {
+      if (confirm('Are you sure you want to clear the chat history?')) {
+        const chatMessages = document.getElementById('chatMessages');
+        chatMessages.innerHTML = `
+          <div class="welcome-message" id="welcomeMessage">
+            <div class="material-symbols-outlined ai-icon">auto_awesome</div>
+            <div class="welcome-title">Welcome to Axiom AI</div>
+            <div class="welcome-subtitle">
+              Your intelligent conversation partner powered by AI (Actually Indians). 
+              Ask me anything, and I'll provide thoughtful, detailed responses.
+            </div>
+            <div class="suggested-prompts">
+              <div class="prompt-suggestion" onclick="sendSuggestedPrompt('Explain quantum computing in simple terms')">
+                Explain quantum computing
+              </div>
+              <div class="prompt-suggestion" onclick="sendSuggestedPrompt('Write a creative story about time travel')">
+                Write a creative story
+              </div>
+              <div class="prompt-suggestion" onclick="sendSuggestedPrompt('Help me plan a healthy meal prep routine')">
+                Plan meal prep routine
+              </div>
+              <div class="prompt-suggestion" onclick="sendSuggestedPrompt('What are the latest trends in web development?')">
+                Web development trends
+              </div>
+            </div>
+          </div>
+        `;
+        
+        chatHistory = [];
+        saveChatHistory();
+      }
+    }
+
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      // Escape to focus input
+      if (e.key === 'Escape') {
+        document.getElementById('messageInput').focus();
+      }
+      
+      // Ctrl/Cmd + K to clear chat
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        clearChat();
+      }
+    });
+
+    // Handle window focus for better UX
+    window.addEventListener('focus', function() {
+      document.getElementById('messageInput').focus();
+    });
+
+    // Auto-focus input on load
+    window.addEventListener('load', function() {
+     // document.getElementById('messageInput').focus();
+    });
+
+    // Handle paste events for better UX
+    document.getElementById('messageInput').addEventListener('paste', function(e) {
+      // Allow default paste behavior, but trigger resize
+      setTimeout(() => {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        document.getElementById('sendBtn').disabled = !this.value.trim();
+      }, 10);
+    });
+
+    // Prevent form submission on Enter in input
+    document.getElementById('messageInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+      }
+    });
+
+    // Handle window resize for mobile responsiveness
+    window.addEventListener('resize', function() {
+      scrollToBottom();
+    });
+
+    // Add smooth scroll behavior for better UX
+    function smoothScrollToBottom() {
+      const chatMessages = document.getElementById('chatMessages');
+      chatMessages.scrollTo({
+        top: chatMessages.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+
+    // Enhanced error handling for network issues
+    function handleNetworkError(error) {
+      console.error('Network error:', error);
+      hideTypingIndicator();
+      
+      let errorMessage = "I'm having trouble connecting right now. ";
+      
+      if (!navigator.onLine) {
+        errorMessage += "Please check your internet connection and try again.";
+      } else if (error.message.includes('429')) {
+        errorMessage += "I'm receiving too many requests. Please wait a moment before trying again.";
+      } else if (error.message.includes('500')) {
+        errorMessage += "There's a temporary issue with my AI service. Please try again in a few minutes.";
+      } else {
+        errorMessage += "Please try again in a moment.";
+      }
+      
+      addMessage(errorMessage, 'ai', true);
+      saveChatHistory();
+    }
+
+    // Add loading states for better perceived performance
+    function setInputLoading(loading) {
+      const messageInput = document.getElementById('messageInput');
+      const sendBtn = document.getElementById('sendBtn');
+      
+      if (loading) {
+        messageInput.disabled = true;
+        messageInput.placeholder = "AI is responding...";
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<div class="spinner" style="width: 20px; height: 20px; border: 2px solid transparent; border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite;"></div>';
+      } else {
+        messageInput.disabled = false;
+        messageInput.placeholder = "Type your message here... (Press Enter to send, Shift+Enter for new line)";
+        sendBtn.disabled = !messageInput.value.trim();
+        sendBtn.innerHTML = '<span class="material-symbols-outlined">send</span>';
+      }
+    }
+
+    // Update sendMessage function with better loading states
+    async function sendMessageEnhanced() {
+      const messageInput = document.getElementById('messageInput');
+      const message = messageInput.value.trim();
+      
+      if (!message || isTyping) return;
+      
+      // Set loading state
+      setInputLoading(true);
+      
+      // Clear input and hide welcome message
+      messageInput.value = '';
+      messageInput.style.height = 'auto';
+      hideWelcomeMessage();
+      
+      // Add user message
+      addMessage(message, 'user');
+      
+      // Show typing indicator
+      showTypingIndicator();
+      
+      try {
+        // Add timeout for better UX
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+        
+        const response = await fetch(`${API_BASE_URL}/${encodeURIComponent(message)}`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'text/plain'
+          },
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const aiResponse = await response.text();
+        
+        // Hide typing indicator and add AI message
+        hideTypingIndicator();
+        setInputLoading(false);
+        addMessage(aiResponse, 'ai');
+        
+      } catch (error) {
+        setInputLoading(false);
+        
+        if (error.name === 'AbortError') {
+          hideTypingIndicator();
+          addMessage(
+            "The request timed out. Please try asking your question again with a shorter message.", 
+            'ai', 
+            true
+          );
+        } else {
+          handleNetworkError(error);
+        }
+      }
+      
+      // Save chat history and focus input
+      saveChatHistory();
+      messageInput.focus();
+    }
+
+    // Replace the original sendMessage with enhanced version
+    window.sendMessage = sendMessageEnhanced;
+
+    // Add CSS animation for spinner
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+  <script src="../theme.js"></script>
+</body>
+</html>

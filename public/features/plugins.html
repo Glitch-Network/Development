@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>Plugins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@250" rel="stylesheet">
+  <style>
+
+:root {
+  /* Modern Color Palette */
+  --color-primary: #6366f1;
+  --color-secondary: #8b5cf6;
+  --color-accent: #06b6d4;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  
+  /* Background & Surfaces */
+  --color-background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  --color-surface: rgba(255, 255, 255, 0.08);
+  --color-surface-hover: rgba(255, 255, 255, 0.12);
+  --color-surface-active: rgba(255, 255, 255, 0.16);
+  
+  /* Text Colors */
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+  
+  /* Glassmorphism Effects */
+  --glass-background: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --glass-blur: blur(16px);
+  
+  /* Plugin Status Colors */
+  --plugin-active-bg: rgba(16, 185, 129, 0.2);
+  --plugin-active-border: rgba(16, 185, 129, 0.4);
+  --plugin-inactive-bg: rgba(148, 163, 184, 0.2);
+  --plugin-inactive-border: rgba(148, 163, 184, 0.4);
+  
+  /* Spacing & Dimensions */
+  --header-height: 70px;
+  --border-radius: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 20px;
+  --spacing-xs: 4px;
+  --spacing-sm: 6px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+  
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Animated Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+  z-index: -1;
+  animation: backgroundShift 20s ease-in-out infinite;
+}
+
+@keyframes backgroundShift {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Header */
+.header {
+  background: var(--glass-background);
+  backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+  width: 100%;
+  height: var(--header-height);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-2xl);
+  box-shadow: var(--glass-shadow);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  color: var(--color-secondary);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.header-stats {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  background: var(--glass-background);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.stat-number {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.action-btn {
+  background: var(--glass-background);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  transition: all var(--transition-fast);
+  backdrop-filter: var(--glass-blur);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
+}
+
+.action-btn:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-secondary);
+  color: var(--color-text-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.action-btn.refresh:hover {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.action-btn.clear:hover {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+/* Main Content */
+.main-content {
+  margin-top: var(--header-height);
+  padding: var(--spacing-2xl);
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.plugins-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: var(--spacing-xl);
+  margin-top: var(--spacing-xl);
+}
+
+/* Plugin Card */
+.plugin-card {
+  background: var(--glass-background);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-xl);
+  transition: all var(--transition-normal);
+  box-shadow: var(--glass-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.plugin-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left var(--transition-slow);
+}
+
+.plugin-card:hover::before {
+  left: 100%;
+}
+
+.plugin-card:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-secondary);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+.plugin-card.active {
+  border-color: var(--color-success);
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
+}
+
+.plugin-card.active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-top: 20px solid var(--color-success);
+}
+
+.plugin-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+}
+
+.plugin-info {
+  flex: 1;
+}
+
+.plugin-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+  line-height: 1.3;
+}
+
+.plugin-description {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.plugin-status {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: var(--glass-blur);
+  flex-shrink: 0;
+  margin-left: var(--spacing-md);
+}
+
+.plugin-status.active {
+  background: var(--plugin-active-bg);
+  border: 1px solid var(--plugin-active-border);
+  color: var(--color-success);
+}
+
+.plugin-status.inactive {
+  background: var(--plugin-inactive-bg);
+  border: 1px solid var(--plugin-inactive-border);
+  color: var(--color-text-muted);
+}
+
+.plugin-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+}
+
+.plugin-btn {
+  flex: 1;
+  background: var(--glass-background);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+  backdrop-filter: var(--glass-blur);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+}
+
+.plugin-btn:hover {
+  background: var(--color-surface-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.plugin-btn.primary {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: white;
+}
+
+.plugin-btn.primary:hover {
+  background: #059669;
+  border-color: #059669;
+}
+
+.plugin-btn.danger {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+  color: white;
+}
+
+.plugin-btn.danger:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+.plugin-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.plugin-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.plugin-src {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Loading States */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+  gap: var(--spacing-lg);
+  min-height: 400px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top: 3px solid var(--color-secondary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  text-align: center;
+}
+
+/* Error States */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+  gap: var(--spacing-lg);
+  min-height: 400px;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-xl);
+  color: var(--color-danger);
+  text-align: center;
+  max-width: 600px;
+}
+
+.error-icon {
+  font-size: 64px;
+  color: var(--color-danger);
+  opacity: 0.7;
+}
+
+.retry-btn {
+  background: var(--color-danger);
+  border: none;
+  border-radius: var(--border-radius);
+  color: white;
+  cursor: pointer;
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.retry-btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+  gap: var(--spacing-lg);
+  min-height: 400px;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 64px;
+  color: var(--color-text-muted);
+  opacity: 0.5;
+}
+
+.empty-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.empty-description {
+  color: var(--color-text-secondary);
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+/* Toast Notifications */
+.toast {
+  position: fixed;
+  top: 90px;
+  right: var(--spacing-xl);
+  background: var(--glass-background);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  box-shadow: var(--glass-shadow);
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 2000;
+  transform: translateX(400px);
+  transition: transform var(--transition-normal);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  max-width: 350px;
+}
+
+.toast.show {
+  transform: translateX(0);
+}
+
+.toast.success {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.toast.error {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.toast.warning {
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .plugins-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+  
+  .main-content {
+    padding: var(--spacing-xl);
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0 var(--spacing-lg);
+    flex-direction: column;
+    height: auto;
+    min-height: var(--header-height);
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+  }
+  
+  .header-stats {
+    order: 2;
+  }
+  
+  .header-actions {
+    order: 3;
+  }
+  
+  .logo {
+    font-size: 24px;
+    order: 1;
+  }
+  
+  .main-content {
+    margin-top: 120px;
+    padding: var(--spacing-lg);
+  }
+  
+  .plugins-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+  
+  .plugin-card {
+    padding: var(--spacing-lg);
+  }
+  
+  .toast {
+    right: var(--spacing-md);
+    left: var(--spacing-md);
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .plugin-actions {
+    flex-direction: column;
+  }
+  
+  .plugin-header {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .plugin-status {
+    align-self: flex-start;
+    margin-left: 0;
+  }
+  
+  .header-stats {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* Focus States for Accessibility */
+.action-btn:focus,
+.plugin-btn:focus,
+.retry-btn:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Animation for active plugins */
+@keyframes activeGlow {
+  0%, 100% { box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2); }
+  50% { box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4); }
+}
+
+.plugin-card.active {
+  animation: activeGlow 3s ease-in-out infinite;
+}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <span class="material-symbols-outlined">extension</span>
+      <span>Plugins</span>
+    </div>
+    
+    <div class="header-stats">
+      <div class="stat-item">
+        <span class="material-symbols-outlined">inventory_2</span>
+        <span>Total: <span class="stat-number" id="totalPlugins">0</span></span>
+      </div>
+      <div class="stat-item">
+        <span class="material-symbols-outlined">check_circle</span>
+        <span>Active: <span class="stat-number" id="activePlugins">0</span></span>
+      </div>
+      <div class="stat-item">
+        <span class="material-symbols-outlined">schedule</span>
+        <span>Available: <span class="stat-number" id="availablePlugins">0</span></span>
+      </div>
+    </div>
+    
+    <div class="header-actions">
+      <button class="action-btn refresh" onclick="refreshPlugins()" title="Refresh Plugins">
+        <span class="material-symbols-outlined">refresh</span>
+      </button>
+      <button class="action-btn clear" onclick="clearAllPlugins()" title="Clear All Plugins">
+        <span class="material-symbols-outlined">clear_all</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div id="pluginsContainer">
+      <div class="loading-container">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading Axiom plugins directory...</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Configuration
+    const PLUGINS_API_URL = 'https://raw.githubusercontent.com/Axiom-Proxy/Axiom-Plugins-Directory/refs/heads/main/plugins.json';
+    const PLUGINS_BASE_URL = 'https://raw.githubusercontent.com/Axiom-Proxy/Axiom-Plugins-Directory/refs/heads/main/';
+    const STORAGE_KEY = 'axiom_plugins';
+    
+    // State
+    let allPlugins = [];
+    let activePlugins = [];
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      loadActivePlugins();
+      fetchPlugins();
+    });
+
+    // Load active plugins from storage
+    function loadActivePlugins() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        activePlugins = stored ? stored.split(',').filter(url => url.trim()) : [];
+        console.log('Loaded active plugins:', activePlugins);
+      } catch (error) {
+        console.error('Failed to load active plugins:', error);
+        activePlugins = [];
+      }
+    }
+
+    // Save active plugins to storage
+    function saveActivePlugins() {
+      try {
+        const pluginUrls = activePlugins.join(',');
+        localStorage.setItem(STORAGE_KEY, pluginUrls);
+        console.log('Saved active plugins:', pluginUrls);
+        showToast('Plugin settings saved successfully', 'success');
+      } catch (error) {
+        console.error('Failed to save active plugins:', error);
+        showToast('Failed to save plugin settings', 'error');
+      }
+    }
+
+    // Fetch plugins from API
+    async function fetchPlugins() {
+      const container = document.getElementById('pluginsContainer');
+      
+      try {
+        showLoading();
+        
+        const response = await fetch(PLUGINS_API_URL);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const plugins = await response.json();
+        
+        if (!Array.isArray(plugins)) {
+          throw new Error('Invalid plugins data format');
+        }
+        
+        allPlugins = plugins;
+        renderPlugins(plugins);
+        updateStats();
+        
+      } catch (error) {
+        console.error('Failed to fetch plugins:', error);
+        showError(error.message);
+      }
+    }
+
+    // Show loading state
+    function showLoading() {
+      const container = document.getElementById('pluginsContainer');
+      container.innerHTML = `
+        <div class="loading-container">
+          <div class="spinner"></div>
+          <div class="loading-text">Loading Axiom plugins directory...</div>
+        </div>
+      `;
+    }
+
+    // Show error state
+    function showError(message) {
+      const container = document.getElementById('pluginsContainer');
+      container.innerHTML = `
+        <div class="error-container">
+          <span class="material-symbols-outlined error-icon">error</span>
+          <div class="error-message">
+            <h3>Failed to Load Plugins</h3>
+            <p>${message}</p>
+            <p>Please check your internet connection and try again.</p>
+          </div>
+          <button class="retry-btn" onclick="fetchPlugins()">
+            <span class="material-symbols-outlined">refresh</span>
+            Retry Loading
+          </button>
+        </div>
+      `;
+    }
+
+    // Render plugins grid
+    function renderPlugins(plugins) {
+      const container = document.getElementById('pluginsContainer');
+      
+      if (plugins.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <span class="material-symbols-outlined empty-icon">extension_off</span>
+            <div class="empty-title">No Plugins Available</div>
+            <div class="empty-description">
+              The plugins directory is currently empty. Check back later for new plugins!
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const pluginsGrid = document.createElement('div');
+      pluginsGrid.className = 'plugins-grid';
+      
+      plugins.forEach((plugin, index) => {
+        const pluginUrl = PLUGINS_BASE_URL + plugin.src;
+        const isActive = activePlugins.includes(pluginUrl);
+        
+        const pluginCard = document.createElement('div');
+        pluginCard.className = `plugin-card ${isActive ? 'active' : ''}`;
+        
+        pluginCard.innerHTML = `
+          <div class="plugin-header">
+            <div class="plugin-info">
+              <div class="plugin-name">${escapeHtml(plugin.name)}</div>
+              <div class="plugin-description">${escapeHtml(plugin.description)}</div>
+            </div>
+            <div class="plugin-status ${isActive ? 'active' : 'inactive'}">
+              <span class="material-symbols-outlined">${isActive ? 'check_circle' : 'radio_button_unchecked'}</span>
+              ${isActive ? 'Active' : 'Inactive'}
+            </div>
+          </div>
+          
+          <div class="plugin-actions">
+            ${isActive ? 
+              `<button class="plugin-btn danger" onclick="removePlugin('${pluginUrl}', ${index})">
+                <span class="material-symbols-outlined">remove_circle</span>
+                Remove
+              </button>` :
+              `<button class="plugin-btn primary" onclick="addPlugin('${pluginUrl}', ${index})">
+                <span class="material-symbols-outlined">add_circle</span>
+                Install
+              </button>`
+            }
+            <button class="plugin-btn" onclick="viewPluginSource('${pluginUrl}')">
+              <span class="material-symbols-outlined">code</span>
+              View Source
+            </button>
+          </div>
+          
+          <div class="plugin-meta">
+            <span class="material-symbols-outlined">code</span>
+            <span class="plugin-src">${escapeHtml(plugin.src)}</span>
+          </div>
+        `;
+        
+        pluginsGrid.appendChild(pluginCard);
+      });
+      
+      container.innerHTML = '';
+      container.appendChild(pluginsGrid);
+    }
+
+    // Add plugin
+    function addPlugin(pluginUrl, index) {
+      if (activePlugins.includes(pluginUrl)) {
+        showToast('Plugin is already installed', 'warning');
+        return;
+      }
+      
+      activePlugins.push(pluginUrl);
+      saveActivePlugins();
+      
+      // Update the specific plugin card
+      const pluginCard = document.querySelectorAll('.plugin-card')[index];
+      pluginCard.classList.remove('active');
+      
+      // Update the plugin actions
+      const actionsContainer = pluginCard.querySelector('.plugin-actions');
+      actionsContainer.innerHTML = `
+        <button class="plugin-btn primary" onclick="addPlugin('${pluginUrl}', ${index})">
+          <span class="material-symbols-outlined">add_circle</span>
+          Install
+        </button>
+        <button class="plugin-btn" onclick="viewPluginSource('${pluginUrl}')">
+          <span class="material-symbols-outlined">code</span>
+          View Source
+        </button>
+      `;
+      
+      // Update status indicator
+      const statusIndicator = pluginCard.querySelector('.plugin-status');
+      statusIndicator.className = 'plugin-status inactive';
+      statusIndicator.innerHTML = `
+        <span class="material-symbols-outlined">radio_button_unchecked</span>
+        Inactive
+      `;
+      
+      updateStats();
+      showToast(`Plugin "${allPlugins[index].name}" removed successfully`, 'success');
+    }
+
+    // View plugin source
+    function viewPluginSource(pluginUrl) {
+      // Open plugin source in a new tab
+      window.open(pluginUrl, '_blank');
+      showToast('Opening plugin source in new tab', 'success');
+    }
+
+    // Update statistics
+    function updateStats() {
+      const totalElement = document.getElementById('totalPlugins');
+      const activeElement = document.getElementById('activePlugins');
+      const availableElement = document.getElementById('availablePlugins');
+      
+      const total = allPlugins.length;
+      const active = activePlugins.length;
+      const available = total - active;
+      
+      totalElement.textContent = total;
+      activeElement.textContent = active;
+      availableElement.textContent = available;
+      
+      // Animate the numbers
+      animateNumber(totalElement, total);
+      animateNumber(activeElement, active);
+      animateNumber(availableElement, available);
+    }
+
+    // Animate number changes
+    function animateNumber(element, targetValue) {
+      element.style.transform = 'scale(1.2)';
+      element.style.color = 'var(--color-primary)';
+      
+      setTimeout(() => {
+        element.style.transform = 'scale(1)';
+        element.style.color = '';
+      }, 200);
+    }
+
+    // Refresh plugins
+    async function refreshPlugins() {
+      const refreshBtn = document.querySelector('.action-btn.refresh');
+      const originalContent = refreshBtn.innerHTML;
+      
+      // Show loading state
+      refreshBtn.innerHTML = '<div class="spinner" style="width: 20px; height: 20px; border: 2px solid transparent; border-top: 2px solid currentColor; border-radius: 50%; animation: spin 1s linear infinite;"></div>';
+      refreshBtn.disabled = true;
+      
+      try {
+        await fetchPlugins();
+        showToast('Plugins refreshed successfully', 'success');
+      } catch (error) {
+        showToast('Failed to refresh plugins', 'error');
+      } finally {
+        // Restore button
+        setTimeout(() => {
+          refreshBtn.innerHTML = originalContent;
+          refreshBtn.disabled = false;
+        }, 1000);
+      }
+    }
+
+    // Clear all plugins
+    function clearAllPlugins() {
+      if (activePlugins.length === 0) {
+        showToast('No plugins to clear', 'warning');
+        return;
+      }
+      
+      if (confirm(`Are you sure you want to remove all ${activePlugins.length} active plugins?`)) {
+        const clearedCount = activePlugins.length;
+        activePlugins = [];
+        saveActivePlugins();
+        
+        // Re-render plugins to update UI
+        renderPlugins(allPlugins);
+        updateStats();
+        
+        showToast(`Cleared ${clearedCount} plugins successfully`, 'success');
+      }
+    }
+
+    // Show toast notification
+    function showToast(message, type = 'success') {
+      // Remove existing toasts
+      const existingToasts = document.querySelectorAll('.toast');
+      existingToasts.forEach(toast => toast.remove());
+      
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      
+      const icon = type === 'success' ? 'check_circle' : 
+                   type === 'error' ? 'error' : 
+                   type === 'warning' ? 'warning' : 'info';
+      
+      toast.innerHTML = `
+        <span class="material-symbols-outlined">${icon}</span>
+        <span>${message}</span>
+      `;
+      
+      document.body.appendChild(toast);
+      
+      // Trigger animation
+      setTimeout(() => toast.classList.add('show'), 10);
+      
+      // Auto-remove after 4 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Handle keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      // R key to refresh
+      if (e.key === 'r' || e.key === 'R') {
+        if (!e.ctrlKey && !e.metaKey && document.activeElement === document.body) {
+          e.preventDefault();
+          refreshPlugins();
+        }
+      }
+      
+      // Escape to clear focus
+      if (e.key === 'Escape') {
+        document.activeElement.blur();
+      }
+      
+      // Ctrl/Cmd + K to clear all plugins
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        clearAllPlugins();
+      }
+    });
+
+    // Handle window visibility changes for auto-refresh
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden && allPlugins.length === 0) {
+        // Auto-refresh if plugins failed to load and window becomes visible
+        setTimeout(() => {
+          if (allPlugins.length === 0) {
+            fetchPlugins();
+          }
+        }, 1000);
+      }
+    });
+
+    // Handle network status changes
+    window.addEventListener('online', function() {
+      if (allPlugins.length === 0) {
+        showToast('Connection restored. Refreshing plugins...', 'success');
+        setTimeout(() => fetchPlugins(), 1000);
+      }
+    });
+
+    window.addEventListener('offline', function() {
+      showToast('Connection lost. Some features may not work.', 'warning');
+    });
+
+    // Intersection Observer for plugin card animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationDelay = Math.random() * 0.3 + 's';
+          entry.target.classList.add('animate-in');
+        }
+      });
+    }, observerOptions);
+
+    // Observe plugin cards when they're created
+    function observePluginCards() {
+      const pluginCards = document.querySelectorAll('.plugin-card');
+      pluginCards.forEach(card => observer.observe(card));
+    }
+
+    // Call observePluginCards after rendering
+    const originalRenderPlugins = renderPlugins;
+    renderPlugins = function(plugins) {
+      originalRenderPlugins(plugins);
+      setTimeout(observePluginCards, 100);
+    };
+
+    // Add CSS for card animations
+    const style = document.createElement('style');
+    style.textContent = `
+      .plugin-card {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+      
+      .plugin-card.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Performance monitoring
+    let performanceMetrics = {
+      pluginsLoaded: 0,
+      loadTime: 0,
+      errors: 0
+    };
+
+    // Monitor plugin loading performance
+    function trackPerformance(metric, value) {
+      performanceMetrics[metric] = value;
+      console.log('Performance metrics:', performanceMetrics);
+    }
+
+    // Enhanced error handling with retry logic
+    async function fetchPluginsWithRetry(maxRetries = 3) {
+      let retries = 0;
+      
+      while (retries < maxRetries) {
+        try {
+          const startTime = performance.now();
+          await fetchPlugins();
+          const loadTime = performance.now() - startTime;
+          
+          trackPerformance('pluginsLoaded', allPlugins.length);
+          trackPerformance('loadTime', Math.round(loadTime));
+          return;
+          
+        } catch (error) {
+          retries++;
+          trackPerformance('errors', performanceMetrics.errors + 1);
+          
+          if (retries >= maxRetries) {
+            throw error;
+          }
+          
+          // Exponential backoff
+          const delay = Math.pow(2, retries) * 1000;
+          showToast(`Retry ${retries}/${maxRetries} in ${delay/1000}s...`, 'warning');
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
+    }
+
+    // Replace the initial fetchPlugins call with retry version
+    document.addEventListener('DOMContentLoaded', function() {
+      loadActivePlugins();
+      fetchPluginsWithRetry().catch(error => {
+        console.error('Failed to load plugins after retries:', error);
+      });
+    });
+
+    // Service worker registration for offline support (if available)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(error => {
+        console.log('Service worker registration failed:', error);
+      });
+    }
+
+    // Add search functionality (bonus feature)
+    function addSearchFunctionality() {
+      const header = document.querySelector('.header');
+      const searchContainer = document.createElement('div');
+      searchContainer.style.cssText = `
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        background: var(--glass-background);
+        backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--border-radius);
+        padding: var(--spacing-sm) var(--spacing-md);
+        min-width: 250px;
+      `;
+      
+      searchContainer.innerHTML = `
+        <span class="material-symbols-outlined" style="color: var(--color-text-muted); font-size: 18px;">search</span>
+        <input 
+          type="text" 
+          placeholder="Search plugins..." 
+          id="pluginSearch"
+          style="
+            background: transparent;
+            border: none;
+            color: var(--color-text-primary);
+            font-size: 14px;
+            outline: none;
+            flex: 1;
+          "
+        >
+      `;
+      
+      // Insert search between stats and actions
+      const headerStats = document.querySelector('.header-stats');
+      header.insertBefore(searchContainer, headerStats.nextSibling);
+      
+      // Add search functionality
+      const searchInput = document.getElementById('pluginSearch');
+      searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        
+        if (query === '') {
+          renderPlugins(allPlugins);
+        } else {
+          const filteredPlugins = allPlugins.filter(plugin => 
+            plugin.name.toLowerCase().includes(query) ||
+            plugin.description.toLowerCase().includes(query) ||
+            plugin.src.toLowerCase().includes(query)
+          );
+          renderPlugins(filteredPlugins);
+        }
+        
+        updateStats();
+      });
+    }
+
+// Remove plugin
+function removePlugin(pluginUrl, index) {
+  const pluginIndex = activePlugins.indexOf(pluginUrl);
+  if (pluginIndex === -1) {
+    showToast('Plugin is not currently installed', 'warning');
+    return;
+  }
+  
+  activePlugins.splice(pluginIndex, 1);
+  saveActivePlugins();
+  
+  // Update the specific plugin card
+  const pluginCard = document.querySelectorAll('.plugin-card')[index];
+  pluginCard.classList.remove('active');
+  
+  // Update the plugin actions
+  const actionsContainer = pluginCard.querySelector('.plugin-actions');
+  actionsContainer.innerHTML = `
+    <button class="plugin-btn primary" onclick="addPlugin('${pluginUrl}', ${index})">
+      <span class="material-symbols-outlined">add_circle</span>
+      Install
+    </button>
+    <button class="plugin-btn" onclick="viewPluginSource('${pluginUrl}')">
+      <span class="material-symbols-outlined">code</span>
+      View Source
+    </button>
+  `;
+  
+  // Update status indicator
+  const statusIndicator = pluginCard.querySelector('.plugin-status');
+  statusIndicator.className = 'plugin-status inactive';
+  statusIndicator.innerHTML = `
+    <span class="material-symbols-outlined">radio_button_unchecked</span>
+    Inactive
+  `;
+  
+  updateStats();
+  showToast(`Plugin "${allPlugins[index].name}" removed successfully`, 'success');
+}
+
+    // Add search functionality after plugins are loaded
+    setTimeout(addSearchFunctionality, 1000);
+
+  </script>
+</body>
+</html>

@@ -2,290 +2,1075 @@
 <html>
 
 <head>
-    <title>Glitch | Launch</title>
+    <title>Axiom</title>
     <!-- jQuery -->
     <link rel="icon" href="assets/favicon.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@200" rel="stylesheet"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="scripts/js/global.js"></script>
     <style>
-   /* ✨ SLEEK & MODERN DARK TABS - Consistent with Iframe Viewer ✨ */
+        /* ✨ AXIOM GLASSMORPHIC BROWSER - Compact Layout with Sidebar Apps ✨ */
 
-/* Import Font - Ensure consistency across components */
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+        /* Import Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-/* -------------------------------------------------- */
-/* ✨ Root Variables -  Consistent Theme Palette (From Iframe Viewer) ✨ */
-/* -------------------------------------------------- */
-:root {
-  /* Primary Dark Theme Palette - (Consistent with Iframe Viewer) */
-  --color-background: #121212;         /* Deeper Dark Background */
-  --color-surface: #1e1e1e;            /* Slightly Lighter Surface for Searchbar, Tabs etc. */
-  --color-primary: #bb86fc;            /* Purple -  Primary Accent Color */
-  --color-secondary: #03dac5;          /* Teal - Secondary Accent Color */
-  --color-text-primary: #ffffff;       /* White - Primary Text Color */
-  --color-text-secondary: #aaaaaa;     /* Light Grey - Secondary Text/Hints */
-  --color-accent: var(--color-primary); /* Default Accent is Primary */
+        /* -------------------------------------------------- */
+        /* ✨ Root Variables - Axiom Theme Palette ✨ */
+        /* -------------------------------------------------- */
+        :root {
+            /* Axiom Color Palette */
+            --color-primary: #667eea;
+            --color-secondary: #764ba2;
+            --color-accent: #e0e7ff;
+            --color-surface: rgba(255, 255, 255, 0.1);
+            --color-surface-hover: rgba(255, 255, 255, 0.2);
+            --color-text-primary: #ffffff;
+            --color-text-secondary: rgba(255, 255, 255, 0.7);
+            --color-border: rgba(255, 255, 255, 0.2);
+            --color-border-hover: rgba(255, 255, 255, 0.4);
+            --glass-background: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --glass-blur: blur(20px);
 
-  /* UI Elements & Spacing - (Consistent with Iframe Viewer) */
-  --spacing-unit: 10px;               /* Base Spacing Unit */
-  --padding-base: calc(var(--spacing-unit) * 0.8); /* Standard Padding */
-  --margin-base: var(--spacing-unit);  /* Standard Margin */
-  --border-radius-base: 8px;          /* Rounded Corners for UI elements */
-  --toolbar-height: 50px;              /* Height of the search bar/toolbar */
+            /* Spacing & Layout */
+            --spacing-unit: 5px;
+            --padding-base: calc(var(--spacing-unit) * 1);
+            --margin-base: var(--spacing-unit);
+            --border-radius: 12px;
+            --border-radius-small: 18px;
+            --toolbar-height: 75px;
+            --sidebar-width: 65px;
+            --app-sidebar-width: 400px; /* Width for app sidebar - increased from 320px */
+            --square-space: 65px;
+            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Shadows & Effects - (Consistent with Iframe Viewer) */
-  --box-shadow-normal: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle Shadow */
-  --box-shadow-hover: 0 4px 10px rgba(0, 0, 0, 0.3);/* Stronger Shadow on Hover */
-  --transition-duration: 0.3s;        /* Standard Transition Duration */
-  --transition-easing: ease-in-out;   /* Standard Transition Easing */
-}
+            /* Effects */
+            --blur-strength: 20px;
+            --box-shadow-normal: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --box-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.3);
+            --transition-duration: 0.3s;
+            --transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
+        /* -------------------------------------------------- */
+        /* ✨ Base Styles ✨ */
+        /* -------------------------------------------------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* -------------------------------------------------- */
-/* ✨ Base Styles - Body and Font ✨ */
-/* -------------------------------------------------- */
-body {
-  overflow: hidden; /* Prevent scrollbars */
-  font-family: "Source Sans 3", arial, sans-serif; /* Use imported font, add sans-serif fallback */
-  background-color: var(--color-surface); /*  <-- Changed to --color-surface */
-  color: var(--color-text-primary); /* Light text color from theme */
-  margin: 0;
-  padding: 0;
-  -webkit-font-smoothing: antialiased; /* Improve font rendering on macOS */
-  -moz-osx-font-smoothing: grayscale;   /* Improve font rendering on Firefox macOS */
-}
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--color-text-primary);
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
 
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+            z-index: -2;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
 
-/* -------------------------------------------------- */
-/* ✨ Tabs Container - Horizontal Scrolling Tabs Bar ✨ */
-/* -------------------------------------------------- */
-#tabs {
-  display: flex;
-  margin-top: var(--margin-base); /* Spacing from top */
-  flex-wrap: nowrap; /* Prevent wrapping, allow horizontal scroll */
-  z-index: 2; /* Ensure tabs are above other content */
-  overflow-x: auto; /* Enable horizontal scrolling if tabs overflow */
-  align-items: center; /* Vertically center tabs */
-  height: var(--toolbar-height); /* Fixed height for tab bar */
-  background-color: var(--color-surface); /* Surface color for tab bar */
-  box-shadow: var(--box-shadow-normal); /* Subtle shadow for depth */
-  padding: 0 calc(var(--padding-base) * 1.5); /* Horizontal padding */
-  border-bottom: 3px solid var(--color-surface); /* Match bottom border to background for seamless look */
-}
+        /* Grey tint overlay that persists even when background is changed via JS */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
 
-/* Hide scrollbar for cleaner look in some browsers */
-#tabs::-webkit-scrollbar {
-    display: none;  /* Safari and Chrome */
-}
-#tabs {
-    -ms-overflow-style: none; /* Internet Explorer and Edge */
-    scrollbar-width: none;   /* Firefox */
-}
+        @keyframes backgroundShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
 
+        /* -------------------------------------------------- */
+        /* ✨ Main Container ✨ */
+        /* -------------------------------------------------- */
+        .main-container {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
 
-/* -------------------------------------------------- */
-/* ✨ Tab - Individual Tab Styling ✨ */
-/* -------------------------------------------------- */
-.tab {
-  display: flex;
-  align-items: center;
-  padding: 0 calc(var(--padding-base) * 1.2); /* Horizontal padding inside tab */
-  border-radius: var(--border-radius-base) var(--border-radius-base) 0 0; /* Rounded top corners */
-  background-color: #3a3a3a; /* Slightly lighter background for inactive tabs */
-  color: var(--color-text-secondary); /* Secondary text color for inactive tabs */
-  cursor: pointer;
-  margin: 0 calc(var(--margin-base) / 2); /* Spacing between tabs */
-  height: 100%; /* Fill tab bar height */
-  transition: background-color var(--transition-duration) var(--transition-easing),
-              color var(--transition-duration) var(--transition-easing),
-              box-shadow var(--transition-duration) var(--transition-easing);
-  box-shadow: none; /* No default shadow for inactive tabs */
-}
+        /* -------------------------------------------------- */
+        /* ✨ Control Sidebar ✨ */
+        /* -------------------------------------------------- */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            backdrop-filter: var(--glass-blur);
+            display: flex;
+            flex-direction: column;
+            transition: transform var(--transition-normal);
+            position: relative;
+            z-index: 20;
+            
+            border: none;
+        }
 
-.tab:hover {
-  background-color: #4a4a4a; /* Lighter background on hover */
-  color: var(--color-text-primary); /* Primary text color on hover */
-  box-shadow: var(--box-shadow-normal); /* Add subtle shadow on hover */
-}
+        .sidebar.right {
+            order: 3;
+            border: none;
+        }
 
+        /* Square space at the top */
+        .sidebar-square-space {
+            width: 100%;
+            height: var(--square-space);
+        }
 
-/* Tab Text (Title) */
-.tab p {
-  margin: 0;
-  padding: 0;
-  white-space: nowrap; /* Prevent text wrapping */
-}
+        .sidebar-square-space img {
+            width: 90%;
+            height: 90%;
+            margin-left: 5px;
+            filter: invert(1);
+            margin-top: 11px;
+            border-radius: var(--border-radius);
+        }
 
+        .sidebar-header {
+            padding: var(--padding-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: var(--toolbar-height);
+        }
 
-/* Tab Close Button */
-.tab p.close {
-  margin-left: var(--margin-base); /* Spacing between title and close button */
-  font-weight: bold;
-  cursor: pointer;
-  opacity: 0.7; /* Slightly faded close button */
-  transition: opacity var(--transition-duration) var(--transition-easing);
-}
+        .sidebar-toggle {
+            cursor: pointer;
+            padding: 6px;
+            border-radius: var(--border-radius-small);
+            background: var(--glass-background);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            transition: all var(--transition-normal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 40px;
+        }
 
-.tab p.close:hover {
-  opacity: 1; /* Fully visible close button on hover */
-}
+        .sidebar-toggle:hover {
+            background: var(--color-surface-hover);
+            border-color: var(--color-border-hover);
+            transform: scale(1.05);
+        }
 
+        .sidebar-toggle .material-symbols-outlined {
+            font-size: 24px;
+            color: var(--color-text-primary);
+        }
 
-/* -------------------------------------------------- */
-/* ✨ Create Tab Button -  Styling for "New Tab" Button ✨ */
-/* -------------------------------------------------- */
-#create_tab,
-.create_tab {
-  display: flex;
-  align-items: center;
-  padding: 0 calc(var(--padding-base) * 1.2); /* Horizontal padding - same as tab */
-  border-radius: var(--border-radius-base); /* Rounded corners */
-  background-color: #3a3a3a; /* Same background as inactive tabs */
-  color: var(--color-text-secondary); /* Same text color as inactive tabs */
-  cursor: pointer;
-  margin: 0 calc(var(--margin-base) / 2); /* Spacing - same as tabs */
-  height: 100%; /* Fill tab bar height */
-  transition: background-color var(--transition-duration) var(--transition-easing),
-              color var(--transition-duration) var(--transition-easing),
-              box-shadow var(--transition-duration) var(--transition-easing);
-  box-shadow: none; /* No default shadow */
-}
+        .sidebar-content {
+            flex: 1;
+            padding: var(--padding-base);
+            display: flex;
+            flex-direction: column;
+        }
 
-#create_tab:hover,
-.create_tab:hover {
-  background-color: #4a4a4a; /* Lighter background on hover - same as tabs */
-  color: var(--color-text-primary); /* Primary text color on hover - same as tabs */
-  box-shadow: var(--box-shadow-normal); /* Add subtle shadow on hover */
-}
+        .sidebar-item {
+            width: 52px;
+            height: 40px;
+            margin-top: 10px;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
 
+        .sidebar-item:hover {
+            background: var(--color-surface-hover);
+            border-color: var(--color-border-hover);
+        }
 
-/* -------------------------------------------------- */
-/* ✨ Frames Container - Area for Iframes/Tab Content ✨ */
-/* -------------------------------------------------- */
-#frames {
-  position: relative; /* Position iframes within this container */
-  width: 100%;
-  height: calc(100vh - var(--toolbar-height) - var(--margin-base)); /* Fill remaining viewport space below tabs */
-  margin-top: var(--margin-base); /* Spacing from tabs */
-}
+        .sidebar-item.active {
+            background: var(--color-surface-hover);
+            border: 1px solid var(--color-border);
+        }
 
+        .sidebar-item .material-symbols-outlined {
+            font-size: 24px;
+            color: var(--color-text-primary);
+        }
 
-/* -------------------------------------------------- */
-/* ✨ Iframe -  Hidden by Default, Full Size ✨ */
-/* -------------------------------------------------- */
-iframe {
-  display: none; /* Hidden by default, shown when tab is active */
-  width: 100%;
-  height: 100%;
-  border: none; /* Remove iframe border */
-  position: absolute; /* Position iframes within #frames container */
-}
+        /* -------------------------------------------------- */
+        /* ✨ App Sidebar ✨ */
+        /* -------------------------------------------------- */
+        .app-sidebar {
+            width: 0;
+            height: 100vh;
+            background: var(--glass-background);
+            backdrop-filter: var(--glass-blur);
+            overflow: hidden;
+            transition: width var(--transition-normal);
+            position: relative;
+            z-index: 15;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-sidebar.open {
+            width: var(--app-sidebar-width);
+        }
+
+        .app-sidebar.right {
+            order: 2;
+            border-right: none;
+            border-left: 1px solid var(--glass-border);
+        }
+
+        .app-sidebar-header {
+            height: var(--toolbar-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            border-bottom: 1px solid var(--glass-border);
+            flex-shrink: 0;
+        }
+
+        .app-sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .app-sidebar-close {
+            cursor: pointer;
+            padding: 8px;
+            border-radius: var(--border-radius);
+            background: transparent;
+            border: none;
+            color: var(--color-text-primary);
+            transition: all var(--transition-normal);
+        }
+
+        .app-sidebar-close:hover {
+            background: var(--color-surface-hover);
+        }
+
+        .app-sidebar-content {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Hide inactive app frames but keep them loaded - more specific selectors */
+        .app-sidebar .app-sidebar-content .app-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .app-sidebar .app-sidebar-content .app-frame.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        .app-sidebar .app-sidebar-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            border-radius: 0; /* Remove any border radius */
+            pointer-events: auto;
+        }
+
+        /* -------------------------------------------------- */
+        /* ✨ Content Area ✨ */
+        /* -------------------------------------------------- */
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* -------------------------------------------------- */
+        /* ✨ Tabs Container ✨ */
+        /* -------------------------------------------------- */
+        #tabs {
+            display: flex;
+            height: var(--toolbar-height);
+            align-items: center;
+            padding: 0 var(--padding-base);
+            overflow-x: auto;
+            position: relative;
+        }
+
+        #tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        #tabs {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* -------------------------------------------------- */
+        /* ✨ Tab Styling ✨ */
+        /* -------------------------------------------------- */
+        .tab {
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            background: transparent;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            margin-right: 5px;
+            margin-left: 5px;
+            height: 42px;
+            transition: all var(--transition-normal);
+            position: relative;
+            border-radius: var(--border-radius-small);
+            white-space: nowrap;
+            max-width: 230px;
+            border-left:2px solid #4b4b4b;
+            border: 1px solid transparent;
+        }
+
+        .tab:hover {
+            background: var(--glass-background);
+            color: var(--color-text-primary);
+            border-color: var(--glass-border);
+        }
+
+        .tab.active {
+            background: var(--color-surface-hover);
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border);
+        }
+
+        /* Tab Text */
+        .tab p {
+            margin: 0;
+            padding: 0;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        /* Tab favicon */
+        .tab img {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            margin-right: 6px;
+        }
+
+        /* Tab Close Button */
+        .tab p.close {
+            margin-left: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all var(--transition-normal);
+            font-size: 14px;
+            line-height: 1;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .tab p.close:hover {
+            opacity: 1;
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        /* -------------------------------------------------- */
+        /* ✨ Create Tab Button ✨ */
+        /* -------------------------------------------------- */
+        #create_tab {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: var(--border-radius-small);
+            background: var(--glass-background);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            color: var(--color-text-primary);
+            cursor: pointer;
+            margin-left: 8px;
+            transition: all var(--transition-normal);
+        }
+
+        #create_tab:hover {
+            background: var(--color-surface-hover);
+            border-color: var(--color-border-hover);
+            transform: scale(1.05);
+        }
+
+        #create_tab .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        /* -------------------------------------------------- */
+        /* ✨ Frames Container ✨ */
+        /* -------------------------------------------------- */
+        #frames {
+            flex: 1;
+            position: relative;
+            background: transparent;
+            overflow: hidden;
+            border-top-left-radius: 16px;
+        }
+        
+        /* When sidebar is on the right */
+        .main-container:has(.sidebar.right) #frames {
+            border-top-left-radius: 0;
+            border-top-right-radius: 16px;
+        }
+
+        /* -------------------------------------------------- */
+        /* ✨ Main Tab Iframe Styling - Highly Specific ✨ */
+        /* -------------------------------------------------- */
+        .content-area #frames iframe {
+            display: none !important;
+            width: 100% !important;
+            height: 100% !important;
+            border: none !important;
+            position: absolute !important;
+            border-top-left-radius: 26px;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            pointer-events: auto;
+            min-width: 100% !important;
+            min-height: 100% !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+        }
+        
+        /* When sidebar is on the right */
+        .main-container:has(.sidebar.right) .content-area #frames iframe {
+            border-top-left-radius: 0;
+            border-top-right-radius: 26px;
+        }
+
+        .content-area #frames iframe.active {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+        }
+
+        .content-area #frames iframe.fadeout {
+            opacity: 0 !important;
+        }
+
+        .content-area #frames iframe.fadein {
+            opacity: 1 !important;
+        }
+
+        /* -------------------------------------------------- */
+        /* ✨ Loading Animation ✨ */
+        /* -------------------------------------------------- */
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: var(--color-text-secondary);
+        }
+
+        .loading::before {
+            content: '';
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--glass-border);
+            border-top: 2px solid var(--color-text-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: block;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* -------------------------------------------------- */
+        /* ✨ Animated Background Particles ✨ */
+        /* -------------------------------------------------- */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -3;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* -------------------------------------------------- */
+        /* ✨ Stars Background ✨ */
+        /* -------------------------------------------------- */
+        .main {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            height: 1px;
+            width: 1px;
+            z-index: -50;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: -42vw -4vh 0px 0px #fff,25vw -41vh 0px 0px #fff,-20vw 49vh 0px 1px #fff,5vw 40vh 1px 1px #fff,29vw 19vh 1px 0px #fff,-44vw -13vh 0px 0px #fff,46vw 41vh 0px 1px #fff,-3vw -45vh 0px 1px #fff,47vw 35vh 1px 0px #fff,12vw -8vh 1px 0px #fff,-34vw 48vh 1px 1px #fff,32vw 26vh 1px 1px #fff,32vw -41vh 1px 1px #fff,0vw 37vh 1px 1px #fff,34vw -26vh 1px 0px #fff,-14vw -49vh 1px 0px #fff,-12vw 45vh 0px 1px #fff,-44vw -33vh 0px 1px #fff,-13vw 41vh 0px 0px #fff,-36vw -11vh 0px 1px #fff,-23vw -24vh 1px 0px #fff,-38vw -27vh 0px 1px #fff,16vw -19vh 0px 0px #fff,28vw 33vh 1px 0px #fff,-49vw -4vh 0px 0px #fff,16vw 32vh 0px 1px #fff,36vw -18vh 1px 0px #fff,-25vw -30vh 1px 0px #fff,-23vw 24vh 0px 1px #fff,-2vw -35vh 1px 1px #fff,-25vw 9vh 0px 0px #fff,-15vw -34vh 0px 0px #fff,-8vw -19vh 1px 0px #fff,-20vw -20vh 1px 1px #fff,42vw 50vh 0px 1px #fff,-32vw 10vh 1px 0px #fff,-23vw -17vh 0px 0px #fff,44vw 15vh 1px 0px #fff,-40vw 33vh 1px 1px #fff,-43vw 8vh 0px 0px #fff,-48vw -15vh 1px 1px #fff,-24vw 17vh 0px 0px #fff,-31vw 50vh 1px 0px #fff,36vw -38vh 0px 1px #fff,-7vw 48vh 0px 0px #fff,15vw -32vh 0px 0px #fff,29vw -41vh 0px 0px #fff,2vw 37vh 1px 0px #fff,7vw -40vh 1px 1px #fff,15vw 18vh 0px 0px #fff,25vw -13vh 1px 1px #fff,-46vw -12vh 1px 1px #fff,-18vw 22vh 0px 0px #fff,23vw -9vh 1px 0px #fff,50vw 12vh 0px 1px #fff,45vw 2vh 0px 0px #fff,14vw -48vh 1px 0px #fff,23vw 43vh 0px 1px #fff,-40vw 16vh 1px 1px #fff,20vw -31vh 0px 1px #fff,-17vw 44vh 1px 1px #fff,18vw -45vh 0px 0px #fff,33vw -6vh 0px 0px #fff,0vw 7vh 0px 1px #fff,-10vw -18vh 0px 1px #fff,-19vw 5vh 1px 0px #fff,1vw 42vh 0px 0px #fff,22vw 48vh 0px 1px #fff,39vw -8vh 1px 1px #fff,-6vw -42vh 1px 0px #fff,-47vw 34vh 0px 0px #fff,-46vw 19vh 0px 1px #fff,-12vw -32vh 0px 0px #fff,-45vw -38vh 0px 1px #fff,-28vw 18vh 1px 0px #fff,-38vw -46vh 1px 1px #fff,49vw -6vh 1px 1px #fff,-28vw 18vh 1px 1px #fff,10vw -24vh 0px 1px #fff,-5vw -11vh 1px 1px #fff,33vw -8vh 1px 0px #fff,-16vw 17vh 0px 0px #fff,18vw 27vh 0px 1px #fff,-8vw -10vh 1px 1px #fff;
+            animation: zoom 16s alternate infinite; 
+        }
+
+        @keyframes zoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.5); }
+        }
+
+        @keyframes fade {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadein {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* -------------------------------------------------- */
+        /* ✨ Miniplayer Window ✨ */
+        /* -------------------------------------------------- */
+        .miniplayer {
+            position: fixed;
+            width: 320px;
+            height: 200px;
+            background: var(--glass-background);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-normal);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all var(--transition-normal);
+        }
+
+        .miniplayer.show {
+            display: flex;
+        }
+
+        /* Corner positions */
+        .miniplayer.top-left {
+            top: 20px;
+            left: 20px;
+        }
+
+        .miniplayer.top-right {
+            top: 20px;
+            right: 20px;
+        }
+
+        .miniplayer.bottom-left {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .miniplayer.bottom-right {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .miniplayer-header {
+            height: 40px;
+            background: var(--color-surface);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px;
+            user-select: none;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .miniplayer-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .miniplayer-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .miniplayer-control {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            color: var(--color-text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background var(--transition-normal);
+        }
+
+        .miniplayer-control:hover {
+            background: var(--color-surface-hover);
+        }
+
+        .miniplayer-control .material-symbols-outlined {
+            font-size: 16px;
+        }
+
+        .miniplayer-content {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .miniplayer-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #000;
+        }
+
+        /* Position indicator */
+        .miniplayer-position {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: var(--color-text-secondary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .miniplayer:hover .miniplayer-position {
+            opacity: 1;
+        }
+        /* -------------------------------------------------- */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                transform: translateX(-100%);
+                width: 240px;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-content {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .sidebar-item {
+                width: 100%;
+                height: 40px;
+                justify-content: flex-start;
+                padding: 0 12px;
+            }
+
+            .sidebar-item .material-symbols-outlined {
+                margin-right: 12px;
+            }
+
+            .app-sidebar {
+                position: absolute;
+                z-index: 25;
+            }
+        }
     </style>
 
-    <!-- Google tag (gtag.js) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-278K4F012J"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-278K4F012J');
     </script>
-
 </head>
 
 <body>
-    <div id="tabs">
-        <div class="create_tab" onclick="window.history.back()"><span class="material-symbols-outlined">arrow_back</span></div>
-        <div class="create_tab" onclick="load_workspace()"><span class="material-symbols-outlined">upload_file</span></div>
-        <div id="tabs2"></div>
-        <div id="create_tab" onclick="createTab('New Tab', './start.html')">+</div>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 0.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 1.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 2.5s;"></div>
     </div>
 
-    <div id="frames">
+    <!-- Stars Background -->
+    <div class="main"></div>
+
+    <div class="main-container">
+        <!-- Control Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-square-space">
+                <img src="assets/trans-logo.png">
+            </div>
+            
+            <div class="sidebar-content">
+                <div class="sidebar-item" onclick="toggleSidebarPosition()">
+                    <span class="material-symbols-outlined">swap_horiz</span>
+                </div>
+                <div class="sidebar-item" onclick="createTab('New Tab', './start.html')">
+                    <span class="material-symbols-outlined">home</span>
+                </div>
+                <div class="sidebar-item" onclick="createTab('Games', 'apps.html')">
+                    <span class="material-symbols-outlined">stadia_controller</span>
+                </div>
+                <div class="sidebar-item" onclick="toggleAppSidebar('youtube', 'features/yt.html', 'Axiom Player')" data-app="youtube">
+                    <span class="material-symbols-outlined">play_circle</span>
+                </div>
+                <div class="sidebar-item" onclick="toggleAppSidebar('ai', 'features/ai.html', 'Axiom AI')" data-app="ai">
+                    <span class="material-symbols-outlined">auto_awesome</span>
+                </div>
+                <div class="sidebar-item" onclick="toggleAppSidebar('bookmarks', 'bookmarks.html', 'Bookmarks')" data-app="bookmarks">
+                    <span class="material-symbols-outlined">bookmark</span>
+                </div>
+                <div id="plugin-area">
+
+                </div>
+                <div class="sidebar-item" onclick="toggleAppSidebar('history', 'history.html', 'History')" data-app="history">
+                    <span class="material-symbols-outlined">history</span>
+                </div>
+                <div class="sidebar-item" onclick="createTab('Settings', 'settings.html')">
+                    <span class="material-symbols-outlined">settings</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Sidebar -->
+        <div class="app-sidebar" id="appSidebar">
+            <div class="app-sidebar-header">
+                <div class="app-sidebar-title" id="appSidebarTitle">App</div>
+                <button class="app-sidebar-close" onclick="closeAppSidebar()">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="app-sidebar-content" id="appSidebarContent">
+                <!-- App content will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Tab Bar -->
+            <div id="tabs">
+                <div id="create_tab" onclick="createTab('New Tab', './start.html')">
+                    <span class="material-symbols-outlined">add</span>
+                </div>
+            </div>
+
+            <!-- Frames Container -->
+            <div id="frames">
+                <div class="loading">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Miniplayer Window -->
+    <div class="miniplayer" id="miniplayer">
+        <div class="miniplayer-header" id="miniplayerHeader">
+            <div class="miniplayer-title" id="miniplayerTitle">Miniplayer</div>
+            <div class="miniplayer-controls">
+                <button class="miniplayer-control" onclick="cycleMiniPlayerPosition()" title="Move to corner">
+                    <span class="material-symbols-outlined">open_in_full</span>
+                </button>
+                <button class="miniplayer-control" onclick="closeMiniPlayer()" title="Close">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+        </div>
+        <div class="miniplayer-content" id="miniplayerContent">
+            <!-- Iframe will be inserted here,  if it isn't, we are FUCKED -->
+        </div>
+        <div class="miniplayer-position" id="miniplayerPosition">Click to move</div>
     </div>
 
     <script>
         let initialized = 0;
+        let currentApp = null;
+        
+        // Load sidebar position from in-memory storage instead of localStorage
+        let sidebarPosition = 'left';
+        
+        function loadSidebarPosition() {
+            if (sidebarPosition === 'right') {
+                document.getElementById('sidebar').classList.add('right');
+                document.getElementById('appSidebar').classList.add('right');
+            }
+        }
 
-        function getURLParameter(name) {
-            const regex = new RegExp('[\\?&]' + name.replace(/[\[\]]/g, '\\$&') + '=([^&#]*)');
+        // Toggle sidebar position
+        function toggleSidebarPosition() {
+            const sidebar = document.getElementById('sidebar');
+            const appSidebar = document.getElementById('appSidebar');
+            
+            sidebar.classList.toggle('right');
+            appSidebar.classList.toggle('right');
+            
+            sidebarPosition = sidebar.classList.contains('right') ? 'right' : 'left';
+        }
+
+        // App Sidebar Functions
+        let appFrames = {}; // Store loaded frames
+        
+        function initializeAppFrames() {
+            const appSidebarContent = document.getElementById('appSidebarContent');
+            
+            // Define all apps that should be preloaded
+            const apps = {
+                'youtube': { url: 'features/yt.html', title: 'Axiom Player' },
+                'ai': { url: 'features/ai.html', title: 'Axiom AI' },
+                'bookmarks': { url: 'bookmarks.html', title: 'Bookmarks' },
+                'history': { url: 'history.html', title: 'History' }
+            };
+            
+            // Create and load all app frames
+            Object.keys(apps).forEach(appId => {
+                const app = apps[appId];
+                const frameDiv = document.createElement('div');
+                frameDiv.className = 'app-frame';
+                frameDiv.id = `app-frame-${appId}`;
+                
+                frameDiv.innerHTML = `
+                    <iframe src="${app.url}" 
+                            frameborder="0" 
+                            allowfullscreen 
+                            style="width: 100%; height: 100%; border: none; display: block; border-radius: 0;">
+                    </iframe>
+                `;
+                
+                appSidebarContent.appendChild(frameDiv);
+                appFrames[appId] = { element: frameDiv, ...app };
+                
+                // Debug logging
+                const iframe = frameDiv.querySelector('iframe');
+                iframe.onload = function() {
+                    console.log(`App frame loaded: ${appId} (${app.title})`);
+                };
+            });
+        }
+
+        function toggleAppSidebar(appId, url, title) {
+            const appSidebar = document.getElementById('appSidebar');
+            const appSidebarTitle = document.getElementById('appSidebarTitle');
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            
+            // Remove active state from all sidebar items
+            sidebarItems.forEach(item => item.classList.remove('active'));
+            
+            if (currentApp === appId && appSidebar.classList.contains('open')) {
+                // Close if same app is clicked
+                closeAppSidebar();
+                return;
+            }
+            
+            // Set active state for clicked item
+            const clickedItem = document.querySelector(`[data-app="${appId}"]`);
+            if (clickedItem) {
+                clickedItem.classList.add('active');
+            }
+            
+            // Update sidebar title
+            appSidebarTitle.textContent = title;
+            
+            // Hide all app frames
+            Object.keys(appFrames).forEach(id => {
+                const frame = appFrames[id].element;
+                frame.classList.remove('active');
+            });
+            
+            // Show the selected app frame
+            if (appFrames[appId]) {
+                appFrames[appId].element.classList.add('active');
+            }
+            
+            // Open sidebar
+            appSidebar.classList.add('open');
+            currentApp = appId;
+        }
+
+        function closeAppSidebar() {
+            const appSidebar = document.getElementById('appSidebar');
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            
+            appSidebar.classList.remove('open');
+            
+            // Remove active state from all sidebar items
+            sidebarItems.forEach(item => item.classList.remove('active'));
+            
+            // Note: We don't hide the frames anymore - they stay loaded and running
+            // This allows music/videos to continue playing when sidebar is closed
+            
+            currentApp = null;
+        }
+function closeAppSidebar() {
+            const appSidebar = document.getElementById('appSidebar');
+            const appSidebarContent = document.getElementById('appSidebarContent');
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            
+            appSidebar.classList.remove('open');
+            
+            // Remove') + '=([^&#]*)');
             const results = regex.exec(window.location.search);
             return results ? decodeURIComponent(results[1].replace(/\+/g, ' ')) : '';
         }
 
-        function upload_workspace() {
-    return new Promise((resolve, reject) => {
-        // Create an input element dynamically
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.glitchworkspace'; // Restrict to .glitchworkspace files
-
-        // Listen for file selection
-        input.onchange = (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const fileContents = e.target.result;
-                    resolve(fileContents); // Resolve the promise with the file contents
-                };
-                reader.onerror = function(err) {
-                    reject(err); // Reject the promise if there's an error
-                };
-                reader.readAsText(file); // Read the file as text
-            } else {
-                reject(new Error('No file selected'));
+        function open_page(url, use_proxy) {
+            if (use_proxy) {
+                createTab("New Tab", "launch_page.html?url=" + url);
+                return
             }
-        };
-
-        // Trigger the file input dialog
-        input.click();
-    });
-}
-
-function load_workspace(){
-upload_workspace().then((contents) => {
-    x = contents.replace(" ","");
-    x = x.split("\n")
-    for (line in x){ // how the hell does this work in js
-        if (x[line] != ""){
-        console.log("loading "+"launch_page.html?url="+x[line])
-        createTab("Workspace Tab", "launch_page.html?url="+x[line])
-    }
-    }
-}).catch((error) => {
-    console.error('Error:', error);
-});
-}
-
+            createTab("New Tab", url);
+        }
 
         function createTab(name, url) {
             var tab = document.createElement("div");
             tab.classList.add("tab");
-            tab.id = Math.random().toString(36).substr(2, 9); // Unique ID for the tab
+            tab.id = Math.random().toString(36).substr(2, 9);
             tab.innerHTML = `
                 <p>${name}</p>
-                <p class="close" onclick="removeTab('${tab.id}')">X</p>
+                <p class="close" onclick="removeTab('${tab.id}')">×</p>
             `;
             tab.draggable = true;
 
             var frame = document.createElement("iframe");
             frame.src = url;
             frame.id = tab.id + "-frame";
-            frame.style.display = "none";
+            frame.style.cssText = "display: none; width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0;";
+            frame.setAttribute("frameborder", "0");
+            frame.setAttribute("border", "0");
 
             document.getElementById("frames").appendChild(frame);
 
-            tab.onclick = function () {
-                // Hide all iframes
-                var iframes = document.getElementsByTagName("iframe");
-                for (var i = 0; i < iframes.length; i++) {
-                    iframes[i].style.display = "none";
+            tab.onclick = function (e) {
+                if (e.target.classList.contains('close')) return;
+                
+                // Get currently active iframe
+                var currentActiveFrame = document.querySelector("#frames iframe.active");
+                
+                // Remove active class from all tabs
+                var tabs = document.getElementsByClassName("tab");
+                for (var i = 0; i < tabs.length; i++) {
+                    tabs[i].classList.remove("active");
                 }
-                // Display the clicked tab's iframe
-                document.getElementById(tab.id + "-frame").style.display = "block";
+                
+                // Add active class to clicked tab
+                tab.classList.add("active");
+
+                // Get the target frame
+                var targetFrame = document.getElementById(tab.id + "-frame");
+                
+                // If there's a currently active frame and it's different from target
+                if (currentActiveFrame && currentActiveFrame !== targetFrame) {
+                    // Fade out current frame
+                    currentActiveFrame.classList.add("fadeout");
+                    
+                    setTimeout(() => {
+                        // Hide current frame and remove active class
+                        currentActiveFrame.style.display = "none";
+                        currentActiveFrame.classList.remove("active", "fadeout");
+                        
+                        // Show and fade in new frame
+                        targetFrame.style.display = "block";
+                        targetFrame.classList.add("active");
+                        
+                        // Force reflow to ensure display change is applied
+                        targetFrame.offsetHeight;
+                        
+                        // Add fade in class
+                        targetFrame.classList.add("fadein");
+                        
+                        setTimeout(() => {
+                            targetFrame.classList.remove("fadein");
+                        }, 400);
+                        
+                    }, 200); // Shorter delay for smoother transition
+                } else {
+                    // No current frame or same frame - just show directly
+                    var iframes = document.querySelectorAll("#frames iframe");
+                    for (var i = 0; i < iframes.length; i++) {
+                        iframes[i].style.display = "none";
+                        iframes[i].classList.remove("active");
+                    }
+                    
+                    targetFrame.style.display = "block";
+                    targetFrame.classList.add("active");
+                }
             };
 
             tab.ondragstart = function (event) {
@@ -293,7 +1078,7 @@ upload_workspace().then((contents) => {
             };
 
             tab.ondragover = function (event) {
-                event.preventDefault(); // Necessary to allow the drop
+                event.preventDefault();
             };
 
             tab.ondrop = function (event) {
@@ -308,54 +1093,62 @@ upload_workspace().then((contents) => {
                 }
             };
 
-            document.getElementById("tabs").appendChild(tab);
-            tab.click(); // Click the newly created tab
+            // Insert before the create tab button
+            const createTabBtn = document.getElementById("create_tab");
+            document.getElementById("tabs").insertBefore(tab, createTabBtn);
+            tab.click();
 
             // Update tab title on iframe load
             frame.onload = function () {
                 var frameTitle = frame.contentDocument.title;
                 tab.innerHTML = `
                     <p>${frameTitle}</p>
-                    <p class="close" onclick="removeTab('${tab.id}')">X</p>
+                    <p class="close" onclick="removeTab('${tab.id}')">×</p>
                 `;
                 var last_title = frameTitle;
+                
                 setInterval(function () {
-    frameTitle = frame.contentDocument.title;
+                    try {
+                      frameTitle = frame.contentDocument.title;
+                    }
+                    catch {
+                        return
+                    }
 
-    frameURL = frameTitle.split("|G|")[1]
-    frameTitle = frameTitle.split("|G|")[0]
-    // Cap the title length
-    const maxTitleLength = 30;
-    if (frameTitle.length > maxTitleLength) {
-        frameTitle = frameTitle.substring(0, maxTitleLength) + '...';
-    }
+                    frameURL = frameTitle.split("|G|")[1];
+                    frameTitle = frameTitle.split("|G|")[0];
 
-    if (frameTitle != last_title) {
-        if (frameURL == ""){
-            x = getURLParameter('url')
-            if (x.includes(".") == false){
-                x="https://duckduckgo.com/search?q=" + x
-            }
-            if (x.startsWith("https://") == false){
-                x="https://" + x
-            }
-            url1 = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=" + x
-        }
-        else {
-            url1 = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=" + frameURL 
-        }
-        tab.innerHTML = `
-    <p style="display: flex; align-items: center;">
-        <img style="width: 20px; border-radius: 15px; margin-right: 10px;" src="`+url1+`" &size=553">
-        ${frameTitle}
-    </p>
-    <p class="close" style="display: inline-block; cursor: pointer;" onclick="removeTab('${tab.id}')">X</p>
-`;
+                    // Cap the title length
+                    const maxTitleLength = 25;
+                    if (frameTitle.length > maxTitleLength) {
+                        frameTitle = frameTitle.substring(0, maxTitleLength) + '...';
+                    }
 
-        last_title = frameTitle;
-    }
-}, 500);
+                    if (frameTitle != last_title) {
+                        if (frameURL == "") {
+                            x = getURLParameter('url');
+                            if (x.includes(".") == false) {
+                                x = "https://duckduckgo.com/search?q=" + x;
+                            }
+                            if (x.startsWith("https://") == false) {
+                                x = "https://" + x;
+                            }
+                            url1 = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=" + x;
+                        } else {
+                            url1 = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=" + frameURL;
+                        }
+                        
+                        tab.innerHTML = `
+                            <p style="display: flex; align-items: center;">
+                                <img style="width: 14px; height: 14px; border-radius: 3px; margin-right: 6px;" src="${url1}&size=32">
+                                ${frameTitle}
+                            </p>
+                            <p class="close" onclick="removeTab('${tab.id}')">×</p>
+                        `;
 
+                        last_title = frameTitle;
+                    }
+                }, 500);
             };
         }
 
@@ -363,42 +1156,314 @@ upload_workspace().then((contents) => {
             var tab = document.getElementById(id);
             var frame = document.getElementById(id + "-frame");
             if (tab) {
-                tab.parentNode.removeChild(tab); // Remove the tab
+                tab.parentNode.removeChild(tab);
             }
             if (frame) {
-                frame.parentNode.removeChild(frame); // Remove the associated iframe
+                frame.parentNode.removeChild(frame);
+            }
+            
+            // If no tabs remain, create a new one
+            var remainingTabs = document.getElementsByClassName("tab");
+            if (remainingTabs.length === 0) {
+                createTab("New Tab", "start.html");
             }
         }
 
+        // Create dynamic particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            document.querySelector('.bg-animation').appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 6000);
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 2000);
+
+        // Miniplayer functionality
+        let miniplayerPosition = 'bottom-right'; // Default position
+        let miniplayerMonitorInterval;
+
+        function initializeMiniPlayer() {
+            // Start monitoring sessionStorage immediately
+            startMiniPlayerMonitoring();
+            
+            // Check sessionStorage on page load
+            checkMiniPlayerStorage();
+        }
+
+        function startMiniPlayerMonitoring() {
+            // Check every 500ms for sessionStorage changes
+            if (miniplayerMonitorInterval) {
+                clearInterval(miniplayerMonitorInterval);
+            }
+            
+            miniplayerMonitorInterval = setInterval(() => {
+                checkMiniPlayerStorage();
+            }, 500);
+            
+            console.log('Miniplayer monitoring started');
+        }
+
+        function checkMiniPlayerStorage() {
+            const miniplayerUrl = sessionStorage.getItem('miniplayer');
+            const miniplayer = document.getElementById('miniplayer');
+            const miniplayerContent = document.getElementById('miniplayerContent');
+            const miniplayerTitle = document.getElementById('miniplayerTitle');
+            
+            if (miniplayerUrl && miniplayerUrl !== 'null' && miniplayerUrl !== '') {
+                // Show miniplayer
+                if (!miniplayer.classList.contains('show')) {
+                    miniplayerContent.innerHTML = `<iframe src="${miniplayerUrl}" frameborder="0" allowfullscreen></iframe>`;
+                    miniplayerTitle.textContent = 'Miniplayer';
+                    setMiniPlayerPosition(miniplayerPosition);
+                    miniplayer.classList.add('show');
+                    console.log('Miniplayer shown with URL:', miniplayerUrl);
+                }
+            } else {
+                // Hide miniplayer
+                if (miniplayer.classList.contains('show')) {
+                    miniplayer.classList.remove('show');
+                    miniplayerContent.innerHTML = '';
+                    console.log('Miniplayer hidden');
+                }
+            }
+        }
+
+        function setMiniPlayerPosition(position) {
+            const miniplayer = document.getElementById('miniplayer');
+            const positionIndicator = document.getElementById('miniplayerPosition');
+            
+            // Remove all position classes
+            miniplayer.classList.remove('top-left', 'top-right', 'bottom-left', 'bottom-right');
+            
+            // Add the new position class
+            miniplayer.classList.add(position);
+            miniplayerPosition = position;
+            
+            // Update position indicator
+            const positionNames = {
+                'top-left': 'Top Left',
+                'top-right': 'Top Right',
+                'bottom-left': 'Bottom Left',
+                'bottom-right': 'Bottom Right'
+            };
+            positionIndicator.textContent = positionNames[position];
+            
+            console.log('Miniplayer moved to:', position);
+        }
+
+        function cycleMiniPlayerPosition() {
+            const positions = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
+            const currentIndex = positions.indexOf(miniplayerPosition);
+            const nextIndex = (currentIndex + 1) % positions.length;
+            setMiniPlayerPosition(positions[nextIndex]);
+        }
+
+        function closeMiniPlayer() {
+            sessionStorage.removeItem('miniplayer');
+            console.log('Miniplayer closed, sessionStorage cleared');
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
+            loadSidebarPosition();
+            
+            // Initialize app frames on page load
+            initializeAppFrames();
+            
+            // Initialize miniplayer with continuous monitoring
+            initializeMiniPlayer();
+            
             if (initialized === 0) {
                 var url = getURLParameter("url");
-                
-                if (url.includes(".onion") && localStorage.getItem("premium") === "1" && localStorage.getItem("tor") === "1") {
-                    url = url.replace(".onion", "").replace("http://", "");
-                    var new_tor_url = "https://onion.torry.io/main.php?url=" + url;
-                    url = new_tor_url;
-                }
+                       
                 if (url) {
                     createTab("Home", "./launch_page.html?url=" + url);
-                }
-                else {
-                    createTab("New Tab", "start.html")
+                } else {
+                    createTab("New Tab", "start.html");
                 }
                 initialized = 1;
             }
         });
-
-        // if the "game" parameter of the url is true, replace the workspace button with a "back to games.html" button
-        if (getURLParameter("games") === "true") {
-            document.getElementById("workspace").innerHTML = "Back to Games";
-            document.getElementById("workspace").href = "games.html";
-            
-        }
-       
-
+        
     </script>
-    
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                await navigator.serviceWorker.register('sw.js');
+                console.log("Registered!")
+            } catch (err) {
+                console.warn("Failed to register service worker:", err);
+            }
+        });
+
+// Panic image functionality with iframe support
+function initializePanicImage() {
+    if (localStorage.getItem("panic_image") != null) {
+        
+        // Handle keydown on main window
+        function handlePanicKey(event) {
+            if (event.key === '-') {
+                event.preventDefault();
+                event.stopPropagation();
+                togglePanicImage();
+            }
+        }
+        
+        function togglePanicImage() {
+            const existingImage = document.querySelector('#panic-image');
+            
+            if (!existingImage) {
+                var img = document.createElement('img');
+                img.src = localStorage.getItem("panic_image");
+                img.style.position = "fixed";
+                img.style.top = "0";
+                img.style.left = "0";
+                img.style.width = "100vw";
+                img.style.height = "100vh";
+                img.style.objectFit = "cover";
+                img.style.zIndex = "99999";
+                img.style.backgroundColor = "#000";
+                img.id = "panic-image";
+                document.body.appendChild(img);
+                
+                // Blur any focused element (including iframes)
+                if (document.activeElement) {
+                    document.activeElement.blur();
+                }
+                
+                // Focus the panic image to capture future key events
+                img.tabIndex = -1;
+                img.focus();
+            } else {
+                existingImage.remove();
+            }
+        }
+        
+        // Add event listeners to both document and window
+        document.addEventListener('keydown', handlePanicKey, true);
+        window.addEventListener('keydown', handlePanicKey, true);
+        
+        // Monitor for iframe focus and add listeners to them
+        function addIframeListeners() {
+            const iframes = document.querySelectorAll('iframe');
+            iframes.forEach(iframe => {
+                try {
+                    // Only works for same-origin iframes
+                    if (iframe.contentDocument) {
+                        iframe.contentDocument.addEventListener('keydown', handlePanicKey, true);
+                        iframe.contentWindow.addEventListener('keydown', handlePanicKey, true);
+                    }
+                } catch (e) {
+                    // Cross-origin iframe - can't access content
+                    console.log('Cannot add panic key listener to cross-origin iframe');
+                }
+            });
+        }
+        
+        // Initial iframe listener setup
+        addIframeListeners();
+        
+        // Monitor for new iframes
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1) { // Element node
+                        if (node.tagName === 'IFRAME') {
+                            // New iframe added
+                            setTimeout(() => addIframeListeners(), 100);
+                        } else if (node.querySelector && node.querySelector('iframe')) {
+                            // Element containing iframes added
+                            setTimeout(() => addIframeListeners(), 100);
+                        }
+                    }
+                });
+            });
+        });
+        
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+        
+        // Alternative approach: Monitor window focus/blur
+        let lastFocusTime = Date.now();
+        
+        window.addEventListener('focus', function() {
+            lastFocusTime = Date.now();
+        });
+        
+        // Fallback: Check for key events on window even when not focused
+        setInterval(function() {
+            // If window hasn't been focused recently, user might be in iframe
+            if (Date.now() - lastFocusTime > 1000) {
+                // Listen for any activity that might indicate panic key
+                document.addEventListener('click', function() {
+                    lastFocusTime = Date.now();
+                }, {once: true});
+            }
+        }, 500);
+    }
+}
+
+// Storage change handlers (same as before)
+window.addEventListener('storage', function(event) {
+    if (event.key === 'panic_image') {
+        initializePanicImage();
+    }
+});
+
+let originalSetItem = localStorage.setItem;
+localStorage.setItem = function(key, value) {
+    originalSetItem.apply(this, arguments);
+    if (key === 'panic_image') {
+        const existingImage = document.querySelector('#panic-image');
+        if (existingImage) {
+            existingImage.src = value;
+        }
+    }
+};
+
+// Initialize on page load
+initializePanicImage();
+if (localStorage.getItem("saveTabs") == "true" || localStorage.getItem("saveTabs") == null && localStorage.getItem("tab_urls") != null) {
+        let tab_urls = JSON.parse(localStorage.getItem("tab_urls"));
+        for (let i = 0; i < tab_urls.length; i++) {
+            createTab(tab_urls[i].title, tab_urls[i].src);
+        }
+}
+else {
+createTab('New Tab', './start.html')
+}
+
+setInterval(function(){
+    if (localStorage.getItem("saveTabs") == "true" || localStorage.getItem("saveTabs") == null) {
+        // get every iframe that's not a sidebar iframe
+        let iframes = document.querySelectorAll('iframe:not(.app-sidebar-content iframe)');
+        // loop through each iframe
+        tab_urls = [];
+        for (let i = 0; i < iframes.length; i++) {
+            // get the iframe's src
+            let src = iframes[i].contentDocument.location.href;
+            // get the iframe's title
+            let title = iframes[i].title;
+            
+            tab_urls.push({src: src, title: title});
+        }
+        // save the tab urls to local storage
+        localStorage.setItem('tab_urls', JSON.stringify(tab_urls));
+        
+    }
+},1000)
+    </script>
+    <script src="global.js"></script>
+    <script src="assets/js/plugin.js"></script>
 </body>
 
 </html>
